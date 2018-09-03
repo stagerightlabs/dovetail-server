@@ -15,7 +15,6 @@ before_script:
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
 - php composer.phar install
-- php artisan passport:install
 
 # Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
 # See http://docs.gitlab.com/ce/ci/services/README.html for examples.
@@ -36,4 +35,5 @@ variables:
 # Run our tests
 test:
   script:
+  - php artisan passport:install
   - vendor/bin/phpunit --configuration phpunit.xml --colors=never
