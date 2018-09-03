@@ -26,7 +26,7 @@ variables:
   POSTGRES_DB: lims-testing
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: "secret"
-  DB_HOST: pgsql
+  DB_HOST: postgres
   DB_PORT: 5432
   DB_DATABASE: lims-testing
   DB_USERNAME: runner
