@@ -15,12 +15,14 @@ class RegistrationTest extends TestCase
 
     public function test_a_user_can_register()
     {
+        $this->withoutExceptionHandling();
         Notification::fake();
         $client = factory(Client::class)->state('password')->create();
 
         $response = $this->postJson(route('register'), [
             'name' => 'Grace',
             'email' => 'grace@example.com',
+            'organization' => 'Phylos Bioscience',
             'password' => 'secret',
             'password_confirmation' => 'secret'
         ]);
@@ -33,6 +35,7 @@ class RegistrationTest extends TestCase
             'refresh_token'
         ]);
         $this->assertDatabaseHas('users', ['email' => 'grace@example.com']);
+        $this->assertDatabaseHas('organizations', ['name' => 'Phylos Bioscience']);
         Notification::assertSentTo(
             User::where('email', 'grace@example.com')->first(),
             VerifyEmail::class
