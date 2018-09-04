@@ -4,6 +4,7 @@ namespace Tests\Feature\Authentication;
 
 use App\User;
 use Tests\TestCase;
+use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,6 +16,7 @@ class RegistrationTest extends TestCase
     public function test_a_user_can_register()
     {
         Notification::fake();
+        $client = factory(Client::class)->state('password')->create();
 
         $response = $this->postJson(route('register'), [
             'name' => 'Grace',
@@ -23,7 +25,13 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'secret'
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'token_type',
+            'expires_in',
+            'access_token',
+            'refresh_token'
+        ]);
         $this->assertDatabaseHas('users', ['email' => 'grace@example.com']);
         Notification::assertSentTo(
             User::where('email', 'grace@example.com')->first(),
