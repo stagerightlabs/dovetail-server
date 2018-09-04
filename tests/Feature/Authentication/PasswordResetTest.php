@@ -4,6 +4,7 @@ namespace Tests\Feature\Authentication;
 
 use App\User;
 use Tests\TestCase;
+use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Notification;
@@ -59,6 +60,7 @@ class PasswordResetTest extends TestCase
     {
         $user = factory(User::class)->create();
         $resetToken = Password::createToken($user);
+        $client = factory(Client::class)->state('password')->create();
 
         $response = $this->postJson(route('password.update'), [
             'token' => $resetToken,
@@ -68,6 +70,12 @@ class PasswordResetTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'token_type',
+            'expires_in',
+            'access_token',
+            'refresh_token'
+        ]);
         $this->assertTrue(Hash::check('notsecret', $user->fresh()->password));
     }
 
