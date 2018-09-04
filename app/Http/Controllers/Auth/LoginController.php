@@ -57,7 +57,7 @@ class LoginController extends Controller
         }
 
         // Delegate the login request to Passport
-        $response = $this->attemptLogin($request);
+        $response = response()->authorization($request);
 
         if ($response->status() == 200) {
             return $this->sendLoginResponse($request, $response);
@@ -83,30 +83,6 @@ class LoginController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
-    }
-
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
-    {
-        $client = DB::table('oauth_clients')
-            ->where('password_client', true)
-            ->first();
-
-        $data = [
-            'grant_type' => 'password',
-            'client_id' => $client->id,
-            'client_secret' => $client->secret,
-            'username' => request($this->username()),
-            'password' => request('password'),
-        ];
-
-        $request = Request::create('/oauth/token', 'POST', $data);
-        return app()->handle($request);
     }
 
     /**
