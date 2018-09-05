@@ -30,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
-    public function organizations()
+    public function organization()
     {
         return $this->belongsTo(Organization::class);
     }

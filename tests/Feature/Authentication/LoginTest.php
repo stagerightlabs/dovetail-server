@@ -14,7 +14,6 @@ class LoginTest extends TestCase
 
     public function test_a_user_can_login()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $client = factory(Client::class)->state('password')->create();
 
