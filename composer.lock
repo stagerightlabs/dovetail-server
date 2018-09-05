@@ -60,7 +60,7 @@
         },
         {
             "name": "barryvdh/laravel-cors",
-            "version": "dev-master",
+            "version": "v0.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-cors.git",
@@ -858,16 +858,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "5.7.x-dev",
+            "version": "v5.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9d8452da5511c72592d14a1d59abda34506d104b"
+                "reference": "4a5955e325faa2054420eeb7320cc2c81111a2f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9d8452da5511c72592d14a1d59abda34506d104b",
-                "reference": "9d8452da5511c72592d14a1d59abda34506d104b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4a5955e325faa2054420eeb7320cc2c81111a2f2",
+                "reference": "4a5955e325faa2054420eeb7320cc2c81111a2f2",
                 "shasum": ""
             },
             "require": {
@@ -994,7 +994,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-09-01T08:56:45+00:00"
+            "time": "2018-09-04T18:28:50+00:00"
         },
         {
             "name": "laravel/passport",
@@ -4234,16 +4234,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.3.2",
+            "version": "7.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8"
+                "reference": "1bd5629cccfb2c0a9ef5474b4ff772349e1ec898"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
-                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1bd5629cccfb2c0a9ef5474b4ff772349e1ec898",
+                "reference": "1bd5629cccfb2c0a9ef5474b4ff772349e1ec898",
                 "shasum": ""
             },
             "require": {
@@ -4314,7 +4314,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-08-22T06:39:21+00:00"
+            "time": "2018-09-01T15:49:55+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
