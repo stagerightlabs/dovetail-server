@@ -43,5 +43,11 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
 
     // Invitations
-    Route::get('invitations', 'InvitationController@index')->name('invitations.index');
+    Route::group(['namespace' => 'Invitations'], function () {
+        Route::get('invitations', 'InvitationController@index')->name('invitations.index');
+        Route::post('invitations', 'InvitationController@store')->name('invitations.store');
+        Route::post('invitations/{hashid}/resend', 'ResendInvitation')->name('invitations.resend');
+        Route::post('invitations/{hashid}/revoke', 'RevokeInvitation')->name('invitations.revoke');
+        Route::delete('invitations/{hashid}', 'InvitationController@destroy')->name('invitations.destroy');
+    });
 });
