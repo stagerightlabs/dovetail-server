@@ -3,7 +3,8 @@
 namespace App;
 
 use App\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
+use App\Invitation;
 
 class Organization extends Model
 {
@@ -12,5 +13,10 @@ class Organization extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class);
     }
 }

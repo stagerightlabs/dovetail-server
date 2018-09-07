@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AccessLevel;
 use App\Organization;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -33,5 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->access_level >= AccessLevel::$SUPER_ADMIN;
     }
 }
