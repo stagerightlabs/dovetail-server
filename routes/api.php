@@ -20,6 +20,10 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 // Registration Routes...
 Route::post('register', 'Auth\RegisterController@register')->name('register');
 
+// Invitation Redemption
+Route::get('invitations/{code}/confirm', 'Invitations\Confirm')->name('invitations.confirm');
+Route::post('invitations/{code}/redeem', 'Invitations\Redeem')->name('invitations.redeem');
+
 // Password Reset Routes...
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\AccessLevel;
 
 class RegisterController extends Controller
 {
@@ -69,7 +70,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'access_level' => 800,
+            'access_level' => AccessLevel::$ORGANIZATION_ADMIN,
             'organization_id' => $organization->id
         ]);
     }
