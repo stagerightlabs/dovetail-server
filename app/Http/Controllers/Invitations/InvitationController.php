@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\InvitationSent;
 use App\Http\Resources\InvitationResource;
 use Illuminate\Support\Facades\Notification;
+use App\Http\Requests\SendInvitation;
 
 class InvitationController extends Controller
 {
@@ -28,22 +29,16 @@ class InvitationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(SendInvitation $request)
     {
-        $this->authorize('send', Invitation::class);
-
-        request()->validate([
-            'email' => 'required|email'
-        ]);
-
         // Create the invitation record
         $invitation = Invitation::create([
-            'email' => request('email'),
+            'email' => $request->get('email'),
             'organization_id' => request()->organization->id
         ]);
 
         // Deliver the invitation
-        Notification::route('mail', request('email'))
+        Notification::route('mail', $request->get('email'))
             ->notify(new InvitationSent($invitation));
 
         return new InvitationResource($invitation);

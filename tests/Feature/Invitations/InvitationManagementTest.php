@@ -81,6 +81,21 @@ class InvitationManagementTest extends TestCase
         );
     }
 
+    public function test_it_does_not_create_duplicate_invitations()
+    {
+        Notification::fake();
+        $user = $this->actingAs(factory(User::class)->create());
+        $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
+
+        $response = $this->postJson(route('invitations.store'), [
+            'email' => 'grace@example.com'
+        ]);
+
+        $response->assertStatus(422);
+        $this->assertEquals(1, Invitation::where('email', 'grace@example.com')->count());
+        Notification::assertNothingSent();
+    }
+
     public function test_only_org_admins_can_create_invitations()
     {
         Notification::fake();
@@ -124,7 +139,7 @@ class InvitationManagementTest extends TestCase
         Notification::assertNothingSent();
     }
 
-    public function test_non_existant_invitations_cannot_be_resent()
+    public function test_non_existent_invitations_cannot_be_resent()
     {
         Notification::fake();
         $user = $this->actingAs(factory(User::class)->create());
@@ -159,6 +174,31 @@ class InvitationManagementTest extends TestCase
         $this->assertNotEquals($invitation->fresh()->revoked_by, $user->id);
     }
 
+    public function test_an_invitation_can_be_restored()
+    {
+        $user = $this->actingAs(factory(User::class)->create());
+        $invitation = factory(Invitation::class)->states('revoked')
+            ->create(['revoked_by' => $user->id]);
+
+        $response = $this->deleteJson(route('invitations.restore', $invitation->hashid));
+
+        $response->assertStatus(200);
+        $this->assertNull($invitation->fresh()->revoked_at);
+        $this->assertNull($invitation->fresh()->revoked_by);
+    }
+
+    public function test_only_org_admins_can_restore_invitations()
+    {
+        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $invitation = factory(Invitation::class)->states('revoked')->create();
+
+        $response = $this->deleteJson(route('invitations.restore', $invitation->hashid));
+
+        $response->assertStatus(403);
+        $this->assertNotNull($invitation->fresh()->revoked_at);
+        $this->assertNotNull($invitation->fresh()->revoked_by);
+    }
+
     public function test_invitations_can_be_deleted()
     {
         $user = $this->actingAs(factory(User::class)->create());
@@ -179,5 +219,37 @@ class InvitationManagementTest extends TestCase
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('invitations', ['id' => $invitation->id]);
+    }
+
+    public function test_an_invitation_cannot_be_created_afresh_once_revoked()
+    {
+        $user = $this->actingAs(factory(User::class)->create());
+        $invitation = factory(Invitation::class)->states('revoked')
+            ->create([
+                'revoked_by' => $user->id,
+                'email' => 'grace@example.com'
+             ]);
+
+        $response = $this->postJson(route('invitations.store'), [
+            'email' => 'grace@example.com'
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('email');
+        $this->assertEquals(1, Invitation::where('email', 'grace@example.com')->count());
+    }
+
+    public function test_invitations_cannot_be_sent_to_existing_users()
+    {
+        $admin = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->create(['email' => 'grace@example.com']);
+
+        $response = $this->postJson(route('invitations.store'), [
+            'email' => 'grace@example.com'
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('email');
+        $this->assertEquals(0, Invitation::where('email', 'grace@example.com')->count());
     }
 }

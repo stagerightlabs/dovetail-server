@@ -48,7 +48,7 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->subject("An invitation to join LIMS")
-                    ->line("{$inviation->organization->name} has invited you to join LIMS")
+                    ->line("{$this->invitation->organization->name} has invited you to join LIMS")
                     ->action('Create Your Account', url('/'));
     }
 
