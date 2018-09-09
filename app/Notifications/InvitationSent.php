@@ -49,7 +49,7 @@ class InvitationSent extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject("An invitation to join LIMS")
                     ->line("{$this->invitation->organization->name} has invited you to join LIMS")
-                    ->action('Create Your Account', url('/'));
+                    ->action('Create Your Account', $this->invitationUrl());
     }
 
     /**
@@ -63,5 +63,15 @@ class InvitationSent extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    /**
+     * The href for the CTA button
+     *
+     * @return string
+     */
+    protected function invitationUrl()
+    {
+        return config('app.frontend_url') . 'invitations/' . $this->invitation->code;
     }
 }
