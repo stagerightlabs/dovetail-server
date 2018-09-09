@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->unsignedInteger('organization_id');
             $table->integer('access_level')->default(0);
+            $table->string('title')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -42,7 +42,8 @@ class ProfileTest extends TestCase
         $response = $this->postJson(route('user.show'), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
-            'phone' => '(987) 654-3210'
+            'phone' => '(987) 654-3210',
+            'title' => 'Admiral',
         ]);
 
         $response->assertStatus(200);
@@ -60,6 +61,7 @@ class ProfileTest extends TestCase
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210',
+            'title' => null,
         ]);
     }
 

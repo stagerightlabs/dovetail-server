@@ -37,6 +37,7 @@ class MemberViewingTest extends TestCase
                     'email',
                     'name',
                     'rank',
+                    'title',
                     'created_at'
                 ]
             ]
@@ -73,6 +74,7 @@ class MemberViewingTest extends TestCase
                     'email',
                     'name',
                     'rank',
+                    'title',
                     'phone',
                     'email_verified',
                     'phone_verified',

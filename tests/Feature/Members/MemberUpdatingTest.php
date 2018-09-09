@@ -79,7 +79,8 @@ class MemberUpdatingTest extends TestCase
         $response = $this->postJson(route('members.update', $member->hashid), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
-            'phone' => '(987) 654-3210'
+            'phone' => '(987) 654-3210',
+            'title' => 'Admiral'
         ]);
 
         $response->assertStatus(200);
@@ -87,7 +88,8 @@ class MemberUpdatingTest extends TestCase
             'id' => $member->id,
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
-            'phone' => '(987) 654-3210'
+            'phone' => '(987) 654-3210',
+            'title' => 'Admiral'
         ]);
     }
 }

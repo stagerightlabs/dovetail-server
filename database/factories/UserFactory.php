@@ -29,6 +29,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         },
         'email_verified_at' => Carbon::now()->subDays(2),
         'phone_verified_at' => Carbon::now()->subDays(2),
+        'title' => null,
         'deleted_at' => null,
     ];
 });

@@ -16,7 +16,6 @@ class MembersController extends Controller
         $this->middleware('org.admin')->except('index');
     }
 
-
     /**
      * Display a listing of organization members
      *
@@ -50,6 +49,7 @@ class MembersController extends Controller
         $user->name = $request->get('name');
         $user->phone = $request->get('phone');
         $user->phone_verified_at = $phoneChange ? null : $user->phone_verified_at;
+        $user->title = $request->get('title', $user->title);
         $user->save();
 
         return new MemberResource($user);
