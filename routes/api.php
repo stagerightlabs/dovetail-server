@@ -55,7 +55,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     });
 
     // Organization Members
-    Route::group(['namespace' => 'Members', 'middleware' => 'org.admin'], function () {
+    Route::group(['namespace' => 'Members'], function () {
         Route::get('members', 'MembersController@index')->name('members.get');
     });
 });

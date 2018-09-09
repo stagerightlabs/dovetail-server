@@ -31,6 +31,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'email_verified_at',
+        'phone_verified_at'
+        // 'deleted_at'
+    ];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
@@ -39,5 +52,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isSuperAdmin()
     {
         return $this->access_level >= AccessLevel::$SUPER_ADMIN;
+    }
+
+    public function getRankAttribute()
+    {
+        return AccessLevel::rank($this->access_level);
+    }
+
+    public function getHashidAttribute()
+    {
+        return hashid($this->id);
     }
 }

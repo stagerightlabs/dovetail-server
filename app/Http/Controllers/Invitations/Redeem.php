@@ -29,7 +29,7 @@ class Redeem extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'access_level' => AccessLevel::$ORGANIZATION_USER,
+            'access_level' => AccessLevel::$ORGANIZATION_MEMBER,
             'organization_id' => $invitation->organization->id
         ]);
 

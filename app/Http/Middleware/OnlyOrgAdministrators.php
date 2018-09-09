@@ -20,6 +20,7 @@ class OnlyOrgAdministrators
             return $next($request);
         }
 
-        response()->json(['message' => "Permission Denied"], 403);
+        // need to throw an exception here...
+        //response()->json(['message' => "Permission Denied"], 403);
     }
 }

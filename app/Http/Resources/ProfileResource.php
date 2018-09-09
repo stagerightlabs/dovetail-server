@@ -17,9 +17,9 @@ class ProfileResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
+            'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->toAtomString() : null,
             'phone' => $this->phone,
-            'phone_verified_at' => $this->phone_verified_at,
+            'phone_verified_at' => $this->phone_verified_at ? $this->phone_verified_at->toAtomString() : null,
         ];
     }
 }

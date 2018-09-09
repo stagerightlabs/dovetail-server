@@ -24,9 +24,9 @@ class ProfileTest extends TestCase
             'data' => [
                 'name' => $user->name,
                 'email' => $user->email,
-                'email_verified_at' => $user->email_verified_at,
+                'email_verified_at' => $user->email_verified_at->toAtomString(),
                 'phone' => $user->phone,
-                'phone_verified_at' => $user->phone_verified_at
+                'phone_verified_at' => $user->phone_verified_at->toAtomString()
             ]
         ]);
     }

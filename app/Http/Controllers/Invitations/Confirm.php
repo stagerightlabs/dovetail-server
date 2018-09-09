@@ -8,10 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\InvitationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @resource Invitations
+ */
 class Confirm extends Controller
 {
     /**
-     * Confirm the redemption status of an invitation
+     * Confirm that an invitation is redeemable
      *
      * @param  \Illuminate\Http\Request  $request
      * @return JsonResource

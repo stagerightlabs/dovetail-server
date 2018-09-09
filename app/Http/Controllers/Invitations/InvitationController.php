@@ -10,10 +10,15 @@ use App\Http\Resources\InvitationResource;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\SendInvitation;
 
+/**
+ * @resource Invitations
+ *
+ * Manage requests sent to users
+ */
 class InvitationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * View all invitations
      *
      * @return \Illuminate\Http\Response
      */
@@ -25,7 +30,7 @@ class InvitationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Send an invitation
      *
      * @return \Illuminate\Http\Response
      */
@@ -45,7 +50,7 @@ class InvitationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an invitation
      *
      * @param  string $hashid
      * @return \Illuminate\Http\Response

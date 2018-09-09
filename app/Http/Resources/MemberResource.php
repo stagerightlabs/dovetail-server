@@ -14,6 +14,18 @@ class MemberResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->hashid,
+            'name' => $this->name,
+            'email' => $this->email,
+            'rank' => $this->rank,
+            $this->mergeWhen(auth()->user()->can('edit', request()->organization), [
+                'phone' => $this->phone,
+                'email_verified' => !is_null($this->email_verified_at),
+                'phone_verified' => !is_null($this->phone_verified_at),
+                'permissions' => []
+            ]),
+            'created_at' => $this->created_at->toAtomString()
+        ];
     }
 }
