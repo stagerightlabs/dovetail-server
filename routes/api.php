@@ -44,7 +44,6 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         return $request->organization;
     })->name('organization');
 
-
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
         Route::get('invitations', 'InvitationController@index')->name('invitations.index');
@@ -53,5 +52,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::post('invitations/{hashid}/revoke', 'InvitationRevocationController@update')->name('invitations.revoke');
         Route::delete('invitations/{hashid}/revoke', 'InvitationRevocationController@delete')->name('invitations.restore');
         Route::delete('invitations/{hashid}', 'InvitationController@destroy')->name('invitations.destroy');
+    });
+
+    // Organization Members
+    Route::group(['namespace' => 'Members', 'middleware' => 'org.admin'], function () {
+        Route::get('members', 'MembersController@index')->name('members.get');
     });
 });
