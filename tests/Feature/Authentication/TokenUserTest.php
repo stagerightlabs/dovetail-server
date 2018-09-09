@@ -16,13 +16,12 @@ class TokenUserTest extends TestCase
     {
         $user = $this->actingAs(factory(User::class)->create());
 
-        $response = $this->getJson(route('user'));
+        $response = $this->getJson(route('user.show'));
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'email' => $user->email,
             'name' => $user->name,
-            'access_level' => $user->access_level
         ]);
     }
 
@@ -30,7 +29,7 @@ class TokenUserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->getJson(route('user'));
+        $response = $this->getJson(route('user.show'));
 
         $response->assertStatus(401);
     }

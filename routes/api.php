@@ -35,10 +35,9 @@ Route::get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 
 Route::middleware(['auth:api', 'api'])->group(function () {
 
-    // Current User
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    })->name('user');
+    // Current User's Profile
+    Route::get('/user', 'ProfileController@show')->name('user.show');
+    Route::post('/user', 'ProfileController@update')->name('user.update');
 
     // Current User's Organization
     Route::get('/organization', function (Request $request) {
