@@ -6,12 +6,13 @@ use App\AccessLevel;
 use App\Organization;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -40,8 +41,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at',
         'updated_at',
         'email_verified_at',
-        'phone_verified_at'
-        // 'deleted_at'
+        'phone_verified_at',
+        'deleted_at',
     ];
 
     public function organization()

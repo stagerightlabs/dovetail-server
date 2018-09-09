@@ -29,6 +29,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         },
         'email_verified_at' => Carbon::now()->subDays(2),
         'phone_verified_at' => Carbon::now()->subDays(2),
+        'deleted_at' => null,
     ];
 });
 
@@ -37,10 +38,14 @@ $factory->state(App\User::class, 'unverified', [
     'phone_verified_at' => null,
 ]);
 
-$factory->state(App\User::class, 'org-user', [
+$factory->state(App\User::class, 'org-member', [
     'access_level' => AccessLevel::$ORGANIZATION_MEMBER,
 ]);
 
 $factory->state(App\User::class, 'org-admin', [
     'access_level' => AccessLevel::$ORGANIZATION_ADMIN,
+]);
+
+$factory->state(App\User::class, 'deleted', [
+    'deleted_at' => Carbon::now()->subDays(2)
 ]);

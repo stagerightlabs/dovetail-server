@@ -15,7 +15,7 @@ class MemberViewingTest extends TestCase
     public function test_org_users_can_see_organization_members()
     {
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->states('org-user')->create([
+        $this->actingAs(factory(User::class)->states('org-member')->create([
             'organization_id' => $organization->id
         ]));
         $memberA = factory(User::class)->create([
@@ -57,6 +57,10 @@ class MemberViewingTest extends TestCase
         $memberB = factory(User::class)->create([
             'organization_id' => $organization->id,
             'email' => 'hopper@example.com'
+        ]);
+        $memberC = factory(User::class)->state('deleted')->create([
+            'organization_id' => $organization->id,
+            'email' => 'admiral@example.com'
         ]);
 
         $response = $this->getJson(route('members.get'));

@@ -57,5 +57,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     // Organization Members
     Route::group(['namespace' => 'Members'], function () {
         Route::get('members', 'MembersController@index')->name('members.get');
+        Route::get('members/deleted', 'DeletedMembersController@index')->name('members.deleted');
+        Route::post('members/{hashid}', 'MembersController@update')->name('members.update');
+        Route::delete('members/{hashid}', 'DeletedMembersController@store')->name('members.delete');
+        Route::delete('members/{hashid}/restore', 'DeletedMembersController@destroy')->name('members.restore');
     });
 });

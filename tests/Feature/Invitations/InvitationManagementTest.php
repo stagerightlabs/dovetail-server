@@ -99,7 +99,7 @@ class InvitationManagementTest extends TestCase
     public function test_only_org_admins_can_create_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
 
         $response = $this->postJson(route('invitations.store'), [
             'email' => 'grace@example.com'
@@ -130,7 +130,7 @@ class InvitationManagementTest extends TestCase
     public function test_only_org_admins_can_resend_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.resend', $invitation->hashid));
@@ -164,7 +164,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_revoke_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.revoke', $invitation->hashid));
@@ -189,7 +189,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_restore_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->states('revoked')->create();
 
         $response = $this->deleteJson(route('invitations.restore', $invitation->hashid));
@@ -212,7 +212,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_destroy_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-user')->create());
+        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->deleteJson(route('invitations.destroy', $invitation->hashid));

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\AccessLevel;
+use App\Exceptions\ForbiddenException;
 
 class OnlyOrgAdministrators
 {
@@ -20,7 +21,6 @@ class OnlyOrgAdministrators
             return $next($request);
         }
 
-        // need to throw an exception here...
-        //response()->json(['message' => "Permission Denied"], 403);
+        throw new ForbiddenException;
     }
 }
