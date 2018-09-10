@@ -36,8 +36,7 @@ class MembersController extends Controller
     public function update(UpdateMember $request, $hashid)
     {
         // Fetch the current user
-        $user = User::where('organization_id', request()->organization->id)
-            ->findOrFail(hashid($hashid));
+        $user = User::inOrganization()->findOrFail(hashid($hashid));
 
         // Has there been a change to the user's phone or email?
         $emailChange = $user->email != $request->get('email');

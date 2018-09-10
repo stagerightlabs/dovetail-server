@@ -66,6 +66,26 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Scope a query to members of a given organization.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Organization $organization
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInOrganization($query, $organization = null)
+    {
+        if (!$organization) {
+            $organization = request()->organization;
+        }
+
+        if ($organization instanceof Organization) {
+            $organization = $organization->id;
+        }
+
+        return $query->where('organization_id', $organization);
+    }
+
+    /**
      * Is this user a 'super-admin'?
      *
      * @return boolean

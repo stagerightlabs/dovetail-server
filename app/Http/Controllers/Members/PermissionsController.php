@@ -23,8 +23,7 @@ class PermissionsController extends Controller
      */
     public function show($hashid)
     {
-        $user = User::where('organization_id', request()->organization->id)
-            ->findOrFail(hashid($hashid));
+        $user = User::inOrganization()->findOrFail(hashid($hashid));
 
         return $this->transform($user);
     }
@@ -42,8 +41,7 @@ class PermissionsController extends Controller
             'permissions' => 'required'
         ]);
 
-        $user = User::where('organization_id', request()->organization->id)
-            ->findOrFail(hashid($hashid));
+        $user = User::inOrganization()->findOrFail(hashid($hashid));
 
         $validPermissions = array_keys(User::$defaultPermissions);
 

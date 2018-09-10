@@ -37,8 +37,7 @@ class DeletedMembersController extends Controller
     {
         $this->authorize('edit', request()->organization);
 
-        $user = User::where('organization_id', request()->organization->id)
-            ->findOrFail(hashid($hashid));
+        $user = User::inOrganization()->findOrFail(hashid($hashid));
 
         $user->delete();
 
@@ -55,7 +54,7 @@ class DeletedMembersController extends Controller
     {
         $this->authorize('edit', request()->organization);
 
-        $user = User::where('organization_id', request()->organization->id)
+        $user = User::inOrganization()
             ->withTrashed()
             ->findOrFail(hashid($hashid));
 
