@@ -38,6 +38,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     // Current User's Profile
     Route::get('/user', 'ProfileController@show')->name('user.show');
     Route::post('/user', 'ProfileController@update')->name('user.update');
+    Route::get('/user/permissions/{permission}', 'CheckPermission')->name('user.permission');
 
     // Current User's Organization
     Route::get('/organization', function (Request $request) {
@@ -56,10 +57,16 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Organization Members
     Route::group(['namespace' => 'Members'], function () {
+
+        // Member Management
         Route::get('members', 'MembersController@index')->name('members.get');
         Route::get('members/deleted', 'DeletedMembersController@index')->name('members.deleted');
         Route::post('members/{hashid}', 'MembersController@update')->name('members.update');
         Route::delete('members/{hashid}', 'DeletedMembersController@store')->name('members.delete');
         Route::delete('members/{hashid}/restore', 'DeletedMembersController@destroy')->name('members.restore');
+
+        // Member Permissions
+        Route::get('members/{hashid}/permissions', 'PermissionsController@show')->name('permissions.show');
+        Route::post('members/{hashid}/permissions', 'PermissionsController@update')->name('permissions.update');
     });
 });
