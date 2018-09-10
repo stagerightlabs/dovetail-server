@@ -47,16 +47,4 @@ class TokenUserTest extends TestCase
             'slug' => $organization->slug
         ]);
     }
-
-    public function test_users_without_organizations_are_rejected()
-    {
-        $user = $this->actingAs(factory(User::class)->create([
-            'organization_id' => 0
-        ]));
-        $organization = $user->organization;
-
-        $response = $this->getJson(route('organization'));
-
-        $response->assertStatus(403);
-    }
 }

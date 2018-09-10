@@ -28,6 +28,12 @@ class CreateUsersTable extends Migration
             $table->jsonb('permission_flags')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            // Indexes
+            $table->index('email');
+
+            // Foreign Key Constraints
+            $table->foreign('organization_id')->references('id')->on('organizations');
         });
     }
 

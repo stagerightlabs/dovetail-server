@@ -21,6 +21,13 @@ class CreateInvitationsTable extends Migration
             $table->unsignedInteger('revoked_by')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+
+            // Indexes
+            $table->index('email');
+
+            // Foreign Key Constraints
+            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('revoked_by')->references('id')->on('users');
         });
     }
 

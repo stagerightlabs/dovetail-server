@@ -15,7 +15,7 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('organization_id');
             $table->string('name');
             $table->string('stripe_id');
             $table->string('stripe_plan');
@@ -23,6 +23,9 @@ class CreateSubscriptionsTable extends Migration
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
+
+            // Foreign Key Constraints
+            $table->foreign('organization_id')->references('id')->on('organizations');
         });
     }
 

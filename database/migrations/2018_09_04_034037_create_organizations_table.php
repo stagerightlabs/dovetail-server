@@ -23,6 +23,10 @@ class CreateOrganizationsTable extends Migration
             $table->string('card_last_four')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamps();
+
+            // Indexes
+            $table->index('slug');
+            $table->index('name');
         });
     }
 
