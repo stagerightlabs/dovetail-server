@@ -20,7 +20,7 @@ class MemberResource extends JsonResource
             'email' => $this->email,
             'rank' => $this->rank,
             'title' => $this->title,
-            $this->mergeWhen(auth()->user()->can('edit', request()->organization), [
+            $this->mergeWhen(auth()->user()->can('edit', request()->organization()), [
                 'phone' => $this->phone,
                 'email_verified' => !is_null($this->email_verified_at),
                 'phone_verified' => !is_null($this->phone_verified_at),

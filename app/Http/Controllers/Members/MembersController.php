@@ -23,7 +23,7 @@ class MembersController extends Controller
      */
     public function index()
     {
-        return MemberResource::collection(request()->organization->users);
+        return MemberResource::collection(request()->organization()->users);
     }
 
     /**

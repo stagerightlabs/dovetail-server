@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeInOrganization($query, $organization = null)
     {
         if (!$organization) {
-            $organization = request()->organization;
+            $organization = request()->organization();
         }
 
         if ($organization instanceof Organization) {

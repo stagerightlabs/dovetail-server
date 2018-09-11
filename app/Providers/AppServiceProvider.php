@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacros()
     {
+        // Transform a password token into a Json Response
         Response::macro('authorization', function (Request $request) {
             $client = Client::where('password_client', true)
                 ->where('secret', env('TOKEN_SECRET'))
@@ -63,6 +64,11 @@ class AppServiceProvider extends ServiceProvider
                     'password' => request('password'),
                 ])
             );
+        });
+
+        // Retrieve the current organization from the request
+        Request::macro('organization', function () {
+            return $this->organization ?? null;
         });
     }
 }

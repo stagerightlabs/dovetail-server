@@ -23,11 +23,11 @@ class SettingsController extends Controller
      */
     public function show($key)
     {
-        $this->authorize('readSetting', request()->organization);
+        $this->authorize('readSetting', request()->organization());
 
         return new JsonResource([
             'key' => $key,
-            'value' => request()->organization->config($key)
+            'value' => request()->organization()->config($key)
         ]);
     }
 
@@ -40,7 +40,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request)
     {
-        $this->authorize('writeSetting', request()->organization);
+        $this->authorize('writeSetting', request()->organization());
 
         $request->validate([
             'settings' => 'required'
@@ -53,7 +53,7 @@ class SettingsController extends Controller
                 return in_array($key, $validKeys);
             });
 
-        $organization = $request->organization;
+        $organization = $request->organization();
         $organization->updateConfiguration($config);
         $organization->save();
 

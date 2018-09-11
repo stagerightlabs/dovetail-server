@@ -25,7 +25,7 @@ class InvitationController extends Controller
     public function index()
     {
         return InvitationResource::collection(
-            request()->organization->invitations
+            request()->organization()->invitations
         );
     }
 
@@ -39,7 +39,7 @@ class InvitationController extends Controller
         // Create the invitation record
         $invitation = Invitation::create([
             'email' => $request->get('email'),
-            'organization_id' => request()->organization->id
+            'organization_id' => request()->organization()->id
         ]);
 
         // Deliver the invitation

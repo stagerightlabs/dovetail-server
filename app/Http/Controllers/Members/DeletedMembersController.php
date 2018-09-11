@@ -23,7 +23,7 @@ class DeletedMembersController extends Controller
     public function index()
     {
         return MemberResource::collection(
-            request()->organization->users()->onlyTrashed()->get()
+            request()->organization()->users()->onlyTrashed()->get()
         );
     }
 
@@ -35,7 +35,7 @@ class DeletedMembersController extends Controller
      */
     public function store($hashid)
     {
-        $this->authorize('edit', request()->organization);
+        $this->authorize('edit', request()->organization());
 
         $user = User::inOrganization()->findOrFail(hashid($hashid));
 
@@ -52,7 +52,7 @@ class DeletedMembersController extends Controller
      */
     public function destroy($hashid)
     {
-        $this->authorize('edit', request()->organization);
+        $this->authorize('edit', request()->organization());
 
         $user = User::inOrganization()
             ->withTrashed()
