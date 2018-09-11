@@ -12,7 +12,6 @@
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0",
-        "mpociot/laravel-apidoc-generator": "^2.1",
         "vinkla/hashids": "^5.1"
     },
     "require-dev": {
