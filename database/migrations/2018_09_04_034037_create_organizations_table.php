@@ -22,6 +22,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
+            $table->jsonb('configuration')->nullable();
             $table->timestamps();
 
             // Indexes

@@ -44,6 +44,31 @@ class OrganizationPolicy
     public function edit(User $user, Organization $organization)
     {
         return $user->access_level >= AccessLevel::$ORGANIZATION_ADMIN
-            && $user->organization_id == $user->organization_id;
+            && $user->organization_id == $organization->id;
+    }
+
+    /**
+     * Is this user allowed to read organization settings?
+     *
+     * @param User $user
+     * @param Organization $organization
+     * @return boolean
+     */
+    public function readSetting(User $user, Organization $organization)
+    {
+        return $user->organization_id == $organization->id;
+    }
+
+    /**
+     * Is this user allowed to read organization settings?
+     *
+     * @param User $user
+     * @param Organization $organization
+     * @return boolean
+     */
+    public function writeSetting(User $user, Organization $organization)
+    {
+        return $user->access_level >= AccessLevel::$ORGANIZATION_ADMIN
+            && $user->organization_id == $organization->id;
     }
 }

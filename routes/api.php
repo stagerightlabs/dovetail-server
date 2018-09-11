@@ -69,4 +69,11 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('members/{hashid}/permissions', 'PermissionsController@show')->name('permissions.show');
         Route::post('members/{hashid}/permissions', 'PermissionsController@update')->name('permissions.update');
     });
+
+    // Organization
+    Route::group(['namespace' => 'Organization'], function () {
+        // Settings
+        Route::get('organization/settings/{key}', 'SettingsController@show')->name('settings.show');
+        Route::post('organization/settings', 'SettingsController@update')->name('settings.update');
+    });
 });
