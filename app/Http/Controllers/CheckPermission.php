@@ -16,6 +16,7 @@ class CheckPermission extends Controller
     public function __invoke(Request $request, $permission)
     {
         return new JsonResource([
+            'key' => $permission,
             'allowed' => auth()->user()->isAllowedTo($permission)
         ]);
     }

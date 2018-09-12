@@ -13,9 +13,14 @@ module.exports = {
         sidebar: [
             {
                 title: 'Planning',
-                collapsable: false,
                 children: [
                     ['/to-do', 'To Do']
+                ]
+            },
+            {
+                title: 'Definitions',
+                children: [
+                    '/permissions',
                 ]
             },
             {
@@ -24,7 +29,8 @@ module.exports = {
                     '/registration',
                     '/session',
                     '/passwords',
-                    '/verification'
+                    '/verification',
+                    '/user'
                 ]
             }
         ],
