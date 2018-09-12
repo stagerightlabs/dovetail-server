@@ -15,7 +15,6 @@ class RegistrationTest extends TestCase
 
     public function test_a_user_can_register()
     {
-        $this->withoutExceptionHandling();
         Notification::fake();
         $client = factory(Client::class)->state('password')->create();
 
