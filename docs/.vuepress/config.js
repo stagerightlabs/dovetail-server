@@ -8,7 +8,7 @@ module.exports = {
         repo: 'https://gitlab.com/stage-right-labs/lims-api',
         nav: [
             { text: 'Home', link: '/' },
-            { text: 'Guide', link: '/to-do.html' },
+            { text: 'Specs', link: '/to-do.html' },
         ],
         sidebar: [
             {
@@ -23,7 +23,8 @@ module.exports = {
                 children: [
                     '/registration',
                     '/session',
-                    '/passwords'
+                    '/passwords',
+                    '/verification'
                 ]
             }
         ],

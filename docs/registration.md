@@ -1,6 +1,5 @@
 # Registration
 
-
 ### Register [POST /register]
 
 Create a new organization and a default administrator for that organization.
