@@ -42,7 +42,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Current User's Organization
     Route::get('/organization', function (Request $request) {
-        return $request->organization();
+        return response()->json(['data' => $request->organization()]);
     })->name('organization');
 
     // Invitations

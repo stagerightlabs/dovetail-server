@@ -30,7 +30,13 @@ module.exports = {
                     '/session',
                     '/passwords',
                     '/verification',
-                    '/user'
+                    '/user',
+                ]
+            },
+            {
+                title: 'Organizations',
+                children: [
+                    ['/organization', 'Summary'],
                 ]
             }
         ],

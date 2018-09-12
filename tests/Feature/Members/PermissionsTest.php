@@ -80,14 +80,20 @@ class PermissionsTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertExactJson([
-            'data' => ['allowed' => true]
+            'data' => [
+                'key' => 'foo',
+                'allowed' => true
+            ]
         ]);
 
         $response = $this->getJson(route('user.permission', 'bar'));
 
         $response->assertStatus(200);
         $response->assertExactJson([
-            'data' => ['allowed' => false]
+            'data' => [
+                'key' => 'bar',
+                'allowed' => false
+            ]
         ]);
     }
 
