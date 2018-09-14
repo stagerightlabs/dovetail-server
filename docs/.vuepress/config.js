@@ -21,6 +21,7 @@ module.exports = {
                 title: 'Definitions',
                 children: [
                     '/permissions',
+                    '/settings'
                 ]
             },
             {
