@@ -19,12 +19,11 @@ class MemberResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'rank' => $this->rank,
-            'title' => $this->title,
+            'title' => strval($this->title),
             $this->mergeWhen(auth()->user()->can('edit', request()->organization()), [
                 'phone' => $this->phone,
                 'email_verified' => !is_null($this->email_verified_at),
                 'phone_verified' => !is_null($this->phone_verified_at),
-                'permissions' => []
             ]),
             'created_at' => $this->created_at->toAtomString(),
             'deleted_at' => $this->when($this->trashed(), function () {

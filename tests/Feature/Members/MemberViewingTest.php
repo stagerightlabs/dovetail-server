@@ -78,7 +78,6 @@ class MemberViewingTest extends TestCase
                     'phone',
                     'email_verified',
                     'phone_verified',
-                    'permissions'
                 ]
             ]
         ]);

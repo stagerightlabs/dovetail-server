@@ -159,4 +159,24 @@ class PermissionsTest extends TestCase
         $response->assertStatus(403);
         $this->assertFalse($member->isAllowedTo('foo'));
     }
+
+    public function test_a_member_cannot_update_their_own_permissions()
+    {
+        $organization = factory(Organization::class)->create();
+        $member = factory(User::class)->states('org-member')->create([
+            'organization_id' => $organization->id,
+            'email' => 'grace@example.com'
+        ]);
+
+        $this->actingAs($member);
+
+        $this->assertFalse($member->isAllowedTo('foo'));
+
+        $response = $this->postJson(route('permissions.update', $member->hashid), [
+            'permissions' => ['foo' => true]
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertFalse($member->isAllowedTo('foo'));
+    }
 }
