@@ -38,7 +38,8 @@ module.exports = {
                 title: 'Organizations',
                 children: [
                     ['/organization', 'Summary'],
-                    '/invitations'
+                    '/invitations',
+                    '/members'
                 ]
             }
         ],
