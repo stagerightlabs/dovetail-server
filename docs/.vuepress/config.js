@@ -27,6 +27,7 @@ module.exports = {
                 title: 'Accounts',
                 children: [
                     '/registration',
+                    '/accept-invitation',
                     '/session',
                     '/passwords',
                     '/verification',
@@ -37,6 +38,7 @@ module.exports = {
                 title: 'Organizations',
                 children: [
                     ['/organization', 'Summary'],
+                    '/invitations'
                 ]
             }
         ],
