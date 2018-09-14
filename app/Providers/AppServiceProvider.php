@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->registerMacros();
+
+        $this->registerValidationRules();
     }
 
     /**
@@ -69,6 +73,47 @@ class AppServiceProvider extends ServiceProvider
         // Retrieve the current organization from the request
         Request::macro('organization', function () {
             return $this->organization ?? null;
+        });
+    }
+
+    /**
+     * Register custom validation rules
+     *
+     * @return void
+     */
+    public function registerValidationRules()
+    {
+        Validator::extend('iunique', function ($attribute, $value, $parameters, $validator) {
+
+            // Usage: 'iunique:users,email_address,NULL,id,account_id,1'
+            // Parameters:
+            //      0. Table
+            //      1. Column
+            //      2. Row to be ignored
+            //      3. Primary Key name to ignore (default 'id')
+            //      4. Where column
+            //      5. Where value equals
+
+            // Initialize our validation query
+            $query = DB::table($parameters[0]);
+            $column = $query->getGrammar()->wrap($parameters[1]);
+
+            // Are we going to ignore any rows?
+            $ignore = $parameters[2] ?? null;
+            if ($ignore && $ignore != 'null') {
+                $primary = $parameters[3] ?? 'id';
+                $query->where($primary, '<>', $ignore);
+            }
+
+            // Are we adding a where clause?
+            $whereColumn = $parameters[4] ?? null;
+            $whereValue = $parameters[5] ?? null;
+            if ($whereColumn && $whereValue) {
+                $query->where($whereColumn, $whereValue);
+            }
+
+            // Run the query to confirm validation status
+            return ! $query->whereRaw("lower({$column}) = lower(?)", [$value])->exists();
         });
     }
 }

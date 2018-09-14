@@ -77,4 +77,11 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('organization/settings/{key}', 'SettingsController@show')->name('settings.show');
         Route::post('organization/settings', 'SettingsController@update')->name('settings.update');
     });
+
+    // Categories
+    Route::get('/categories', 'CategoryController@index')->name('categories.index');
+    Route::post('/categories', 'CategoryController@store')->name('categories.store');
+    Route::get('/categories/{hashid}', 'CategoryController@show')->name('categories.show');
+    Route::put('/categories/{hashid}', 'CategoryController@update')->name('categories.update');
+    Route::delete('/categories/{hashid}', 'CategoryController@delete')->name('categories.delete');
 });

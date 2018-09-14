@@ -40,7 +40,8 @@ module.exports = {
                 children: [
                     ['/organization', 'Summary'],
                     '/invitations',
-                    '/members'
+                    '/members',
+                    '/categories'
                 ]
             }
         ],

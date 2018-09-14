@@ -4,6 +4,7 @@ namespace App;
 
 use App\User;
 use App\Model;
+use App\Category;
 use App\Invitation;
 use Illuminate\Support\Collection;
 
@@ -20,6 +21,10 @@ class Organization extends Model
         'configuration' => 'array',
     ];
 
+    /**************************************************************************
+     * Relationships
+     **************************************************************************/
+
     public function users()
     {
         return $this->hasMany(User::class);
@@ -28,6 +33,11 @@ class Organization extends Model
     public function invitations()
     {
         return $this->hasMany(Invitation::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 
     /**************************************************************************

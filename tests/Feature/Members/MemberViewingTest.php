@@ -33,7 +33,7 @@ class MemberViewingTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
+                    'hashid',
                     'email',
                     'name',
                     'rank',
@@ -70,7 +70,7 @@ class MemberViewingTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
+                    'hashid',
                     'email',
                     'name',
                     'rank',
