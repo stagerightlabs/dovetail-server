@@ -52,9 +52,9 @@ class Organization extends Model
      * @var array
      */
     public static $defaultConfiguration = [
-        'label.notebooks' => 'Expermiments',
-        'label.sops' => 'S.O.Ps',
-        'label.plates' => 'plates'
+        'label.notebooks' => 'Experiments',
+        'label.protocols' => 'Protocols',
+        'label.plates' => 'Plates'
     ];
 
     /**
