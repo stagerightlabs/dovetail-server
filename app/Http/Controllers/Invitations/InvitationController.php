@@ -24,6 +24,8 @@ class InvitationController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Invitation::class);
+
         return InvitationResource::collection(
             request()->organization()->invitations
         );

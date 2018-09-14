@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use App\Model;
 
 class Invitation extends Model
@@ -17,5 +18,10 @@ class Invitation extends Model
     public function getCodeAttribute()
     {
         return hashid($this->id, 'invitation');
+    }
+
+    public function revoker()
+    {
+        return $this->belongsTo(User::class, 'revoked_by');
     }
 }

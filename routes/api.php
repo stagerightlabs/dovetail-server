@@ -32,18 +32,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
-
+// Authenticated routes
 Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Current User's Profile
     Route::get('/user', 'ProfileController@show')->name('user.show');
     Route::post('/user', 'ProfileController@update')->name('user.update');
     Route::get('/user/permissions/{permission}', 'CheckPermission')->name('user.permission');
-
-    // Current User's Organization
-    Route::get('/organization', function (Request $request) {
-        return response()->json(['data' => $request->organization()]);
-    })->name('organization');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
@@ -72,6 +67,12 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Organization
     Route::group(['namespace' => 'Organization'], function () {
+
+        // The current organization
+        Route::get('/organization', function (Request $request) {
+            return response()->json(['data' => $request->organization()]);
+        })->name('organization');
+
         // Settings
         Route::get('organization/settings/{key}', 'SettingsController@show')->name('settings.show');
         Route::post('organization/settings', 'SettingsController@update')->name('settings.update');

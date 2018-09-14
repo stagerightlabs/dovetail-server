@@ -69,6 +69,17 @@ class InvitationPolicy
     }
 
     /**
+     * Is this user allowed to send invitations?
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function view(User $user)
+    {
+        return $user->access_level >= AccessLevel::$ORGANIZATION_ADMIN;
+    }
+
+    /**
      * Is this user allowed to destroy invitations?
      *
      * @param User $user

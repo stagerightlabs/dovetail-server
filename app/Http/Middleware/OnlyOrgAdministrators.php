@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\AccessLevel;
-use App\Exceptions\ForbiddenException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class OnlyOrgAdministrators
 {
@@ -21,6 +21,6 @@ class OnlyOrgAdministrators
             return $next($request);
         }
 
-        throw new ForbiddenException;
+        throw new AuthorizationException("This action is unauthorized.");
     }
 }

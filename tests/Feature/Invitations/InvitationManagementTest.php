@@ -5,6 +5,7 @@ namespace Tests\Feature\Invitations;
 use App\User;
 use App\Invitation;
 use Tests\TestCase;
+use App\Organization;
 use App\Notifications\InvitationSent;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\AnonymousNotifiable;
@@ -30,13 +31,35 @@ class InvitationManagementTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'organization_id' => $user->organization_id,
             'email' => 'grace@example.com',
             'revoked_at' => null,
             'revoked_by' => null,
             'completed_at' => null
         ]);
         $this->assertCount(2, $response->decodeResponseJson('data'));
+    }
+
+    public function test_it_does_not_show_invitations_to_org_members()
+    {
+        $organization = factory(Organization::class)->create();
+        $userA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $userB = $this->actingAs(factory(User::class)->states('org-member')->create([
+            'organization_id' => $organization->id
+        ]));
+        $invitationA = factory(Invitation::class)->create([
+            'organization_id' => $organization->id,
+            'email' => 'grace@example.com'
+        ]);
+        $invitationB = factory(Invitation::class)->create([
+            'organization_id' => $organization->id,
+            'email' => 'hopper@example.com'
+        ]);
+
+        $response = $this->getJson(route('invitations.index'));
+
+        $response->assertStatus(403);
     }
 
     public function test_it_does_not_show_invitations_to_non_org_users()
@@ -219,6 +242,32 @@ class InvitationManagementTest extends TestCase
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('invitations', ['id' => $invitation->id]);
+    }
+
+    public function test_deleted_invitations_can_be_recreated()
+    {
+        Notification::fake();
+        $user = $this->actingAs(factory(User::class)->states('org-admin')->create());
+        $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
+        $invitation->delete();
+
+        $response = $this->postJson(route('invitations.store'), [
+            'email' => 'grace@example.com'
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('invitations', [
+            'organization_id' => $user->organization_id,
+            'email' => 'grace@example.com',
+        ]);
+        $this->assertEquals(1, Invitation::where('email', 'grace@example.com')->count());
+        Notification::assertSentTo(
+            new AnonymousNotifiable,
+            InvitationSent::class,
+            function ($notification, $channels, $notifiable) {
+                return $notifiable->routes['mail'] == 'grace@example.com';
+            }
+        );
     }
 
     public function test_an_invitation_cannot_be_created_afresh_once_revoked()
