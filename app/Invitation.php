@@ -4,6 +4,7 @@ namespace App;
 
 use App\User;
 use App\Model;
+use Illuminate\Support\Carbon;
 
 class Invitation extends Model
 {
@@ -23,5 +24,11 @@ class Invitation extends Model
     public function revoker()
     {
         return $this->belongsTo(User::class, 'revoked_by');
+    }
+
+    public function complete()
+    {
+        $this->completed_at = Carbon::now();
+        $this->save();
     }
 }

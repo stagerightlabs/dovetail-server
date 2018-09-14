@@ -21,20 +21,29 @@ class Redeem extends Controller
      */
     public function __invoke(InvitationRedemption $request, $code)
     {
+        // Fetch the invitation
         $invitation = Invitation::whereNull('revoked_at')
             ->whereNull('completed_at')
             ->findOrFail(hashid($code, 'invitation'));
 
+        // Create the new user
         $user = User::create([
             'name' => $request->get('name'),
-            'email' => $request->get('email'),
+            'email' => $invitation->email,
             'password' => Hash::make($request->get('password')),
             'access_level' => AccessLevel::$ORGANIZATION_MEMBER,
             'organization_id' => $invitation->organization->id
         ]);
 
+        // Send a welcome message
         event(new Registered($user));
 
-        return response()->authorization($request);
+        // Mark the invitation as complete
+        $invitation->complete();
+
+        // Return a new auth token
+        return response()->authorization(
+            $request->merge(['email' => $invitation->email])
+        );
     }
 }
