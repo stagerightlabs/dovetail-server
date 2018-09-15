@@ -17,7 +17,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_it_returns_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = $this->actingAs(factory(User::class)->states('org-admin')->create());
         $invitationA = factory(Invitation::class)->create([
             'organization_id' => $user->organization_id,
             'email' => 'grace@example.com'
@@ -42,10 +42,7 @@ class InvitationManagementTest extends TestCase
     public function test_it_does_not_show_invitations_to_org_members()
     {
         $organization = factory(Organization::class)->create();
-        $userA = factory(User::class)->create([
-            'organization_id' => $organization->id
-        ]);
-        $userB = $this->actingAs(factory(User::class)->states('org-member')->create([
+        $this->actingAs(factory(User::class)->states('org-member')->create([
             'organization_id' => $organization->id
         ]));
         $invitationA = factory(Invitation::class)->create([
@@ -64,14 +61,14 @@ class InvitationManagementTest extends TestCase
 
     public function test_it_does_not_show_invitations_to_non_org_users()
     {
-        $userA = factory(User::class)->create();
-        $userB = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->create();
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
         $invitationA = factory(Invitation::class)->create([
-            'organization_id' => $userA->organization_id,
+            'organization_id' => $user->organization_id,
             'email' => 'grace@example.com'
         ]);
         $invitationB = factory(Invitation::class)->create([
-            'organization_id' => $userA->organization_id,
+            'organization_id' => $user->organization_id,
             'email' => 'hopper@example.com'
         ]);
 
@@ -84,7 +81,8 @@ class InvitationManagementTest extends TestCase
     public function test_it_creates_new_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->states('org-admin')->create();
+        $this->actingAs($user);
 
         $response = $this->postJson(route('invitations.store'), [
             'email' => 'grace@example.com'
@@ -107,7 +105,7 @@ class InvitationManagementTest extends TestCase
     public function test_it_does_not_create_duplicate_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.store'), [
@@ -122,7 +120,7 @@ class InvitationManagementTest extends TestCase
     public function test_only_org_admins_can_create_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
+        $this->actingAs(factory(User::class)->states('org-member')->create());
 
         $response = $this->postJson(route('invitations.store'), [
             'email' => 'grace@example.com'
@@ -135,7 +133,7 @@ class InvitationManagementTest extends TestCase
     public function test_invitations_can_be_resent()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.resend', $invitation->hashid));
@@ -153,7 +151,7 @@ class InvitationManagementTest extends TestCase
     public function test_only_org_admins_can_resend_invitations()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
+        $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.resend', $invitation->hashid));
@@ -165,7 +163,7 @@ class InvitationManagementTest extends TestCase
     public function test_non_existent_invitations_cannot_be_resent()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
 
         $response = $this->postJson(route('invitations.resend', 'fakeid'));
 
@@ -175,7 +173,8 @@ class InvitationManagementTest extends TestCase
 
     public function test_invitations_can_be_revoked()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->states('org-admin')->create();
+        $this->actingAs($user);
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.revoke', $invitation->hashid));
@@ -187,7 +186,8 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_revoke_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
+        $user = factory(User::class)->states('org-member')->create();
+        $this->actingAs($user);
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.revoke', $invitation->hashid));
@@ -199,7 +199,8 @@ class InvitationManagementTest extends TestCase
 
     public function test_an_invitation_can_be_restored()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->states('org-admin')->create();
+        $this->actingAs($user);
         $invitation = factory(Invitation::class)->states('revoked')
             ->create(['revoked_by' => $user->id]);
 
@@ -212,7 +213,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_restore_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
+        $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->states('revoked')->create();
 
         $response = $this->deleteJson(route('invitations.restore', $invitation->hashid));
@@ -224,7 +225,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_invitations_can_be_deleted()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->deleteJson(route('invitations.destroy', $invitation->hashid));
@@ -235,7 +236,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_only_org_admins_can_destroy_invitations()
     {
-        $user = $this->actingAs(factory(User::class)->states('org-member')->create());
+        $this->actingAs(factory(User::class)->states('org-member')->create());
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->deleteJson(route('invitations.destroy', $invitation->hashid));
@@ -247,7 +248,8 @@ class InvitationManagementTest extends TestCase
     public function test_deleted_invitations_can_be_recreated()
     {
         Notification::fake();
-        $user = $this->actingAs(factory(User::class)->states('org-admin')->create());
+        $user = factory(User::class)->states('org-admin')->create();
+        $this->actingAs($user);
         $invitation = factory(Invitation::class)->create(['email' => 'grace@example.com']);
         $invitation->delete();
 
@@ -272,7 +274,8 @@ class InvitationManagementTest extends TestCase
 
     public function test_an_invitation_cannot_be_created_afresh_once_revoked()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->states('org-admin')->create();
+        $this->actingAs($user);
         $invitation = factory(Invitation::class)->states('revoked')
             ->create([
                 'revoked_by' => $user->id,
@@ -290,7 +293,7 @@ class InvitationManagementTest extends TestCase
 
     public function test_invitations_cannot_be_sent_to_existing_users()
     {
-        $admin = $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
         $user = factory(User::class)->create(['email' => 'grace@example.com']);
 
         $response = $this->postJson(route('invitations.store'), [
