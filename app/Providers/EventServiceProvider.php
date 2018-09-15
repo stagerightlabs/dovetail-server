@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\UserCreated;
+use App\Events\TeamDeletion;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\RemoveTeamMemberships;
 use App\Listeners\AssignDefaultUserPermissions;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserCreated::class => [
             AssignDefaultUserPermissions::class
+        ],
+        TeamDeletion::class => [
+            RemoveTeamMemberships::class
         ]
     ];
 

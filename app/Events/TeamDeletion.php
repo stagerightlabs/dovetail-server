@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Team;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,13 +16,20 @@ class TeamDeletion
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * The team being deleted
+     *
+     * @var Team
+     */
+    public $team;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Team $team)
     {
-        //
+        $this->team = $team;
     }
 
     /**

@@ -217,7 +217,6 @@ class TeamTest extends TestCase
 
     public function test_a_user_with_permission_can_delete_a_team()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $admin = factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id
@@ -230,7 +229,7 @@ class TeamTest extends TestCase
         ]);
         Event::fake();
 
-        $response = $this->deleteJson(route('teams.update', $team->hashid));
+        $response = $this->deleteJson(route('teams.delete', $team->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('teams', [
@@ -240,7 +239,52 @@ class TeamTest extends TestCase
         Event::assertDispatched(TeamDeletion::class);
     }
 
-    // public function test_teams_with_members_can_be_deleted()
-    // {
-    // }
+    public function test_a_user_without_permission_cannot_delete_a_team()
+    {
+        $organization = factory(Organization::class)->create();
+        $admin = factory(User::class)->states('org-member')->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($admin);
+        $this->assertFalse($admin->hasPermission('teams.delete'));
+        $team = factory(Team::class)->create([
+            'name' => 'Red Team',
+            'organization_id' => $organization->id
+        ]);
+        Event::fake();
+
+        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('teams', [
+            'name' => 'Red Team',
+            'organization_id' => $organization->id
+        ]);
+        Event::assertNotDispatched(TeamDeletion::class);
+    }
+
+    public function test_teams_with_members_can_be_deleted()
+    {
+        $this->withoutExceptionHandling();
+        $organization = factory(Organization::class)->create();
+        $admin = factory(User::class)->states('org-admin')->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($admin);
+        $team = factory(Team::class)->create([
+            'name' => 'Red Team',
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember(factory(User::class)->create([
+            'organization_id' => $organization->id,
+        ]));
+
+        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('teams', [
+            'name' => 'Red Team',
+            'organization_id' => $organization->id
+        ]);
+    }
 }
