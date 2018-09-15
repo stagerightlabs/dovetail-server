@@ -30,34 +30,34 @@ class UserPermissionsTest extends TestCase
     {
         $member = factory(User::class)->create();
 
-        $this->assertFalse($member->isAllowedTo('unknown.permission'));
+        $this->assertFalse($member->hasPermission('unknown.permission'));
     }
 
     public function test_a_user_can_be_granted_a_permission()
     {
         $member = factory(User::class)->create();
 
-        $this->assertFalse($member->isAllowedTo('foo.bar'));
+        $this->assertFalse($member->hasPermission('foo.bar'));
 
         $member->applyPermissions('foo.bar', true);
 
-        $this->assertTrue($member->isAllowedTo('foo.bar'));
+        $this->assertTrue($member->hasPermission('foo.bar'));
     }
 
     public function test_a_user_can_be_granted_bulk_permissions()
     {
         $member = factory(User::class)->create();
 
-        $this->assertFalse($member->isAllowedTo('foo'));
-        $this->assertFalse($member->isAllowedTo('bar'));
+        $this->assertFalse($member->hasPermission('foo'));
+        $this->assertFalse($member->hasPermission('bar'));
 
         $member->applyPermissions([
             'foo' => true,
             'bar' => true,
         ]);
 
-        $this->assertTrue($member->isAllowedTo('foo'));
-        $this->assertTrue($member->isAllowedTo('bar'));
+        $this->assertTrue($member->hasPermission('foo'));
+        $this->assertTrue($member->hasPermission('bar'));
     }
 
     public function test_permissions_are_persisted()
@@ -67,7 +67,7 @@ class UserPermissionsTest extends TestCase
         $member->applyPermissions('foo.bar', true);
         $member->save();
 
-        $this->assertTrue($member->fresh()->isAllowedTo('foo.bar'));
+        $this->assertTrue($member->fresh()->hasPermission('foo.bar'));
     }
 
     public function test_permissions_can_be_revoked()
@@ -79,13 +79,13 @@ class UserPermissionsTest extends TestCase
 
         $member = $member->fresh();
 
-        $this->assertTrue($member->isAllowedTo('foo.bar'));
+        $this->assertTrue($member->hasPermission('foo.bar'));
 
         $member->applyPermissions('foo.bar', false);
         $member->save();
 
         // dd($member->getOriginal('permission_flags'));
 
-        $this->assertFalse($member->fresh()->isAllowedTo('foo.bar'));
+        $this->assertFalse($member->fresh()->hasPermission('foo.bar'));
     }
 }

@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('require-permission', function ($user, $permission) {
-            return $user->isAllowedTo($permission);
+            return $user->hasPermission($permission);
         });
     }
 }

@@ -61,7 +61,7 @@ class TeamTest extends TestCase
         ]);
         $this->actingAs($admin);
 
-        $this->assertTrue($admin->isAllowedTo('teams.create'));
+        $this->assertTrue($admin->hasPermission('teams.create'));
 
         $response = $this->postJson(route('teams.store'), [
             'name' => 'Red Team'
@@ -78,7 +78,7 @@ class TeamTest extends TestCase
         ]);
         $this->actingAs($admin);
 
-        $this->assertFalse($admin->isAllowedTo('teams.create'));
+        $this->assertFalse($admin->hasPermission('teams.create'));
 
         $response = $this->postJson(route('teams.store'), [
             'name' => 'Red Team'
@@ -96,7 +96,7 @@ class TeamTest extends TestCase
         ]);
         $this->actingAs($admin);
 
-        $this->assertTrue($admin->isAllowedTo('teams.create'));
+        $this->assertTrue($admin->hasPermission('teams.create'));
 
         $response = $this->postJson(route('teams.store'), []);
 
@@ -170,7 +170,7 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $this->actingAs($admin);
-        $this->assertTrue($admin->isAllowedTo('teams.update'));
+        $this->assertTrue($admin->hasPermission('teams.update'));
         $team = factory(Team::class)->create([
             'name' => 'Red Team',
             'organization_id' => $organization->id
@@ -198,7 +198,7 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $this->actingAs($member);
-        $this->assertFalse($member->isAllowedTo('teams.update'));
+        $this->assertFalse($member->hasPermission('teams.update'));
         $team = factory(Team::class)->create([
             'name' => 'Red Team',
             'organization_id' => $organization->id
@@ -223,7 +223,7 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $this->actingAs($admin);
-        $this->assertTrue($admin->isAllowedTo('teams.delete'));
+        $this->assertTrue($admin->hasPermission('teams.delete'));
         $team = factory(Team::class)->create([
             'name' => 'Red Team',
             'organization_id' => $organization->id

@@ -2,7 +2,6 @@
 
 ### Reminders:
 
-+ :black_square_button: Change `isAllowedTo()` to `hasPermission()`
 + :black_square_button: Create organization summary resource
 + :black_square_button: Document ENV variables
 + :black_square_button: Look at switching "POST" to "PUT"
@@ -16,6 +15,7 @@
 
 ### Completed
 
++ :heavy_check_mark: Change `isAllowedTo()` to `hasPermission()`
 + :heavy_check_mark: Teams
 + :heavy_check_mark: Console tool for super admin account creation
 + :heavy_check_mark: Categories

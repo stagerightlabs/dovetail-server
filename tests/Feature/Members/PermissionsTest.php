@@ -107,7 +107,7 @@ class PermissionsTest extends TestCase
             'organization_id' => $organization->id,
             'email' => 'grace@example.com'
         ]);
-        $this->assertFalse($member->isAllowedTo('notebooks.create'));
+        $this->assertFalse($member->hasPermission('notebooks.create'));
 
         $response = $this->postJson(route('permissions.update', $member->hashid), [
             'permissions' => ['notebooks.create' => true]
@@ -117,7 +117,7 @@ class PermissionsTest extends TestCase
         $response->assertJsonStructure([
             'data' => array_keys(User::$defaultPermissions)
         ]);
-        $this->assertTrue($member->fresh()->isAllowedTo('notebooks.create'));
+        $this->assertTrue($member->fresh()->hasPermission('notebooks.create'));
     }
 
     public function test_an_admin_can_cannot_write_arbitrary_member_permissions()
@@ -130,14 +130,14 @@ class PermissionsTest extends TestCase
             'organization_id' => $organization->id,
             'email' => 'grace@example.com'
         ]);
-        $this->assertFalse($member->isAllowedTo('foo'));
+        $this->assertFalse($member->hasPermission('foo'));
 
         $response = $this->postJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 
         $response->assertStatus(200);
-        $this->assertFalse($member->fresh()->isAllowedTo('foo'));
+        $this->assertFalse($member->fresh()->hasPermission('foo'));
     }
 
     public function test_a_member_cannot_update_another_members_permissions()
@@ -150,14 +150,14 @@ class PermissionsTest extends TestCase
             'organization_id' => $organization->id,
             'email' => 'grace@example.com'
         ]);
-        $this->assertFalse($member->isAllowedTo('foo'));
+        $this->assertFalse($member->hasPermission('foo'));
 
         $response = $this->postJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 
         $response->assertStatus(403);
-        $this->assertFalse($member->isAllowedTo('foo'));
+        $this->assertFalse($member->hasPermission('foo'));
     }
 
     public function test_a_member_cannot_update_their_own_permissions()
@@ -170,13 +170,13 @@ class PermissionsTest extends TestCase
 
         $this->actingAs($member);
 
-        $this->assertFalse($member->isAllowedTo('foo'));
+        $this->assertFalse($member->hasPermission('foo'));
 
         $response = $this->postJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 
         $response->assertStatus(403);
-        $this->assertFalse($member->isAllowedTo('foo'));
+        $this->assertFalse($member->hasPermission('foo'));
     }
 }

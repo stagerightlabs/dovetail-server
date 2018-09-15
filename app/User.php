@@ -175,7 +175,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param string $check
      * @return boolean
      */
-    public function isAllowedTo($check)
+    public function hasPermission($check)
     {
         return $this->permissions->get($check, false);
     }
