@@ -14,9 +14,16 @@ class UserPermissionsTest extends TestCase
 
     public function test_users_have_default_permissions()
     {
-        $member = factory(User::class)->create();
+        $member = factory(User::class)->states('org-member')->create();
 
         $this->assertEquals($member->permissions->toArray(), User::$defaultPermissions);
+    }
+
+    public function test_new_admins_are_assigned_default_admin_permissions()
+    {
+        $member = factory(User::class)->states('org-admin')->create();
+
+        $this->assertEquals($member->permissions->toArray(), User::$defaultAdminPermissions);
     }
 
     public function test_unknown_permissions_return_false()

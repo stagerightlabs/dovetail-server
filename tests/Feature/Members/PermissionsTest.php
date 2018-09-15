@@ -103,7 +103,7 @@ class PermissionsTest extends TestCase
         $this->actingAs(factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id
         ]));
-        $member = factory(User::class)->create([
+        $member = factory(User::class)->states('org-member')->create([
             'organization_id' => $organization->id,
             'email' => 'grace@example.com'
         ]);

@@ -4,6 +4,7 @@ namespace App;
 
 use App\AccessLevel;
 use App\Organization;
+use App\Events\UserCreated;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -53,6 +54,15 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'permission_flags' => 'array'
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class
     ];
 
     /**
@@ -137,9 +147,26 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     public static $defaultPermissions = [
+        'teams.create' => false,
+        'teams.update' => false,
+        'teams.delete' => false,
         'notebooks.create' => false,
         'notebooks.update' => false,
         'notebooks.delete' => false
+    ];
+
+    /**
+     * The default permission set assigned to new administrators
+     *
+     * @var array
+     */
+    public static $defaultAdminPermissions = [
+        'teams.create' => true,
+        'teams.update' => true,
+        'teams.delete' => true,
+        'notebooks.create' => true,
+        'notebooks.update' => true,
+        'notebooks.delete' => true
     ];
 
     /**
@@ -173,5 +200,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $existing = $this->permission_flags ?? [];
 
         $this->permission_flags = array_merge($existing, $permission);
+    }
+
+    /**
+     * Assign a set of permissions to this user based on their access level
+     *
+     * @return self
+     */
+    public function assignAccessLevelPermissions()
+    {
+        if ($this->access_level >= AccessLevel::$ORGANIZATION_ADMIN) {
+            $this->applyPermissions(self::$defaultAdminPermissions);
+        }
+
+        return $this;
     }
 }
