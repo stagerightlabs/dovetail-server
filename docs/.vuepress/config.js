@@ -1,5 +1,5 @@
 module.exports = {
-    title: '🚀 LIMS API',
+    title: 'LIMS API',
     description: 'Endpoint Documentation',
     head: [
         ['link', { rel: 'icon', href: '/favicon.png' }]
@@ -21,7 +21,8 @@ module.exports = {
                 title: 'Definitions',
                 children: [
                     '/permissions',
-                    '/settings'
+                    '/settings',
+                    '/models'
                 ]
             },
             {
@@ -32,7 +33,12 @@ module.exports = {
                     '/session',
                     '/passwords',
                     '/verification',
-                    '/user',
+                ]
+            },
+            {
+                title: 'User Profile',
+                children: [
+                    ['/user-profile', 'Manage'],
                 ]
             },
             {
@@ -41,7 +47,8 @@ module.exports = {
                     ['/organization', 'Summary'],
                     '/invitations',
                     '/members',
-                    '/categories'
+                    '/categories',
+                    '/teams'
                 ]
             }
         ],

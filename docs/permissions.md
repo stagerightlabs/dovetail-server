@@ -4,6 +4,9 @@ Access levels are used internally to determine actions that can be performed by 
 
 | Permission Key     | Default | Description                                    |
 | :----------------- |:--------|:-----------------------------------------------|
+| `teams.create`     | false   | This user can create teams                     |
+| `teams.update`     | false   | This user can update teams                     |
+| `teams.delete`     | false   | This user can remove teams                     |
 | `notebooks.create` | false   | This user can create notebooks                 |
 | `notebooks.update` | false   | This user can update notebooks                 |
 | `notebooks.delete` | false   | This user can remove notebooks                 |

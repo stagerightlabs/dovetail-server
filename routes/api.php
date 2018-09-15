@@ -84,4 +84,11 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::get('/categories/{hashid}', 'CategoryController@show')->name('categories.show');
     Route::put('/categories/{hashid}', 'CategoryController@update')->name('categories.update');
     Route::delete('/categories/{hashid}', 'CategoryController@delete')->name('categories.delete');
+
+    // Teams
+    Route::get('/teams', 'TeamController@index')->name('teams.index');
+    Route::post('/teams', 'TeamController@store')->name('teams.store');
+    Route::get('/teams/{hashid}', 'TeamController@show')->name('teams.show');
+    Route::put('/teams/{hashid}', 'TeamController@update')->name('teams.update');
+    Route::delete('/teams/{hashid}', 'TeamController@delete')->name('teams.delete');
 });

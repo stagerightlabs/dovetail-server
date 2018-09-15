@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Team;
 use App\User;
 use App\Model;
 use App\Category;
@@ -38,6 +39,11 @@ class Organization extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
     }
 
     /**************************************************************************
