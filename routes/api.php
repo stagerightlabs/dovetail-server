@@ -91,4 +91,8 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::get('/teams/{hashid}', 'TeamController@show')->name('teams.show');
     Route::put('/teams/{hashid}', 'TeamController@update')->name('teams.update');
     Route::delete('/teams/{hashid}', 'TeamController@delete')->name('teams.delete');
+
+    // Team Membership
+    Route::post('teams/{team}/members', 'TeamMembershipController@store')->name('teams.memberships.store');
+    Route::delete('teams/{team}/members/{member}', 'TeamMembershipController@delete')->name('teams.memberships.delete');
 });

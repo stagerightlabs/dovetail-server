@@ -149,6 +149,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static $defaultPermissions = [
         'teams.create' => false,
         'teams.update' => false,
+        'teams.membership' => false,
         'teams.delete' => false,
         'notebooks.create' => false,
         'notebooks.update' => false,
@@ -163,6 +164,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static $defaultAdminPermissions = [
         'teams.create' => true,
         'teams.update' => true,
+        'teams.membership' => true,
         'teams.delete' => true,
         'notebooks.create' => true,
         'notebooks.update' => true,

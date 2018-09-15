@@ -6,6 +6,7 @@ Access levels are used internally to determine actions that can be performed by 
 | :----------------- |:--------|:-----------------------------------------------|
 | `teams.create`     | false   | This user can create teams                     |
 | `teams.update`     | false   | This user can update teams                     |
+| `teams.membership` | false   | This user can manage their team's memberships  |
 | `teams.delete`     | false   | This user can remove teams                     |
 | `notebooks.create` | false   | This user can create notebooks                 |
 | `notebooks.update` | false   | This user can update notebooks                 |

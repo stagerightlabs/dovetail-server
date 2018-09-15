@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TeamResource;
@@ -49,9 +48,9 @@ class TeamController extends Controller
      */
     public function show($hashid)
     {
-        $team = Team::findOrFail(hashid($hashid));
-
-        return new TeamResource($team);
+        return new TeamResource(
+            request()->organization->teams()->findOrFail(hashid($hashid))
+        );
     }
 
     /**
@@ -64,7 +63,7 @@ class TeamController extends Controller
     {
         $this->requirePermission('teams.update');
 
-        $team = Team::findOrFail(hashid($hashid));
+        $team = request()->organization->teams()->findOrFail(hashid($hashid));
 
         request()->validate([
             'name' => "required|iunique:teams,name,{$team->id},id,organization_id," . request()->organization()->id,
@@ -86,7 +85,7 @@ class TeamController extends Controller
     {
         $this->requirePermission('teams.delete');
 
-        $team = Team::findOrFail(hashid($hashid));
+        $team = request()->organization->teams()->findOrFail(hashid($hashid));
 
         $team->delete();
 

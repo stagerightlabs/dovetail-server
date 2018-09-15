@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Teams;
 
 use App\Team;
 use App\User;
@@ -238,5 +238,9 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         Event::assertDispatched(TeamDeletion::class);
+    }
+
+    public function test_teams_with_members_can_be_deleted()
+    {
     }
 }
