@@ -6,6 +6,9 @@ use App\Team;
 use App\User;
 use Tests\TestCase;
 use App\Organization;
+use App\Events\TeamMemberAdded;
+use App\Events\TeamMemberRemoved;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -27,8 +30,8 @@ class TeamMembershipTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $team->addMember($user);
-
         $this->assertTrue($user->hasPermission('teams.membership'));
+        Event::fake();
 
         $response = $this->postJson(route('teams.memberships.store', $team->hashid), [
             'member' => $member->hashid
@@ -40,9 +43,10 @@ class TeamMembershipTest extends TestCase
             'user_id' => $member->id
         ]);
         $this->assertTrue($team->hasMember($member));
+        Event::assertDispatched(TeamMemberAdded::class);
     }
 
-    public function test_unqualified_cannot_add_members_to_teams()
+    public function test_unqualified_users_cannot_add_members_to_teams()
     {
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->states('org-member')->create([
@@ -110,6 +114,7 @@ class TeamMembershipTest extends TestCase
         ]);
         $team->addMember($user);
         $this->assertTrue($user->hasPermission('teams.membership'));
+        Event::fake();
 
         $response = $this->deleteJson(route('teams.memberships.delete', [$team->hashid, $member->hashid]));
 
@@ -118,6 +123,7 @@ class TeamMembershipTest extends TestCase
             'team_id' => $team->id,
             'user_id' => $member->id
         ]);
+        Event::assertDispatched(TeamMemberRemoved::class);
     }
 
     public function test_unqualified_cannot_remove_members_from_teams()

@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Team;
+use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,13 +17,28 @@ class TeamMemberRemoved
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * The team being managed
+     *
+     * @var Team
+     */
+    public $team;
+
+    /**
+     * The user being removed
+     *
+     * @var User
+     */
+    public $user;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Team $team, User $user)
     {
-        //
+        $this->team = $team;
+        $this->user = $user;
     }
 
     /**

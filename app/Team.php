@@ -5,6 +5,8 @@ namespace App;
 use App\User;
 use App\Model;
 use App\Events\TeamDeletion;
+use App\Events\TeamMemberAdded;
+use App\Events\TeamMemberRemoved;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
@@ -45,6 +47,8 @@ class Team extends Model
     {
         $this->members()->attach($member);
 
+        TeamMemberAdded::dispatch($this, $member);
+
         return $this;
     }
 
@@ -57,6 +61,8 @@ class Team extends Model
     public function removeMember($member)
     {
         $this->members()->detach($member);
+
+        TeamMemberRemoved::dispatch($this, $member);
 
         return $this;
     }

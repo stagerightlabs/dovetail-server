@@ -57,7 +57,7 @@ class TeamMembershipController extends Controller
             throw new AuthorizationException("You cannot add yourself to a team.");
         }
 
-        $team->members()->detach($member);
+        $team->removeMember($member);
 
         return response()->json([], 204);
     }
