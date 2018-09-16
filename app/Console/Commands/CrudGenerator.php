@@ -38,13 +38,16 @@ class CrudGenerator extends GeneratorCommand
         // Make a Controller
         $this->createController();
 
-        // 4. Make a Resource
+        // Make a Resource
         $this->createResource();
 
-        // 5. Make a Test
+        // Make a Test
         $this->createTest();
 
-        // 6. Output the routes
+        // Make a Factory
+        $this->createFactory();
+
+        // Output the routes
         $this->printRoutes();
     }
 
@@ -157,6 +160,19 @@ class CrudGenerator extends GeneratorCommand
     {
         $this->call('make:resource', [
             'name' => $this->singular() . "Resource",
+        ]);
+    }
+
+    /**
+     * Create a test fixture factory for this resource
+     *
+     * @return void
+     */
+    public function createFactory()
+    {
+        $this->call('make:factory', [
+            'name' => $this->singular() . 'Factory',
+            '--model' => $this->singular(),
         ]);
     }
 
