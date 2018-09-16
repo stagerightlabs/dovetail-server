@@ -26,7 +26,8 @@ class ProfileTest extends TestCase
                 'email' => $user->email,
                 'email_verified_at' => $user->email_verified_at->toAtomString(),
                 'phone' => $user->phone,
-                'phone_verified_at' => $user->phone_verified_at->toAtomString()
+                'phone_verified_at' => $user->phone_verified_at->toAtomString(),
+                'teams' => []
             ]
         ]);
     }
@@ -53,7 +54,8 @@ class ProfileTest extends TestCase
                 'email' => 'hopper@example.com',
                 'email_verified_at' => null,
                 'phone' => '(987) 654-3210',
-                'phone_verified_at' => null
+                'phone_verified_at' => null,
+                'teams' => []
             ]
         ]);
         $this->assertDatabaseHas('users', [
