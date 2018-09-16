@@ -2,10 +2,11 @@
 
 namespace DummyNamespace;
 
+use App\DummyModelClass;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use DummyRootNamespaceHttp\Controllers\Controller;
 use App\Http\Resources\DummyModelClassResource;
+use DummyRootNamespaceHttp\Controllers\Controller;
 
 class DummyClass extends Controller
 {
