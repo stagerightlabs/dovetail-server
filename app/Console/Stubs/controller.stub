@@ -1,0 +1,85 @@
+
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use App\Http\Resources\DummyModelClassResource;
+
+class DummyClass extends Controller
+{
+    /**
+     * Fetch a list of available DummyModelVariablePlural
+     *
+     * @return JsonResponse
+     */
+    public function index()
+    {
+        return DummyModelClassResource::collection(request()->organization()->DummyModelVariablePlural);
+    }
+
+    /**
+     * Store a new DummyModelVariable
+     *
+     * @return JsonResponse
+     */
+    public function store()
+    {
+        // request()->validate([
+        //
+        // ]);
+
+        $DummyModelVariable = DummyModelClass::create([]);
+
+        return new DummyModelClassResource($DummyModelVariable);
+    }
+
+    /**
+     * Return a single DummyModelVariable
+     *
+     * @param string $hashid
+     * @return JsonResponse
+     */
+    public function show($hashid)
+    {
+        return new DummyModelClassResource(
+            request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid))
+        );
+    }
+
+    /**
+     * Update a DummyModelVariable
+     *
+     * @param string $hashid
+     * @return JsonResponse
+     */
+    public function update($hashid)
+    {
+        $DummyModelVariable = request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid));
+
+        // request()->validate([
+        //
+        // ]);
+
+        // Make updates here...
+
+        return new DummyModelClassResource($DummyModelVariable);
+    }
+
+    /**
+     * Remove a DummyModelVariable from storage.
+     *
+     * @param string $hashid
+     * @return JsonResponse
+     */
+    public function delete($hashid)
+    {
+        $DummyModelVariable = request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid));
+
+        $DummyModelVariable->delete();
+
+        return response()->json([], 204);
+    }
+}

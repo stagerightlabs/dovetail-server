@@ -1,0 +1,112 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\DummyModelClass;
+use Tests\TestCase;
+use App\Organization;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class DummyModelClassTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_it_returns_all_DummyModelVariablePlural()
+    {
+        $organization = factory(Organization::class)->create();
+        $this->actingAs(factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]));
+        $DummyModelVariablePlural = factory(DummyModelClass::class, 3)->create([
+            'organization_id' => $organization->id
+        ]);
+
+        $response = $this->getJson(route('DummyModelVariablePlural.index'));
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'hashid' => hashid($DummyModelVariablePlural->first()->id),
+            'name' => $DummyModelVariablePlural->first()->name
+        ]);
+    }
+
+    public function test_it_stores_a_DummyModelVariable()
+    {
+        $organization = factory(Organization::class)->create();
+        $this->actingAs(factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]));
+
+        $response = $this->postJson(route('DummyModelVariablePlural.store'), [
+            //
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('DummyModelVariablePlural', [
+            //
+        ]);
+    }
+
+    public function test_it_returns_a_single_DummyModelVariable()
+    {
+        $organization = factory(Organization::class)->create();
+        $this->actingAs(factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]));
+        $DummyModelVariable = factory(DummyModelClass::class)->create([
+            'organization_id' => $organization->id
+        ]);
+
+        $response = $this->getJson(route('DummyModelVariablePlural.show', $DummyModelVariable->hashid));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_it_does_not_return_DummyModelVariablePlural_that_do_not_exist()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $response = $this->getJson(route('DummyModelVariablePlural.show', 'NOTREAL'));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_it_updates_a_DummyModelVariable()
+    {
+        $organization = factory(Organization::class)->create();
+        $this->actingAs(factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]));
+        $DummyModelVariable = factory(DummyModelClass::class)->create([
+            'organization_id' => $organization->id
+        ]);
+
+        $response = $this->putJson(route('DummyModelVariablePlural.update', $DummyModelVariable->hashid), [
+            //
+        ]);
+
+        $response->assertStatus(200);
+    }
+
+    public function test_it_deletes_a_DummyModelVariable()
+    {
+        Event::fake();
+        $organization = factory(Organization::class)->create();
+        $this->actingAs(factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]));
+        $DummyModelVariable = factory(DummyModelClass::class)->create([
+            'organization_id' => $organization->id
+        ]);
+
+        $response = $this->deleteJson(route('DummyModelVariablePlural.delete', $DummyModelVariable->hashid));
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('DummyModelVariablePlural', [
+            'organization_id' => $organization->id
+        ]);
+        Event::assertDispatched(DummyModelClassDeletion::class);
+    }
+}

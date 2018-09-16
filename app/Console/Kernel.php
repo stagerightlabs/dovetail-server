@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CreateSuperAdmin;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\CrudGenerator;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        CrudGenerator::class,
         CreateSuperAdmin::class,
     ];
 
