@@ -20,6 +20,7 @@ class ProfileResource extends JsonResource
             'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->toAtomString() : null,
             'phone' => $this->phone,
             'phone_verified_at' => $this->phone_verified_at ? $this->phone_verified_at->toAtomString() : null,
+            'teams' => TeamResource::collection($this->teams)
         ];
     }
 }

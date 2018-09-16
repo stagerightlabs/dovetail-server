@@ -17,6 +17,13 @@
         "email_verified_at": "2018-09-10T23:09:31+00:00",
         "phone": "907.748.2258 x7660",
         "phone_verified_at": "2018-09-10T23:09:31+00:00",
+        "teams": [
+            {
+                "hashid": "wy5dn36",
+                "name": "Red Team"
+            },
+            // ..
+        ]
     }
 }
 ```

@@ -73,7 +73,7 @@ Users must have permission to perform this action.
 
 + Parameters
 
-    + `hashid`: The category's database hashid
+    + `hashid`: The team's database hashid
 
 + Response 200 (application/json)
 
@@ -81,7 +81,17 @@ Users must have permission to perform this action.
 {
     "data": {
         "hashid": "wy5dn36",
-        "name": "Red Team"
+        "name": "Red Team",
+        "members": [
+            {
+                "hashid": "wy5dn36",
+                "name": "Grace Hopper",
+                "email": "hopper@example.com",
+                "rank": "Admin",
+                "title": "Technologist Level III",
+            },
+            // ..
+        ]
     }
 }
 ```
@@ -97,7 +107,7 @@ Users must have permission to perform this action.
 
 + Parameters
 
-    + `hashid`: The category's database hashid
+    + `hashid`: The team's database hashid
 
 + Form Data
 
@@ -123,9 +133,52 @@ Users must have permission to perform this action.
 
 + Parameters
 
-    + `hashid`: The category's database hashid
+    + `hashid`: The team's database hashid
 
 + Response 200 (application/json)
+
+```json
+
+```
+
+### Add Team Member [POST /teams/{hashid}/members]
+
+Users must have membership granting permission to add members to teams.
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The team's database hashid
+
++ Form Data
+
+    + `member`:  The new member's hashid
+
++ Response 201 (application/json)
+
+```json
+
+```
+
+### Remove Team Member [DELETE /teams/{team}/members/{member}]
+
+Users must have membership granting permissions to remove members from teams.
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `team`: The team's database hashid
+    + `member`: The hashid of the user to be removed
+
++ Response 204 (application/json)
 
 ```json
 

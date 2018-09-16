@@ -50,7 +50,7 @@ class TeamController extends Controller
     public function show($hashid)
     {
         return new TeamResource(
-            request()->organization->teams()->findOrFail(hashid($hashid))
+            request()->organization->teams()->with('members')->findOrFail(hashid($hashid))
         );
     }
 
@@ -64,7 +64,7 @@ class TeamController extends Controller
     {
         $this->requirePermission('teams.update');
 
-        $team = request()->organization->teams()->findOrFail(hashid($hashid));
+        $team = request()->organization->teams()->with('members')->findOrFail(hashid($hashid));
 
         request()->validate([
             'name' => "required|iunique:teams,name,{$team->id},id,organization_id," . request()->organization()->id,

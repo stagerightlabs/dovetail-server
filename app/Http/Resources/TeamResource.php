@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\AccessLevel;
 
 class TeamResource extends JsonResource
 {
@@ -16,7 +17,8 @@ class TeamResource extends JsonResource
     {
         return [
             'hashid' => $this->hashid,
-            'name' => $this->name
+            'name' => $this->name,
+            'members' => MemberResource::collection($this->members)
         ];
     }
 }

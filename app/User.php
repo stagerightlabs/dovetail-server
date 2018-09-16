@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Team;
 use App\AccessLevel;
 use App\Organization;
 use App\Events\UserCreated;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -125,9 +127,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return hashid($this->id);
     }
 
-    /**************************************************************************
-     * Permissions
-     **************************************************************************/
+    /**
+     * Fetch this user's teams
+     *
+     * @return BelongsToMany
+     */
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class);
+    }
 
     /**
      * Return the user's permissions as a collection
