@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\LogoCreated;
 use App\Events\UserCreated;
+use App\Events\LogoDeletion;
 use App\Events\TeamDeletion;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\RemoveTeamMemberships;
+use App\Listeners\ScheduleLogoProcessing;
+use App\Listeners\RemoveLogoFilesFromStorage;
 use App\Listeners\AssignDefaultUserPermissions;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         TeamDeletion::class => [
             RemoveTeamMemberships::class
+        ],
+        LogoCreated::class => [
+            ScheduleLogoProcessing::class
+        ],
+        LogoDeletion::class => [
+            RemoveLogoFilesFromStorage::class
         ]
     ];
 

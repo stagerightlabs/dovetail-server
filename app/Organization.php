@@ -8,10 +8,17 @@ use App\Model;
 use App\Category;
 use App\Invitation;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Organization extends Model
 {
-    protected $fillable = ['name'];
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -22,33 +29,57 @@ class Organization extends Model
         'configuration' => 'array',
     ];
 
-    /**************************************************************************
-     * Relationships
-     **************************************************************************/
-
+    /**
+     * The users that belong to this organization
+     *
+     * @return HasMany
+     */
     public function users()
     {
         return $this->hasMany(User::class);
     }
 
+    /**
+     * The invitations created for this organization
+     *
+     * @return HasMany
+     */
     public function invitations()
     {
         return $this->hasMany(Invitation::class);
     }
 
+    /**
+     * The categories that this organization is tracking
+     *
+     * @return HasMany
+     */
     public function categories()
     {
         return $this->hasMany(Category::class);
     }
 
+    /**
+     * The teams that belong to this organization
+     *
+     * @return HasMany
+     */
     public function teams()
     {
         return $this->hasMany(Team::class);
     }
 
-    /**************************************************************************
-     * Configuration / Settings
-     **************************************************************************/
+    /**
+     * This organization's logo
+     *
+     * @return MorphOne
+     */
+    public function logo()
+    {
+        return $this->morphOne(Logo::class, 'owner')->withDefault([
+            'url_original' => ''
+        ]);
+    }
 
     /**
      * Return the user's permissions as a collection

@@ -78,6 +78,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::post('organization/settings', 'SettingsController@update')->name('settings.update');
     });
 
+    // Logos
+    Route::post('/logos', 'LogoController@store')->name('logos.store');
+    Route::delete('/logos/{hashid}', 'LogoController@delete')->name('logos.delete');
+
     // Categories
     Route::get('/categories', 'CategoryController@index')->name('categories.index');
     Route::post('/categories', 'CategoryController@store')->name('categories.store');

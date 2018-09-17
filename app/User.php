@@ -78,6 +78,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * This user's avatar
+     *
+     * @return MorphOne
+     */
+    public function avatar()
+    {
+        return $this->morphOne(Logo::class, 'owner')->withDefault([
+            'url_original' => ''
+        ]);
+    }
+
+    /**
      * Scope a query to members of a given organization.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

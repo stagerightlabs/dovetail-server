@@ -17,7 +17,6 @@ class CreateOrganizationsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->string('logo_url')->nullable();
             $table->string('stripe_id')->nullable();
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();

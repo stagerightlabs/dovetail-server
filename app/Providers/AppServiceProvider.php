@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacros();
 
         $this->registerValidationRules();
+
+        $this->registerMorphMap();
     }
 
     /**
@@ -115,5 +118,13 @@ class AppServiceProvider extends ServiceProvider
             // Run the query to confirm validation status
             return ! $query->whereRaw("lower({$column}) = lower(?)", [$value])->exists();
         });
+    }
+
+    public function registerMorphMap()
+    {
+        Relation::morphMap([
+            'user' => 'App\User',
+            'organization' => 'App\Organization',
+        ]);
     }
 }
