@@ -10,12 +10,9 @@
 + :black_square_button: Create docker image
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
-+ :black_square_button: Convert 'fillable' to 'guarded' in all model classes
 
 ### Features:
 
-
-+ :black_square_button: Cashier Integration
 + :black_square_button: Notebooks
 + :black_square_button: Pages
 + :black_square_button: Comments
@@ -23,6 +20,8 @@
 
 ### Completed
 
++ :heavy_check_mark: Convert 'fillable' to 'guarded' in all model classes
++ :heavy_check_mark: Cashier Integration
 + :heavy_check_mark: Logos
 + :heavy_check_mark: Resize logo in creation event
 + :heavy_check_mark: Tests for Logo resizing job
