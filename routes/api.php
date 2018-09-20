@@ -99,4 +99,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     // Team Membership
     Route::post('teams/{team}/members', 'TeamMembershipController@store')->name('teams.memberships.store');
     Route::delete('teams/{team}/members/{member}', 'TeamMembershipController@delete')->name('teams.memberships.delete');
+
+    // Stripe Webhooks
+    Route::post(
+        'stripe/webhook',
+        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+    );
 });

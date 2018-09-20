@@ -10,6 +10,7 @@ class AccessLevel
     public static $SUPER_ADMIN = 1000;
     public static $ORGANIZATION_ADMIN = 800;
     public static $ORGANIZATION_MEMBER = 600;
+    public static $ORGANIZATION_READ_ONLY = 200;
 
     /**
      * Convert an access level into a representational string

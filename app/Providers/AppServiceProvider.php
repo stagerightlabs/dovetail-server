@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
+use App\Billing\PaymentGateway;
 use Illuminate\Support\Facades\DB;
+use App\Billing\StripePaymentGateway;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +44,13 @@ class AppServiceProvider extends ServiceProvider
         foreach (glob(app_path() . '/Helpers/*.php') as $fileName) {
             require_once($fileName);
         }
+
+        // Bind service classes
+        $this->app->bind(StripePaymentGateway::class, function () {
+            return new StripePaymentGateway;
+        });
+
+        $this->app->bind(PaymentGateway::class, StripePaymentGateway::class);
     }
 
     /**

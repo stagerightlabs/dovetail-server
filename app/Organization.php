@@ -7,6 +7,7 @@ use App\User;
 use App\Model;
 use App\Category;
 use App\Invitation;
+use Laravel\Cashier\Billable;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -28,6 +29,11 @@ class Organization extends Model
     protected $casts = [
         'configuration' => 'array',
     ];
+
+    /**
+     * Provide Cashier's billing model methods
+     */
+    use Billable;
 
     /**
      * The users that belong to this organization

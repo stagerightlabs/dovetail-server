@@ -3,26 +3,34 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\AccessLevel;
 use App\Organization;
 use Illuminate\Http\Request;
+use App\Billing\PaymentGateway;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\AccessLevel;
 
 class RegisterController extends Controller
 {
+    /**
+     * @var PaymentGateway
+     */
+    protected $billing;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PaymentGateway $billing)
     {
         $this->middleware('guest');
+
+        $this->billing = $billing;
     }
 
     /**
@@ -65,6 +73,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $organization = Organization::create(['name' => $data['organization']]);
+
+        $this->billing->subscribe($organization, $data['email'])
+            ->to('vip')
+            ->charge('tok_visa');
 
         return User::create([
             'name' => $data['name'],

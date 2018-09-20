@@ -5,6 +5,8 @@ namespace Tests\Feature\Authentication;
 use App\User;
 use Tests\TestCase;
 use Laravel\Passport\Client;
+use App\Billing\PaymentGateway;
+use App\Billing\FakePaymentGateway;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,9 +15,17 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->paymentGateway = new FakePaymentGateway;
+        $this->app->instance(PaymentGateway::class, $this->paymentGateway);
+    }
+
     public function test_a_user_can_register()
     {
         Notification::fake();
+        $this->withoutExceptionHandling();
         $client = factory(Client::class)->state('password')->create();
 
         $response = $this->postJson(route('register'), [
@@ -39,6 +49,8 @@ class RegistrationTest extends TestCase
             User::where('email', 'grace@example.com')->first(),
             VerifyEmail::class
         );
+
+        // dd(\DB::table('subscriptions')->get());
     }
 
     public function test_email_is_required()
