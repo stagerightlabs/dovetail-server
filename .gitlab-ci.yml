@@ -1,6 +1,6 @@
 # This file is a template, and might need editing before it works on your project.
 # Select image from https://hub.docker.com/_/php/
-image: php:7.2
+image: registry.gitlab.com/stage-right-labs/lims-api
 
 # Select what we should cache between builds
 cache:
@@ -8,24 +8,21 @@ cache:
   - vendor/
 
 before_script:
-- apt-get update -yqq
-- apt-get install -yqq git unzip libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev
-# Install PHP extensions
-- docker-php-ext-install mbstring pdo_pgsql curl json intl gd xml zip bz2 opcache bcmath
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
 - php composer.phar install
+# Set the default application environment variables
 - cp .env.example .env
 - php artisan key:generate
+# Run the migrations
 - php artisan migrate
+# Configure the OAuth service
 - php artisan passport:install
 
-# Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
-# See http://docs.gitlab.com/ce/ci/services/README.html for examples.
 services:
   - postgres:latest
 
-# Set any variables we need
+# Establish the necessary system environment variables
 variables:
   POSTGRES_DB: lims-testing
   POSTGRES_USER: runner
