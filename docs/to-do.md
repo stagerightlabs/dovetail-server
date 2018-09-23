@@ -2,12 +2,10 @@
 
 ### Reminders:
 
-
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Document ENV variables
 + :black_square_button: Look at switching "POST" to "PUT"
-+ :black_square_button: Create docker image
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
 
@@ -20,6 +18,7 @@
 
 ### Completed
 
++ :heavy_check_mark: Create docker image
 + :heavy_check_mark: Convert 'fillable' to 'guarded' in all model classes
 + :heavy_check_mark: Cashier Integration
 + :heavy_check_mark: Logos
