@@ -50,6 +50,12 @@ module.exports = {
                     '/categories',
                     '/teams'
                 ]
+            },
+            {
+                title: 'Notebooks',
+                children: [
+                    '/notebooks'
+                ]
             }
         ],
         displayAllHeaders: true, // Default: false

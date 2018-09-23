@@ -6,6 +6,7 @@ use App\Team;
 use App\User;
 use App\Model;
 use App\Category;
+use App\Notebook;
 use App\Invitation;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Collection;
@@ -63,6 +64,16 @@ class Organization extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * The categories that this organization is tracking
+     *
+     * @return HasMany
+     */
+    public function notebooks()
+    {
+        return $this->hasMany(Notebook::class);
     }
 
     /**

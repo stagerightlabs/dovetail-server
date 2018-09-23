@@ -100,6 +100,13 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::post('teams/{team}/members', 'TeamMembershipController@store')->name('teams.memberships.store');
     Route::delete('teams/{team}/members/{member}', 'TeamMembershipController@delete')->name('teams.memberships.delete');
 
+    // Notebooks
+    Route::get('/notebooks', 'NotebookController@index')->name('notebooks.index');
+    Route::post('/notebooks', 'NotebookController@store')->name('notebooks.store');
+    Route::get('/notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
+    Route::put('/notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
+    Route::delete('/notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
+
     // Stripe Webhooks
     Route::post(
         'stripe/webhook',

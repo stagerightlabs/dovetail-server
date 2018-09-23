@@ -45,7 +45,7 @@ class DummyClass extends Controller
     public function show($hashid)
     {
         return new DummyModelClassResource(
-            request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid))
+            request()->organization()->DummyModelVariablePlural()->findOrFail(hashid($hashid))
         );
     }
 
@@ -57,7 +57,7 @@ class DummyClass extends Controller
      */
     public function update($hashid)
     {
-        $DummyModelVariable = request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid));
+        $DummyModelVariable = request()->organization()->DummyModelVariablePlural()->findOrFail(hashid($hashid));
 
         // request()->validate([
         //
@@ -76,7 +76,7 @@ class DummyClass extends Controller
      */
     public function delete($hashid)
     {
-        $DummyModelVariable = request()->organization()->DummyModelVariablePlural->findOrFail(hashid($hashid));
+        $DummyModelVariable = request()->organization()->DummyModelVariablePlural()->findOrFail(hashid($hashid));
 
         $DummyModelVariable->delete();
 
