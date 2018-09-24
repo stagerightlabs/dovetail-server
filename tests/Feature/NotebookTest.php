@@ -35,12 +35,15 @@ class NotebookTest extends TestCase
         ]);
     }
 
-    public function test_it_stores_a_notebook()
+    public function test_users_with_permission_can_create_a_notebook()
     {
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $member = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $member->applyPermissions(['notebooks.create' => true]);
+        $member->save();
+        $this->actingAs($member);
 
         $response = $this->postJson(route('notebooks.store'), [
             'name' => 'A Test Notebook'
@@ -53,12 +56,33 @@ class NotebookTest extends TestCase
         ]);
     }
 
-    public function test_it_stores_a_notebook_with_a_category()
+    public function test_users_without_permission_cannot_create_notebooks()
     {
         $organization = factory(Organization::class)->create();
         $this->actingAs(factory(User::class)->create([
             'organization_id' => $organization->id
         ]));
+
+        $response = $this->postJson(route('notebooks.store'), [
+            'name' => 'A Test Notebook'
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('notebooks', [
+            'name' => 'A Test Notebook',
+            'organization_id' => $organization->id
+        ]);
+    }
+
+    public function test_it_stores_a_notebook_with_a_category()
+    {
+        $organization = factory(Organization::class)->create();
+        $member = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member->applyPermissions(['notebooks.create' => true]);
+        $member->save();
+        $this->actingAs($member);
         $category = factory(Category::class)->create();
 
         $response = $this->postJson(route('notebooks.store'), [
@@ -77,9 +101,12 @@ class NotebookTest extends TestCase
     public function test_notebooks_cannot_be_created_without_a_name()
     {
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $member = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $member->applyPermissions(['notebooks.create' => true]);
+        $member->save();
+        $this->actingAs($member);
 
         $response = $this->postJson(route('notebooks.store'), [
             //
@@ -119,11 +146,14 @@ class NotebookTest extends TestCase
 
     public function test_it_updates_a_notebook()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $member = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $member->applyPermissions(['notebooks.update' => true]);
+        $member->save();
+        $this->actingAs($member);
+
         $notebook = factory(Notebook::class)->create([
             'name' => 'This is a name',
             'organization_id' => $organization->id
@@ -147,7 +177,30 @@ class NotebookTest extends TestCase
         ]);
     }
 
-    public function test_it_deletes_a_notebook()
+    public function test_users_with_permission_can_delete_notebooks()
+    {
+        Event::fake();
+        $organization = factory(Organization::class)->create();
+        $member = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member->applyPermissions(['notebooks.delete' => true]);
+        $member->save();
+        $this->actingAs($member);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id
+        ]);
+
+        $response = $this->deleteJson(route('notebooks.delete', $notebook->hashid));
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('notebooks', [
+            'organization_id' => $organization->id
+        ]);
+        Event::assertDispatched(NotebookDeletion::class);
+    }
+
+    public function test_users_without_permission_cannot_delete_notebooks()
     {
         Event::fake();
         $organization = factory(Organization::class)->create();
@@ -160,10 +213,10 @@ class NotebookTest extends TestCase
 
         $response = $this->deleteJson(route('notebooks.delete', $notebook->hashid));
 
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('notebooks', [
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('notebooks', [
             'organization_id' => $organization->id
         ]);
-        Event::assertDispatched(NotebookDeletion::class);
+        Event::assertNotDispatched(NotebookDeletion::class);
     }
 }

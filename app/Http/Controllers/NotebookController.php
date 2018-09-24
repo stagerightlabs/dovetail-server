@@ -27,6 +27,8 @@ class NotebookController extends Controller
      */
     public function store()
     {
+        $this->requirePermission('notebooks.create');
+
         request()->validate([
             'name' => 'required'
         ]);
@@ -62,6 +64,8 @@ class NotebookController extends Controller
      */
     public function update($hashid)
     {
+        $this->requirePermission('notebooks.update');
+
         $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
 
         request()->validate([
@@ -85,6 +89,8 @@ class NotebookController extends Controller
      */
     public function delete($hashid)
     {
+        $this->requirePermission('notebooks.delete');
+
         $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
 
         $notebook->delete();
