@@ -36,10 +36,13 @@ class PageController extends Controller
 
         $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
 
+        $currentPageCount = $notebook->pages()->count();
+
         $page = Page::create([
             'notebook_id' => $notebook->id,
             'created_by' => auth()->user()->id,
-            'content' => app(HTMLPurifier::class)->purify(request('content', ''))
+            'content' => app(HTMLPurifier::class)->purify(request('content', '')),
+            'sort_order' => $currentPageCount
         ]);
 
         return new PageResource($page);

@@ -265,4 +265,35 @@ class PageTest extends TestCase
             'content' => 'Lorem Ipsum Text',
         ]);
     }
+
+    public function test_notebook_page_sort_order_can_be_updated()
+    {
+        $organization = factory(Organization::class)->create();
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member->applyPermissions(['notebooks.pages' => true]);
+        $member->save();
+        $this->actingAs($member);
+        $pages = factory(Page::class, 3)->create([
+            'notebook_id' => $notebook->id
+        ]);
+
+        $firstPage = $pages->shift();
+        $secondPage = $pages->shift();
+        $thirdPage = $pages->shift();
+
+        $response = $this->putJson(route('notebooks.sort-order', $notebook->hashid), [
+            'pages' => [$thirdPage->hashid, $firstPage->hashid, $secondPage->hashid]
+        ]);
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseHas('pages', ['id' => $firstPage->id, 'sort_order' => 1]);
+        $this->assertDatabaseHas('pages', ['id' => $secondPage->id, 'sort_order' => 2]);
+        $this->assertDatabaseHas('pages', ['id' => $thirdPage->id, 'sort_order' => 0]);
+    }
 }

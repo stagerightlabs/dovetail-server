@@ -139,3 +139,32 @@
     "message": "No query results for model [App\Page]."
 }
 ```
+
+### Update Sort Order [PUT /notebook/{hashid}/pages/sort-order]
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The notebook's hashid
+
++ Form Data
+
+    + `pages[]`: An array of page hashids arranged in the desired order.
+
++ Response 204
+
+```json
+
+```
+
++ Response 404 (application/json)
+
+```json
+{
+    "message": "No query results for model [App\Page]."
+}
+```

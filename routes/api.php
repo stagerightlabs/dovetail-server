@@ -107,6 +107,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::put('notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
     Route::delete('notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
 
+    Route::group(['namespace' => 'Notebooks'], function () {
+        Route::put('notebooks/{hashid}/pages/sort-order', 'NotebookPageOrderController')->name('notebooks.sort-order');
+    });
     // Notebook Pages
     Route::get('notebooks/{hashid}/pages', 'PageController@index')->name('pages.index');
     Route::post('notebooks/{hashid}/pages', 'PageController@store')->name('pages.store');
