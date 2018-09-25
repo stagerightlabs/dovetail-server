@@ -54,7 +54,8 @@ module.exports = {
             {
                 title: 'Notebooks',
                 children: [
-                    '/notebooks'
+                    '/notebooks',
+                    '/pages'
                 ]
             }
         ],

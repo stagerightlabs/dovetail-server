@@ -173,7 +173,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'teams.delete' => false,
         'notebooks.create' => false,
         'notebooks.update' => false,
-        'notebooks.delete' => false
+        'notebooks.delete' => false,
+        'notebooks.pages' => false,
     ];
 
     /**
@@ -188,7 +189,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'teams.delete' => true,
         'notebooks.create' => true,
         'notebooks.update' => true,
-        'notebooks.delete' => true
+        'notebooks.delete' => true,
+        'notebooks.pages' => true,
     ];
 
     /**

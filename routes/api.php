@@ -36,9 +36,9 @@ Route::get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Current User's Profile
-    Route::get('/user', 'ProfileController@show')->name('user.show');
-    Route::post('/user', 'ProfileController@update')->name('user.update');
-    Route::get('/user/permissions/{permission}', 'CheckPermission')->name('user.permission');
+    Route::get('user', 'ProfileController@show')->name('user.show');
+    Route::post('user', 'ProfileController@update')->name('user.update');
+    Route::get('user/permissions/{permission}', 'CheckPermission')->name('user.permission');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
@@ -69,7 +69,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::group(['namespace' => 'Organization'], function () {
 
         // The current organization
-        Route::get('/organization', function (Request $request) {
+        Route::get('organization', function (Request $request) {
             return response()->json(['data' => $request->organization()]);
         })->name('organization');
 
@@ -79,33 +79,40 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     });
 
     // Logos
-    Route::post('/logos', 'LogoController@store')->name('logos.store');
-    Route::delete('/logos/{hashid}', 'LogoController@delete')->name('logos.delete');
+    Route::post('logos', 'LogoController@store')->name('logos.store');
+    Route::delete('logos/{hashid}', 'LogoController@delete')->name('logos.delete');
 
     // Categories
-    Route::get('/categories', 'CategoryController@index')->name('categories.index');
-    Route::post('/categories', 'CategoryController@store')->name('categories.store');
-    Route::get('/categories/{hashid}', 'CategoryController@show')->name('categories.show');
-    Route::put('/categories/{hashid}', 'CategoryController@update')->name('categories.update');
-    Route::delete('/categories/{hashid}', 'CategoryController@delete')->name('categories.delete');
+    Route::get('categories', 'CategoryController@index')->name('categories.index');
+    Route::post('categories', 'CategoryController@store')->name('categories.store');
+    Route::get('categories/{hashid}', 'CategoryController@show')->name('categories.show');
+    Route::put('categories/{hashid}', 'CategoryController@update')->name('categories.update');
+    Route::delete('categories/{hashid}', 'CategoryController@delete')->name('categories.delete');
 
     // Teams
-    Route::get('/teams', 'TeamController@index')->name('teams.index');
-    Route::post('/teams', 'TeamController@store')->name('teams.store');
-    Route::get('/teams/{hashid}', 'TeamController@show')->name('teams.show');
-    Route::put('/teams/{hashid}', 'TeamController@update')->name('teams.update');
-    Route::delete('/teams/{hashid}', 'TeamController@delete')->name('teams.delete');
+    Route::get('teams', 'TeamController@index')->name('teams.index');
+    Route::post('teams', 'TeamController@store')->name('teams.store');
+    Route::get('teams/{hashid}', 'TeamController@show')->name('teams.show');
+    Route::put('teams/{hashid}', 'TeamController@update')->name('teams.update');
+    Route::delete('teams/{hashid}', 'TeamController@delete')->name('teams.delete');
 
     // Team Membership
     Route::post('teams/{team}/members', 'TeamMembershipController@store')->name('teams.memberships.store');
     Route::delete('teams/{team}/members/{member}', 'TeamMembershipController@delete')->name('teams.memberships.delete');
 
     // Notebooks
-    Route::get('/notebooks', 'NotebookController@index')->name('notebooks.index');
-    Route::post('/notebooks', 'NotebookController@store')->name('notebooks.store');
-    Route::get('/notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
-    Route::put('/notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
-    Route::delete('/notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
+    Route::get('notebooks', 'NotebookController@index')->name('notebooks.index');
+    Route::post('notebooks', 'NotebookController@store')->name('notebooks.store');
+    Route::get('notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
+    Route::put('notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
+    Route::delete('notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
+
+    // Notebook Pages
+    Route::get('notebooks/{hashid}/pages', 'PageController@index')->name('pages.index');
+    Route::post('notebooks/{hashid}/pages', 'PageController@store')->name('pages.store');
+    Route::get('notebooks/{notebook}/pages/{page}', 'PageController@show')->name('pages.show');
+    Route::put('notebooks/{notebook}/pages/{page}', 'PageController@update')->name('pages.update');
+    Route::delete('notebooks/{notebook}/pages/{page}', 'PageController@delete')->name('pages.delete');
 
     // Stripe Webhooks
     Route::post(

@@ -39,15 +39,12 @@
 
 ```json
 {
-    "data": [
-        {
-            "hashid": "wy5dn36",
-            "name": "Experiment 24601",
-            "category": "Experiments",
-            "category_id": "wy5dn36"
-        },
-        //..
-    ]
+    "data": {
+        "hashid": "wy5dn36",
+        "name": "Experiment 24601",
+        "category": "Experiments",
+        "category_id": "wy5dn36"
+    },
 }
 ```
 
@@ -57,7 +54,7 @@
 {
     "message": "The given data was invalid.",
     "errors": {
-        "name": array:1 ["The name field is required."]
+        "name": ["The name field is required."]
     }
 }
 ```
@@ -77,15 +74,12 @@
 
 ```json
 {
-    "data": [
-        {
-            "hashid": "wy5dn36",
-            "name": "Experiment 24601",
-            "category": "Experiments",
-            "category_id": "wy5dn36"
-        },
-        //..
-    ]
+    "data": {
+        "hashid": "wy5dn36",
+        "name": "Experiment 24601",
+        "category": "Experiments",
+        "category_id": "wy5dn36"
+    }
 }
 ```
 

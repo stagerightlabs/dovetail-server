@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Page;
 use App\Model;
 use App\Category;
 use App\Events\NotebookDeletion;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Notebook extends Model
 {
@@ -32,5 +34,15 @@ class Notebook extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * The pages that make up this notebook
+     *
+     * @return HasMany
+     */
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
     }
 }

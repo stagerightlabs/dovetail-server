@@ -11,3 +11,4 @@ Access levels are used internally to determine actions that can be performed by 
 | `notebooks.create` | false   | This user can create notebooks                 |
 | `notebooks.update` | false   | This user can update notebooks                 |
 | `notebooks.delete` | false   | This user can remove notebooks                 |
+| `notebooks.pages`  | false   | This user can edit notebook pages              |
