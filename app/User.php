@@ -90,6 +90,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * The notebooks that belong to this user
+     *
+     * @return HasMany
+     */
+    public function notebooks()
+    {
+        return $this->hasMany(Notebook::class, 'owner_id')->whereNull('team_id');
+    }
+
+    /**
      * Scope a query to members of a given organization.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

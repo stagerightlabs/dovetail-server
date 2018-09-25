@@ -2,9 +2,7 @@
 
 ### Reminders:
 
-+ :black_square_button: Sanitize notebook page content on save
 + :black_square_button: Notebook page sort order
-+ :black_square_button: Allow notebooks to have multiple ownership types
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Document ENV variables
@@ -21,6 +19,8 @@
 
 ### Completed
 
++ :heavy_check_mark: Allow notebooks to have multiple ownership types
++ :heavy_check_mark: Sanitize notebook page content on save
 + :heavy_check_mark: Create docker image
 + :heavy_check_mark: Convert 'fillable' to 'guarded' in all model classes
 + :heavy_check_mark: Cashier Integration

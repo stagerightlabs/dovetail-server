@@ -34,6 +34,8 @@
 
     + `name`: The name of the new notebook.
     + `category_id`: Optional.  The hashid of the category to be applied to this notebook.
+    + `owner_id`: Optional. The hashid of the user that owns this notebook.
+    + `team_id`: Optional. The hashid of the team that owns this notebook.
 
 + Response 200 (application/json)
 
@@ -106,6 +108,8 @@
 
     + `name`: The name of the new notebook.
     + `category_id`: Optional.  The hashid of the category to be applied to this notebook.
+    + `owner_id`: Optional. The hashid of the user that owns this notebook.
+    + `team_id`: Optional. The hashid of the team that owns this notebook.
 
 + Response 200 (application/json)
 

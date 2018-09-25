@@ -36,6 +36,8 @@ class NotebookController extends Controller
         $notebook = Notebook::create([
             'name' => request('name'),
             'organization_id' => request()->organization()->id,
+            'team_id' => hashid(request('team_id')),
+            'owner_id' => hashid(request('owner_id')),
             'created_by' => auth()->user()->id,
             'category_id' => request()->filled('category_id') ? hashid(request('category_id')) : null
         ]);
@@ -73,6 +75,8 @@ class NotebookController extends Controller
         ]);
 
         $notebook->name = request('name');
+        $notebook->team_id = hashid(request('team_id'));
+        $notebook->owner_id = hashid(request('owner_id'));
         $notebook->category_id = request()->filled('category_id')
             ? hashid(request('category_id'))
             : $notebook->category_id;

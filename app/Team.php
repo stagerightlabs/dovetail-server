@@ -7,6 +7,7 @@ use App\Model;
 use App\Events\TeamDeletion;
 use App\Events\TeamMemberAdded;
 use App\Events\TeamMemberRemoved;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
@@ -89,5 +90,15 @@ class Team extends Model
     public function doesNotHaveMember($member)
     {
         return ! $this->hasMember($member);
+    }
+
+    /**
+     * The notebooks that belong to this team
+     *
+     * @return HasMany
+     */
+    public function notebooks()
+    {
+        return $this->hasMany(Notebook::class)->whereNull('owner_id');
     }
 }
