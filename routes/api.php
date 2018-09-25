@@ -100,22 +100,25 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::post('teams/{team}/members', 'TeamMembershipController@store')->name('teams.memberships.store');
     Route::delete('teams/{team}/members/{member}', 'TeamMembershipController@delete')->name('teams.memberships.delete');
 
-    // Notebooks
-    Route::get('notebooks', 'NotebookController@index')->name('notebooks.index');
-    Route::post('notebooks', 'NotebookController@store')->name('notebooks.store');
-    Route::get('notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
-    Route::put('notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
-    Route::delete('notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
-
     Route::group(['namespace' => 'Notebooks'], function () {
+
+        // Notebooks
+        Route::get('notebooks', 'NotebookController@index')->name('notebooks.index');
+        Route::post('notebooks', 'NotebookController@store')->name('notebooks.store');
+        Route::get('notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
+        Route::put('notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
+        Route::delete('notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
+
+        // Page Order
         Route::put('notebooks/{hashid}/pages/sort-order', 'NotebookPageOrderController')->name('notebooks.sort-order');
+
+        // Notebook Pages
+        Route::get('notebooks/{hashid}/pages', 'PageController@index')->name('pages.index');
+        Route::post('notebooks/{hashid}/pages', 'PageController@store')->name('pages.store');
+        Route::get('notebooks/{notebook}/pages/{page}', 'PageController@show')->name('pages.show');
+        Route::put('notebooks/{notebook}/pages/{page}', 'PageController@update')->name('pages.update');
+        Route::delete('notebooks/{notebook}/pages/{page}', 'PageController@delete')->name('pages.delete');
     });
-    // Notebook Pages
-    Route::get('notebooks/{hashid}/pages', 'PageController@index')->name('pages.index');
-    Route::post('notebooks/{hashid}/pages', 'PageController@store')->name('pages.store');
-    Route::get('notebooks/{notebook}/pages/{page}', 'PageController@show')->name('pages.show');
-    Route::put('notebooks/{notebook}/pages/{page}', 'PageController@update')->name('pages.update');
-    Route::delete('notebooks/{notebook}/pages/{page}', 'PageController@delete')->name('pages.delete');
 
     // Stripe Webhooks
     Route::post(

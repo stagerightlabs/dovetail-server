@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notebooks;
 
 use App\Notebook;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\NotebookResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotebookResource;
 
 class NotebookController extends Controller
 {

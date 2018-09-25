@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notebooks;
 
 use App\Page;
 use HTMLPurifier;
