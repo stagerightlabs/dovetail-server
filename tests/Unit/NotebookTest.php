@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class NotebookTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_notebooks_can_be_assigned_to_users()
     {
         $organization = factory(Organization::class)->create();
