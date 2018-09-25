@@ -22,7 +22,8 @@ module.exports = {
                 children: [
                     '/permissions',
                     '/settings',
-                    '/models'
+                    '/models',
+                    '/env'
                 ]
             },
             {

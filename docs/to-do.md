@@ -2,10 +2,8 @@
 
 ### Reminders:
 
-+ :black_square_button: Notebook page sort order
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
-+ :black_square_button: Document ENV variables
 + :black_square_button: Look at switching "POST" to "PUT"
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
@@ -19,6 +17,8 @@
 
 ### Completed
 
++ :heavy_check_mark: Document ENV variables
++ :heavy_check_mark: Notebook page sort order
 + :heavy_check_mark: Allow notebooks to have multiple ownership types
 + :heavy_check_mark: Sanitize notebook page content on save
 + :heavy_check_mark: Create docker image
