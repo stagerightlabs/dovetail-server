@@ -4,7 +4,6 @@
 
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
-+ :black_square_button: Look at switching "POST" to "PUT"
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
 

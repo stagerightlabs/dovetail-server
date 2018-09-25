@@ -37,7 +37,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     // Current User's Profile
     Route::get('user', 'ProfileController@show')->name('user.show');
-    Route::post('user', 'ProfileController@update')->name('user.update');
+    Route::put('user', 'ProfileController@update')->name('user.update');
     Route::get('user/permissions/{permission}', 'CheckPermission')->name('user.permission');
 
     // Invitations
@@ -56,13 +56,13 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         // Member Management
         Route::get('members', 'MembersController@index')->name('members.get');
         Route::get('members/deleted', 'DeletedMembersController@index')->name('members.deleted');
-        Route::post('members/{hashid}', 'MembersController@update')->name('members.update');
+        Route::put('members/{hashid}', 'MembersController@update')->name('members.update');
         Route::delete('members/{hashid}', 'DeletedMembersController@store')->name('members.delete');
         Route::delete('members/{hashid}/restore', 'DeletedMembersController@destroy')->name('members.restore');
 
         // Member Permissions
         Route::get('members/{hashid}/permissions', 'PermissionsController@show')->name('permissions.show');
-        Route::post('members/{hashid}/permissions', 'PermissionsController@update')->name('permissions.update');
+        Route::put('members/{hashid}/permissions', 'PermissionsController@update')->name('permissions.update');
     });
 
     // Organization
@@ -75,7 +75,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
         // Settings
         Route::get('organization/settings/{key}', 'SettingsController@show')->name('settings.show');
-        Route::post('organization/settings', 'SettingsController@update')->name('settings.update');
+        Route::put('organization/settings', 'SettingsController@update')->name('settings.update');
     });
 
     // Logos

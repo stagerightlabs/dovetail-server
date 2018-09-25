@@ -82,7 +82,7 @@
     + `created_at`: The date the member's account was created.
     + `deleted_at`: The date the member's account was deleted.
 
-### Update Member [POST /members/{hashid}]
+### Update Member [PUT /members/{hashid}]
 
 + Headers
 
@@ -192,7 +192,7 @@ View a members's [permission flags](/permissions.html). If none are set the defa
 }
 ```
 
-### Update Member Permissions [POST /members/{hashid}/permissions]
+### Update Member Permissions [PUT /members/{hashid}/permissions]
 
 Update a user's [permission flags](/permissions.html).  You only need to submit the flags you want to have changed.
 

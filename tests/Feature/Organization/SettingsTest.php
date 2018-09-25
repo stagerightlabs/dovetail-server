@@ -39,7 +39,7 @@ class SettingsTest extends TestCase
             'organization_id' => $organization->id
         ]));
 
-        $response = $this->postJson(route('settings.update'), [
+        $response = $this->putJson(route('settings.update'), [
             'settings' => ['foo' => 'bar']
         ]);
 
@@ -54,7 +54,7 @@ class SettingsTest extends TestCase
             'organization_id' => $organization->id
         ]));
 
-        $response = $this->postJson(route('settings.update'), [
+        $response = $this->putJson(route('settings.update'), [
             'settings' => [
                 'label.notebooks' => 'foo',
                 'label.plates' => 'bar'
@@ -74,7 +74,7 @@ class SettingsTest extends TestCase
             'organization_id' => $organization->id
         ]));
 
-        $response = $this->postJson(route('settings.update'), [
+        $response = $this->putJson(route('settings.update'), [
             'settings' => [
                 'arbitrary' => 'foo',
             ]

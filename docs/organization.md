@@ -53,7 +53,7 @@ Fetch the value of a [setting flag](/settings.html) for this organization.
 }
 ```
 
-### Update Organization Setting [POST /organization/setting]
+### Update Organization Setting [PUT /organization/setting]
 
 + Headers
 

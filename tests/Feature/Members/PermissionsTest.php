@@ -109,7 +109,7 @@ class PermissionsTest extends TestCase
         ]);
         $this->assertFalse($member->hasPermission('notebooks.create'));
 
-        $response = $this->postJson(route('permissions.update', $member->hashid), [
+        $response = $this->putJson(route('permissions.update', $member->hashid), [
             'permissions' => ['notebooks.create' => true]
         ]);
 
@@ -132,7 +132,7 @@ class PermissionsTest extends TestCase
         ]);
         $this->assertFalse($member->hasPermission('foo'));
 
-        $response = $this->postJson(route('permissions.update', $member->hashid), [
+        $response = $this->putJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 
@@ -152,7 +152,7 @@ class PermissionsTest extends TestCase
         ]);
         $this->assertFalse($member->hasPermission('foo'));
 
-        $response = $this->postJson(route('permissions.update', $member->hashid), [
+        $response = $this->putJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 
@@ -172,7 +172,7 @@ class PermissionsTest extends TestCase
 
         $this->assertFalse($member->hasPermission('foo'));
 
-        $response = $this->postJson(route('permissions.update', $member->hashid), [
+        $response = $this->putJson(route('permissions.update', $member->hashid), [
             'permissions' => ['foo' => true]
         ]);
 

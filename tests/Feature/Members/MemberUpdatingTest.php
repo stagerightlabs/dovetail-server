@@ -23,7 +23,7 @@ class MemberUpdatingTest extends TestCase
             'email' => 'grace@example.com'
         ]);
 
-        $response = $this->postJson(route('members.update', $member->hashid), [
+        $response = $this->putJson(route('members.update', $member->hashid), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210'
@@ -50,7 +50,7 @@ class MemberUpdatingTest extends TestCase
             'email' => 'grace@example.com'
         ]);
 
-        $response = $this->postJson(route('members.update', $member->hashid), [
+        $response = $this->putJson(route('members.update', $member->hashid), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210'
@@ -76,7 +76,7 @@ class MemberUpdatingTest extends TestCase
             'email' => 'grace@example.com'
         ]);
 
-        $response = $this->postJson(route('members.update', $member->hashid), [
+        $response = $this->putJson(route('members.update', $member->hashid), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210',

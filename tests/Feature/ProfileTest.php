@@ -40,7 +40,7 @@ class ProfileTest extends TestCase
             'phone' => '(123) 456-7890'
         ]));
 
-        $response = $this->postJson(route('user.show'), [
+        $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210',
@@ -74,7 +74,7 @@ class ProfileTest extends TestCase
             'email_verified_at' => Carbon::now()->subDays(2)
         ]));
 
-        $response = $this->postJson(route('user.show'), [
+        $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210'
@@ -91,7 +91,7 @@ class ProfileTest extends TestCase
             'phone_verified_at' => Carbon::now()->subDays(2)
         ]));
 
-        $response = $this->postJson(route('user.show'), [
+        $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210'
@@ -105,7 +105,7 @@ class ProfileTest extends TestCase
     {
         $client = factory(Client::class)->state('password')->create();
 
-        $response = $this->postJson(route('user.show'), [
+        $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
             'email' => 'hopper@example.com',
             'phone' => '(987) 654-3210'

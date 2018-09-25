@@ -28,7 +28,7 @@
 }
 ```
 
-### Update Profile [POST /user]
+### Update Profile [PUT /user]
 
 + Headers
 
