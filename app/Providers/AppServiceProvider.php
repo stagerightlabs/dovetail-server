@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use HTMLPurifier;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
@@ -31,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerValidationRules();
 
         $this->registerMorphMap();
+
+        $this->registerHtmlPurifier();
     }
 
     /**
@@ -129,11 +132,24 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Associate polymorphic column values with their corresponding classes
+     *
+     * @return void
+     */
     public function registerMorphMap()
     {
         Relation::morphMap([
             'user' => 'App\User',
             'organization' => 'App\Organization',
         ]);
+    }
+
+    public function registerHtmlPurifier()
+    {
+        $this->app->singleton(HTMLPurifier::class, function ($app) {
+            $config = \HTMLPurifier_Config::createDefault();
+            return new HTMLPurifier($config);
+        });
     }
 }

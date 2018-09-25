@@ -30,7 +30,7 @@ class PageTest extends TestCase
             'notebook_id' => $notebook->id
         ]);
 
-        $response = $this->getJson(route('pages.index', $notebook->hashid))->dump();
+        $response = $this->getJson(route('pages.index', $notebook->hashid));
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -239,5 +239,30 @@ class PageTest extends TestCase
             'id' => $page->id
         ]);
         Event::assertNotDispatched(PageDeletion::class);
+    }
+
+    public function test_page_content_is_sanitized()
+    {
+        $organization = factory(Organization::class)->create();
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $member->applyPermissions(['notebooks.pages' => true]);
+        $member->save();
+        $this->actingAs($member);
+
+        $response = $this->postJson(route('pages.store', $notebook->hashid), [
+            'notebook_id' => $notebook->id,
+            'content' => 'Lorem Ipsum Text<script>badstuff();</script>'
+        ]);
+
+        $this->assertDatabaseHas('pages', [
+            'notebook_id' => $notebook->id,
+            'created_by' => $member->id,
+            'content' => 'Lorem Ipsum Text',
+        ]);
     }
 }

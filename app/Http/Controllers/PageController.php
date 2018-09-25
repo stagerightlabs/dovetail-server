@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Page;
+use HTMLPurifier;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\PageResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PageResource;
 
 class PageController extends Controller
 {
@@ -38,7 +39,7 @@ class PageController extends Controller
         $page = Page::create([
             'notebook_id' => $notebook->id,
             'created_by' => auth()->user()->id,
-            'content' => request('content', '')
+            'content' => app(HTMLPurifier::class)->purify(request('content', ''))
         ]);
 
         return new PageResource($page);
@@ -74,7 +75,7 @@ class PageController extends Controller
         $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
         $page = $notebook->pages()->findOrFail(hashid($page));
 
-        $page->content = request('content', '');
+        $page->content = app(HTMLPurifier::class)->purify(request('content', ''));
         $page->save();
 
         return new PageResource($page);
