@@ -188,6 +188,40 @@ class PageCommentTest extends TestCase
         ]);
     }
 
+    public function test_users_can_only_edit_their_own_comments()
+    {
+        $organization = factory(Organization::class)->create();
+        $userA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $userB = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($userB);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+        $comment = factory(Comment::class)->create([
+            'commentable_type' => 'page',
+            'commentable_id' => $page->id,
+            'commentor_id' => $userA->id,
+            'edited' => false
+        ]);
+
+        $response = $this->putJson(route('pages.comments.update', [$notebook->hashid, $page->hashid, $comment->hashid]), [
+            'content' => 'This comment has changed'
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('comments', [
+            'id' => $comment->id,
+            'content' => 'This comment has changed',
+        ]);
+    }
+
     public function test_it_deletes_a_page_comment()
     {
         $organization = factory(Organization::class)->create();

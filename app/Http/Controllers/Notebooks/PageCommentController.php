@@ -7,7 +7,9 @@ use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\CommentResource;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class PageCommentController extends Controller
 {
@@ -73,9 +75,10 @@ class PageCommentController extends Controller
      */
     public function update($notebook, $page, $comment)
     {
-        // Check for comment ownership here...
-
         $comment = Comment::findOrFail(hashid($comment));
+
+        // Users can only edit their own comments
+        Gate::authorize('ownership-verification', [$comment, 'commentor_id']);
 
         request()->validate([
             'content' => 'required'

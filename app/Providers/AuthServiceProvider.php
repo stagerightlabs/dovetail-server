@@ -30,14 +30,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Super admins will be allowed access to all gates
         Gate::before(function ($user, $ability) {
             if ($user->isSuperAdmin()) {
                 return true;
             }
         });
 
+        // Check that the current user has been granted a specific permission
         Gate::define('require-permission', function ($user, $permission) {
             return $user->hasPermission($permission);
+        });
+
+        // Verify that the current user "owns" a model
+        Gate::define('ownership-verification', function ($user, $model, $column = 'owner_id') {
+            return $user->id == $model->$column;
         });
     }
 }

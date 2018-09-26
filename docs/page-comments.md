@@ -99,6 +99,8 @@
 
 ### Update Page Comment [PUT /notebooks/{notebook}/pages/{page}/comments/{comment}]
 
+Users may only edit their own comments.
+
 + Headers
 
     + Accept: application/json

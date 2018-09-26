@@ -2,8 +2,7 @@
 
 ### Reminders:
 
-+ :black_square_button: Set up gate that checks for model ownership
-+ :black_square_button: Only commentors can edit their comments
++ :black_square_button: Write Domain Model Outline
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Email validation helper
@@ -11,11 +10,14 @@
 
 ### Features:
 
-+ :black_square_button: Comments
+
 + :black_square_button: Documents
 
 ### Completed
 
++ :heavy_check_mark: Set up gate that checks for model ownership
++ :heavy_check_mark: Only commentors can edit their comments
++ :heavy_check_mark: Comments
 + :heavy_check_mark: Notebooks
 + :heavy_check_mark: Pages
 + :heavy_check_mark: Document ENV variables

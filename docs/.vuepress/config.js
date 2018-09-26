@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'LIMS API',
+    title: 'Dovetail API',
     description: 'Endpoint Documentation',
     head: [
         ['link', { rel: 'icon', href: '/favicon.png' }]
