@@ -118,6 +118,13 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('notebooks/{notebook}/pages/{page}', 'PageController@show')->name('pages.show');
         Route::put('notebooks/{notebook}/pages/{page}', 'PageController@update')->name('pages.update');
         Route::delete('notebooks/{notebook}/pages/{page}', 'PageController@delete')->name('pages.delete');
+
+        // Page Comments
+        Route::get('notebooks/{notebook}/pages/{page}/comments', 'PageCommentController@index')->name('pages.comments.index');
+        Route::post('notebooks/{notebook}/pages/{page}/comments', 'PageCommentController@store')->name('pages.comments.store');
+        Route::get('notebooks/{notebook}/pages/{page}/comments/{comment}', 'PageCommentController@show')->name('pages.comments.show');
+        Route::put('notebooks/{notebook}/pages/{page}/comments/{comment}', 'PageCommentController@update')->name('pages.comments.update');
+        Route::delete('notebooks/{notebook}/pages/{page}/comments/{comment}', 'PageCommentController@delete')->name('pages.comments.delete');
     });
 
     // Stripe Webhooks

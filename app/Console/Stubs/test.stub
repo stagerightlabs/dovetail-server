@@ -106,7 +106,7 @@ class DummyModelClassTest extends TestCase
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('DummyModelVariablePlural', [
-            'organization_id' => $organization->id
+            'id' => $DummyModelVariable->id
         ]);
         Event::assertDispatched(DummyModelClassDeletion::class);
     }

@@ -56,7 +56,8 @@ module.exports = {
                 title: 'Notebooks',
                 children: [
                     '/notebooks',
-                    '/pages'
+                    '/pages',
+                    '/page-comments'
                 ]
             }
         ],

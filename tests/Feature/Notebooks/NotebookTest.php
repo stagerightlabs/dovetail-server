@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Notebooks;
 
 use App\User;
 use App\Category;

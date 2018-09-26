@@ -6,6 +6,7 @@ use App\Model;
 use App\Notebook;
 use App\Events\PageDeletion;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Page extends Model
 {
@@ -33,5 +34,15 @@ class Page extends Model
     public function notebook()
     {
         return $this->belongsTo(Notebook::class);
+    }
+
+    /**
+     * Get all of this page's comments
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
     }
 }
