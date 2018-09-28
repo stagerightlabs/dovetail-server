@@ -20,9 +20,9 @@ module.exports = {
             {
                 title: 'Definitions',
                 children: [
-                    '/permissions',
-                    '/settings',
                     '/models',
+                    '/settings',
+                    '/permissions',
                     '/env'
                 ]
             },

@@ -2,7 +2,7 @@
 
 ### Reminders:
 
-+ :black_square_button: Write Domain Model Outline
++ :black_square_button: Allow Notebook comments to be disabled.
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Email validation helper
@@ -10,11 +10,11 @@
 
 ### Features:
 
-
 + :black_square_button: Documents
 
 ### Completed
 
++ :heavy_check_mark: Write Domain Model Outline
 + :heavy_check_mark: Set up gate that checks for model ownership
 + :heavy_check_mark: Only commentors can edit their comments
 + :heavy_check_mark: Comments
