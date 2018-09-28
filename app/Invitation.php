@@ -50,7 +50,7 @@ class Invitation extends Model
      */
     public function revoker()
     {
-        return $this->belongsTo(User::class, 'revoked_by');
+        return $this->belongsTo(User::class, 'revoked_by')->withTrashed();
     }
 
     /**

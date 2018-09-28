@@ -41,6 +41,6 @@ class Comment extends Model
      */
     public function commentor()
     {
-        return $this->belongsTo(User::class, 'commentor_id');
+        return $this->belongsTo(User::class, 'commentor_id')->withTrashed();
     }
 }
