@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Comment;
 use App\Invitation;
 use App\Organization;
+use App\Policies\CommentPolicy;
 use App\Policies\InvitationPolicy;
 use App\Policies\OrganizationPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -17,8 +19,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Comment::class => CommentPolicy::class,
         Invitation::class => InvitationPolicy::class,
-        Organization::class => OrganizationPolicy::class
+        Organization::class => OrganizationPolicy::class,
      ];
 
     /**

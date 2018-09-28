@@ -39,7 +39,8 @@ class NotebookController extends Controller
             'team_id' => hashid(request('team_id')),
             'owner_id' => hashid(request('owner_id')),
             'created_by' => auth()->user()->id,
-            'category_id' => request()->filled('category_id') ? hashid(request('category_id')) : null
+            'category_id' => request()->filled('category_id') ? hashid(request('category_id')) : null,
+            'comments_enabled' => true,
         ]);
 
         return new NotebookResource($notebook);
@@ -71,7 +72,8 @@ class NotebookController extends Controller
         $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
 
         request()->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'comments_enabled' => 'nullable|boolean'
         ]);
 
         $notebook->name = request('name');
@@ -80,6 +82,9 @@ class NotebookController extends Controller
         $notebook->category_id = request()->filled('category_id')
             ? hashid(request('category_id'))
             : $notebook->category_id;
+        $notebook->comments_enabled = request()->filled('comments_enabled')
+            ? boolval(request('comments_enabled'))
+            : $notebook->comments_enabled;
         $notebook->save();
 
         return new NotebookResource($notebook);

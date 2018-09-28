@@ -7,6 +7,7 @@
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
++ :black_square_button: Check for references to soft-deleted users
 
 ### Features:
 

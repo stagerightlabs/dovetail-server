@@ -17,6 +17,7 @@ class CreateNotebooksTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('category_id')->nullable();
+            $table->boolean('comments_enabled')->default(true);
             $table->unsignedInteger('organization_id');
             $table->unsignedInteger('team_id')->nullable();
             $table->unsignedInteger('owner_id')->nullable();

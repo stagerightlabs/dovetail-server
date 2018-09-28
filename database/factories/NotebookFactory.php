@@ -12,6 +12,7 @@ $factory->define(App\Notebook::class, function (Faker $faker) {
         },
         'created_by' => function () {
             return factory(User::class)->create()->id;
-        }
+        },
+        'comments_enabled' => true
     ];
 });

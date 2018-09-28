@@ -19,6 +19,7 @@ class NotebookResource extends JsonResource
             'name' => $this->name,
             'category_id' => $this->category_id ? hashid($this->category_id) : null,
             'category' => $this->category_id ? $this->category->name : null,
+            'comments_enabled' => boolval($this->comments_enabled),
         ];
     }
 }

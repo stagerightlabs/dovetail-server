@@ -40,7 +40,9 @@ class PageCommentController extends Controller
             'content' => 'required'
         ]);
 
-        $page = Page::findOrFail(hashid($page));
+        $page = Page::with('notebook')->findOrFail(hashid($page));
+
+        $this->authorize('create', [Comment::class, $page]);
 
         $comment = $page->comments()->create([
             'content' => sanitize(request('content')),
@@ -75,10 +77,9 @@ class PageCommentController extends Controller
      */
     public function update($notebook, $page, $comment)
     {
-        $comment = Comment::findOrFail(hashid($comment));
+        $comment = Comment::with('commentable')->findOrFail(hashid($comment));
 
-        // Users can only edit their own comments
-        Gate::authorize('ownership-verification', [$comment, 'commentor_id']);
+        $this->authorize('update', $comment);
 
         request()->validate([
             'content' => 'required'
@@ -102,6 +103,8 @@ class PageCommentController extends Controller
     public function delete($notebook, $page, $comment)
     {
         $comment = Comment::findOrFail(hashid($comment));
+
+        $this->authorize('forceDelete', $comment);
 
         $comment->delete();
 

@@ -50,9 +50,14 @@ class NotebookTest extends TestCase
         ]);
 
         $response->assertStatus(201);
+        $response->assertJsonFragment([
+            'name' => 'A Test Notebook',
+            'comments_enabled' => true,
+        ]);
         $this->assertDatabaseHas('notebooks', [
             'name' => 'A Test Notebook',
-            'organization_id' => $organization->id
+            'organization_id' => $organization->id,
+            'comments_enabled' => true,
         ]);
     }
 
@@ -91,6 +96,10 @@ class NotebookTest extends TestCase
         ]);
 
         $response->assertStatus(201);
+        $response->assertJsonFragment([
+            'name' => 'A Test Notebook',
+            'category' => $category->name
+        ]);
         $this->assertDatabaseHas('notebooks', [
             'name' => 'A Test Notebook',
             'organization_id' => $organization->id,
@@ -131,7 +140,8 @@ class NotebookTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'hashid' => hashid($notebook->first()->id),
-            'name' => $notebook->first()->name
+            'name' => $notebook->first()->name,
+            'comments_enabled' => true,
         ]);
     }
 
@@ -156,24 +166,28 @@ class NotebookTest extends TestCase
 
         $notebook = factory(Notebook::class)->create([
             'name' => 'This is a name',
-            'organization_id' => $organization->id
+            'organization_id' => $organization->id,
+            'comments_enabled' => true,
         ]);
         $category = factory(Category::class)->create();
 
         $response = $this->putJson(route('notebooks.update', $notebook->hashid), [
             'name' => 'Another Name',
             'category_id' => $category->hashid,
+            'comments_enabled' => '0'
         ]);
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'hashid' => $notebook->hashid,
-            'name' => 'Another Name'
+            'name' => 'Another Name',
+            'comments_enabled' => false,
         ]);
         $this->assertDatabaseHas('notebooks', [
             'name' => 'Another Name',
             'category_id' => $category->id,
-            'organization_id' => $organization->id
+            'organization_id' => $organization->id,
+            'comments_enabled' => false,
         ]);
     }
 

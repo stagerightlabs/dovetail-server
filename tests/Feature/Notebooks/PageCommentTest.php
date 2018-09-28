@@ -151,6 +151,34 @@ class PageCommentTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function test_it_does_not_create_comments_on_notebooks_with_comments_disabled()
+    {
+        $organization = factory(Organization::class)->create();
+        $user = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($user);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'comments_enabled' => false,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+
+        $response = $this->postJson(route('pages.comments.store', [$notebook->hashid, $page->hashid]), [
+            'content' => "This is a comment",
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('comments', [
+            'commentable_type' => 'page',
+            'commentable_id' => $page->id,
+            'content' => 'This is a comment',
+            'commentor_id' => $user->id
+        ]);
+    }
+
     public function test_it_updates_a_page_comment()
     {
         $organization = factory(Organization::class)->create();
@@ -182,6 +210,39 @@ class PageCommentTest extends TestCase
             'edited' => true
         ]);
         $this->assertDatabaseHas('comments', [
+            'id' => $comment->id,
+            'content' => 'This comment has changed',
+            'edited' => true
+        ]);
+    }
+
+    public function test_it_does_not_update_comments_on_notebooks_with_comments_disabled()
+    {
+        $organization = factory(Organization::class)->create();
+        $user = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($user);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'comments_enabled' => false,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+        $comment = factory(Comment::class)->create([
+            'commentable_type' => 'page',
+            'commentable_id' => $page->id,
+            'commentor_id' => $user->id,
+            'edited' => false
+        ]);
+
+        $response = $this->putJson(route('pages.comments.update', [$notebook->hashid, $page->hashid, $comment->hashid]), [
+            'content' => 'This comment has changed'
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('comments', [
             'id' => $comment->id,
             'content' => 'This comment has changed',
             'edited' => true

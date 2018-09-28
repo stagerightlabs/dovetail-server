@@ -16,7 +16,8 @@
             "hashid": "wy5dn36",
             "name": "Experiment 24601",
             "category": "Experiments",
-            "category_id": "wy5dn36"
+            "category_id": "wy5dn36",
+            "comments_enabled": true
         },
         //..
     ]
@@ -45,7 +46,8 @@
         "hashid": "wy5dn36",
         "name": "Experiment 24601",
         "category": "Experiments",
-        "category_id": "wy5dn36"
+        "category_id": "wy5dn36",
+        "comments_enabled": true
     },
 }
 ```
@@ -80,7 +82,8 @@
         "hashid": "wy5dn36",
         "name": "Experiment 24601",
         "category": "Experiments",
-        "category_id": "wy5dn36"
+        "category_id": "wy5dn36",
+        "comments_enabled": true
     }
 }
 ```
@@ -110,6 +113,7 @@
     + `category_id`: Optional.  The hashid of the category to be applied to this notebook.
     + `owner_id`: Optional. The hashid of the user that owns this notebook.
     + `team_id`: Optional. The hashid of the team that owns this notebook.
+    + `comments_enabled`: Should comments be allowed on this notebook? 0 for no, 1 for yes.
 
 + Response 200 (application/json)
 
@@ -119,7 +123,8 @@
         "hashid": "wy5dn36",
         "name": "Experiment 24601",
         "category": "Experiments",
-        "category_id": "wy5dn36"
+        "category_id": "wy5dn36",
+        "comments_enabled": false
     }
 }
 ```
