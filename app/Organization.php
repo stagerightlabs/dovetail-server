@@ -10,6 +10,7 @@ use App\Notebook;
 use App\Invitation;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -35,6 +36,29 @@ class Organization extends Model
      * Provide Cashier's billing model methods
      */
     use Billable;
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Intercept creation to ensure unique slugs
+        static::creating(function ($organization) {
+            $organization->slug = str_slug($organization->name);
+
+            $existing = DB::table('organizations')
+                ->where('slug', 'LIKE', "{$organization->slug}%")
+                ->count();
+
+            if ($existing > 0) {
+                $organization->slug .= "-{$existing}";
+            }
+        });
+    }
 
     /**
      * The users that belong to this organization

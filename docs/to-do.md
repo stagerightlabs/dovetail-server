@@ -2,8 +2,7 @@
 
 ### Reminders:
 
-+ :black_square_button: Create organization summary resource && endpoint controller
-+ :black_square_button: Duplicate organizations should get incrementing slugs
++ :black_square_button: Create organization summary resource & endpoint controller
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
 
@@ -13,6 +12,7 @@
 
 ### Completed
 
++ :heavy_check_mark: Duplicate organizations should get incrementing slugs
 + :heavy_check_mark: Check for references to soft-deleted users
 + :heavy_check_mark: Auth gate to check that a models belong to a user's organization
 + :heavy_check_mark: Allow Notebook comments to be disabled.
