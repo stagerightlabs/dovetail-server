@@ -2,12 +2,11 @@
 
 ### Reminders:
 
-+ :black_square_button: Allow Notebook comments to be disabled.
++ :black_square_button: Check for references to soft-deleted users
 + :black_square_button: Create organization summary resource && endpoint controller
 + :black_square_button: Duplicate organizations should get incrementing slugs
 + :black_square_button: Email validation helper
 + :black_square_button: Allow users to check their notifications and mark them read
-+ :black_square_button: Check for references to soft-deleted users
 
 ### Features:
 
@@ -15,6 +14,8 @@
 
 ### Completed
 
++ :heavy_check_mark: Auth gate to check that a models belong to a user's organization
++ :heavy_check_mark: Allow Notebook comments to be disabled.
 + :heavy_check_mark: Write Domain Model Outline
 + :heavy_check_mark: Set up gate that checks for model ownership
 + :heavy_check_mark: Only commentors can edit their comments

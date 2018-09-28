@@ -22,7 +22,9 @@ class PageCommentController extends Controller
      */
     public function index($notebook, $page)
     {
-        $page = Page::findOrFail(hashid($page));
+        $page = Page::with('notebook')->findOrFail(hashid($page));
+
+        $this->authorize('view', [Comment::class, $page]);
 
         return CommentResource::collection($page->comments);
     }
@@ -62,6 +64,10 @@ class PageCommentController extends Controller
      */
     public function show($notebook, $page, $comment)
     {
+        $page = Page::with('notebook')->findOrFail(hashid($page));
+
+        $this->authorize('view', [Comment::class, $page]);
+
         return new CommentResource(
             Comment::findOrFail(hashid($comment))
         );

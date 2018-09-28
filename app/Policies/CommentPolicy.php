@@ -29,6 +29,19 @@ class CommentPolicy
     }
 
     /**
+     * Determine whether the user can view the comment, based on the
+     * model that has been commented on.
+     *
+     * @param  \App\User  $user
+     * @param mixed $commentable
+     * @return mixed
+     */
+    public function view(User $user, $commentable)
+    {
+        return Gate::allows('belongs-to-organization', $commentable);
+    }
+
+    /**
      * Determine whether the user can create comments.
      *
      * @param  \App\User  $user

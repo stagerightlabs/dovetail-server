@@ -18,6 +18,7 @@ class PageCommentTest extends TestCase
 
     public function test_it_returns_all_comments_for_a_page()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -132,6 +133,31 @@ class PageCommentTest extends TestCase
         ]);
     }
 
+    public function test_users_outside_of_an_organization_cannot_view_comments()
+    {
+        $organization = factory(Organization::class)->create();
+        $userA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $userB = factory(User::class)->create();
+        $this->actingAs($userB);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+        $comment = factory(Comment::class)->create([
+            'commentable_type' => 'page',
+            'commentable_id' => $page->id,
+            'commentor_id' => $userA->id,
+        ]);
+
+        $response = $this->getJson(route('pages.comments.show', [$notebook->hashid, $page->hashid, $comment->hashid]));
+
+        $response->assertStatus(403);
+    }
+
     public function test_it_does_not_return_page_comments_that_do_not_exist()
     {
         $organization = factory(Organization::class)->create();
@@ -162,6 +188,7 @@ class PageCommentTest extends TestCase
             'organization_id' => $organization->id,
             'comments_enabled' => false,
         ]);
+
         $page = factory(Page::class)->create([
             'notebook_id' => $notebook->id,
         ]);
