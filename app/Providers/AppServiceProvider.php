@@ -98,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function registerValidationRules()
     {
+        // A case insensitive uniqueness check
         Validator::extend('iunique', function ($attribute, $value, $parameters, $validator) {
 
             // Usage: 'iunique:users,email_address,NULL,id,account_id,1'
@@ -130,6 +131,9 @@ class AppServiceProvider extends ServiceProvider
             // Run the query to confirm validation status
             return ! $query->whereRaw("lower({$column}) = lower(?)", [$value])->exists();
         });
+
+
+        //
     }
 
     /**

@@ -3,15 +3,15 @@
 ### Reminders:
 
 + :black_square_button: Create organization summary resource & endpoint controller
-+ :black_square_button: Email validation helper
-+ :black_square_button: Allow users to check their notifications and mark them read
 
 ### Features:
 
 + :black_square_button: Documents
++ :black_square_button: User Notifications
 
 ### Completed
 
++ :heavy_check_mark: Email validation helper
 + :heavy_check_mark: Duplicate organizations should get incrementing slugs
 + :heavy_check_mark: Check for references to soft-deleted users
 + :heavy_check_mark: Auth gate to check that a models belong to a user's organization

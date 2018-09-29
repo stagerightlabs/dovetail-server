@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\AccessLevel;
 use App\Organization;
+use App\Rules\ValidEmail;
 use Illuminate\Http\Request;
 use App\Billing\PaymentGateway;
 use App\Http\Controllers\Controller;
@@ -59,6 +60,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'organization' => 'required|string|unique:organizations,name',
+            'email' => ['required', 'string', new ValidEmail, 'max:255', 'unique:users'],
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);

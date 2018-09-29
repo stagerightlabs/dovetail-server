@@ -49,8 +49,6 @@ class RegistrationTest extends TestCase
             User::where('email', 'grace@example.com')->first(),
             VerifyEmail::class
         );
-
-        // dd(\DB::table('subscriptions')->get());
     }
 
     public function test_email_is_required()
@@ -60,6 +58,23 @@ class RegistrationTest extends TestCase
         $response = $this->postJson(route('register'), [
             'name' => 'Grace',
             'email' => '',
+            'password' => 'secret',
+            'password_confirmation' => 'secret'
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('email');
+        $this->assertDatabaseMissing('users', ['email' => 'grace@example.com']);
+        Notification::assertNothingSent();
+    }
+
+    public function test_registration_email_must_be_valid()
+    {
+        Notification::fake();
+
+        $response = $this->postJson(route('register'), [
+            'name' => 'Grace',
+            'email' => 'graceexample.com',
             'password' => 'secret',
             'password_confirmation' => 'secret'
         ]);

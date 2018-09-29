@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\User;
 use App\Invitation;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidEmail;
 
 class SendInvitation extends FormRequest
 {
@@ -26,7 +27,7 @@ class SendInvitation extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:invitations'
+            'email' => ['required', new ValidEmail, 'unique:invitations']
         ];
     }
 

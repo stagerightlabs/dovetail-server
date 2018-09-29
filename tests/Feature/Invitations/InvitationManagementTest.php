@@ -39,7 +39,7 @@ class InvitationManagementTest extends TestCase
         $this->assertCount(2, $response->decodeResponseJson('data'));
     }
 
-    public function test_it_does_not_show_invitations_to_org_members()
+    public function test_it_only_shows_invitations_to_org_admins()
     {
         $organization = factory(Organization::class)->create();
         $this->actingAs(factory(User::class)->states('org-member')->create([
@@ -113,7 +113,22 @@ class InvitationManagementTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+        $response->assertJsonValidationErrors('email');
         $this->assertEquals(1, Invitation::where('email', 'grace@example.com')->count());
+        Notification::assertNothingSent();
+    }
+
+    public function test_it_does_not_accept_invalid_email_addresses()
+    {
+        Notification::fake();
+        $this->actingAs(factory(User::class)->states('org-admin')->create());
+
+        $response = $this->postJson(route('invitations.store'), [
+            'email' => 'grace@examplecom'
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('email');
         Notification::assertNothingSent();
     }
 
