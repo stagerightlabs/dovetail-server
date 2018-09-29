@@ -69,9 +69,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::group(['namespace' => 'Organization'], function () {
 
         // The current organization
-        Route::get('organization', function (Request $request) {
-            return response()->json(['data' => $request->organization()]);
-        })->name('organization');
+        Route::get('organization', 'OrganizationController@show')->name('organization');
 
         // Settings
         Route::get('organization/settings/{key}', 'SettingsController@show')->name('settings.show');

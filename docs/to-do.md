@@ -2,15 +2,15 @@
 
 ### Reminders:
 
-+ :black_square_button: Create organization summary resource & endpoint controller
 
 ### Features:
 
-+ :black_square_button: Documents
 + :black_square_button: User Notifications
++ :black_square_button: Documents
 
 ### Completed
 
++ :heavy_check_mark: Create organization summary resource & endpoint controller
 + :heavy_check_mark: Email validation helper
 + :heavy_check_mark: Duplicate organizations should get incrementing slugs
 + :heavy_check_mark: Check for references to soft-deleted users
@@ -18,7 +18,7 @@
 + :heavy_check_mark: Allow Notebook comments to be disabled.
 + :heavy_check_mark: Write Domain Model Outline
 + :heavy_check_mark: Set up gate that checks for model ownership
-+ :heavy_check_mark: Only commentors can edit their comments
++ :heavy_check_mark: Only commentators can edit their comments
 + :heavy_check_mark: Comments
 + :heavy_check_mark: Notebooks
 + :heavy_check_mark: Pages

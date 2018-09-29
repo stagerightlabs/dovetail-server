@@ -14,17 +14,11 @@ Fetch the organization associated with the current user.
 ```json
 {
     "data": {
-        "id": 1,
+        "hashid": "x737zq8",
         "name": "Hopper Labs",
         "slug": "hopper-labs",
         "logo_url": null,
-        "stripe_id": null,
-        "card_brand": null,
-        "card_last_four": null,
-        "trial_ends_at": null,
         "configuration": null,
-        "created_at": "2018-09-12 23:32:24",
-        "updated_at": "2018-09-12 23:32:24",
     }
 }
 ```

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
+use App\Organization;
 use Laravel\Passport\Client;
 use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -15,7 +16,8 @@ class ProfileTest extends TestCase
 
     public function test_it_fetches_a_users_profile()
     {
-        $user = $this->actingAs(factory(User::class)->create());
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
 
         $response = $this->getJson(route('user.show'));
 
@@ -34,11 +36,12 @@ class ProfileTest extends TestCase
 
     public function test_it_updates_a_users_profile()
     {
-        $user = $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'name' => 'Grace Hopper',
             'email' => 'grace@example.com',
             'phone' => '(123) 456-7890'
-        ]));
+        ]);
+        $this->actingAs($user);
 
         $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
@@ -69,10 +72,11 @@ class ProfileTest extends TestCase
 
     public function test_changing_email_address_requires_revalidation()
     {
-        $user = $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'email' => 'grace@example.com',
             'email_verified_at' => Carbon::now()->subDays(2)
-        ]));
+        ]);
+        $this->actingAs($user);
 
         $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
@@ -86,10 +90,11 @@ class ProfileTest extends TestCase
 
     public function test_changing_phone_requires_revalidation()
     {
-        $user = $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'phone' => '(123) 456-7890',
             'phone_verified_at' => Carbon::now()->subDays(2)
-        ]));
+        ]);
+        $this->actingAs($user);
 
         $response = $this->putJson(route('user.show'), [
             'name' => 'Admiral Hopper',
@@ -112,5 +117,24 @@ class ProfileTest extends TestCase
         ]);
 
         $response->assertStatus(401);
+    }
+
+    public function test_it_fetches_the_users_organization()
+    {
+        $organization = factory(Organization::class)->create();
+        $user = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->getJson(route('organization'));
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'hashid' => $organization->hashid,
+            'name' => $organization->name,
+            'slug' => $organization->slug,
+            'config' => $organization->configuration
+        ]);
     }
 }
