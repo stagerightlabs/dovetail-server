@@ -20,6 +20,7 @@ class NotebookResource extends JsonResource
             'category_id' => $this->category_id ? hashid($this->category_id) : null,
             'category' => $this->category_id ? $this->category->name : null,
             'comments_enabled' => boolval($this->comments_enabled),
+            'current_user_is_following' => $this->hasFollower(auth()->user())
         ];
     }
 }

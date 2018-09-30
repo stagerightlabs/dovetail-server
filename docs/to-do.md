@@ -2,6 +2,9 @@
 
 ### Reminders:
 
++ :black_square_button: Test that users following notebooks receive comment Notifications
++ :black_square_button: Test that users who have un-followed notebooks do not receive comment notifications
++ :black_square_button: Test that deleted followers do not receive notifications
 
 ### Features:
 
@@ -10,6 +13,10 @@
 
 ### Completed
 
++ :heavy_check_mark: Update notebook resource with flag for current user follow status & list of followers
++ :heavy_check_mark: Allow users to subscribe or unsubscribe from notebooks ex post facto
++ :heavy_check_mark: Test deleting notebooks deletes follow records
++ :heavy_check_mark: Test adding/removing team members updates notebook follow records
 + :heavy_check_mark: Create organization summary resource & endpoint controller
 + :heavy_check_mark: Email validation helper
 + :heavy_check_mark: Duplicate organizations should get incrementing slugs

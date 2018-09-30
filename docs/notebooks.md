@@ -153,3 +153,70 @@
     "message": "No query results for model [App\Notebook]."
 }
 ```
+
+### Follow Notebook [PUT /notebooks/{hashid}/follow]
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The notebook's database hashid
+
++ Response 200 (application/json)
+
+```json
+{
+    "data": {
+        "hashid": "wy5dn36",
+        "name": "Experiment 24601",
+        "category": "Experiments",
+        "category_id": "wy5dn36",
+        "comments_enabled": true
+    }
+}
+```
+
++ Response 404 (application/json)
+
+```json
+{
+    "message": "No query results for model [App\Notebook]."
+}
+```
+
+
+### Unfollow Notebook [PUT /notebooks/{hashid}/unfollow]
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The notebook's database hashid
+
++ Response 200 (application/json)
+
+```json
+{
+    "data": {
+        "hashid": "wy5dn36",
+        "name": "Experiment 24601",
+        "category": "Experiments",
+        "category_id": "wy5dn36",
+        "comments_enabled": true
+    }
+}
+```
+
++ Response 404 (application/json)
+
+```json
+{
+    "message": "No query results for model [App\Notebook]."
+}
+```

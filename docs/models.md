@@ -47,3 +47,7 @@ Users who have access to a Notebook may add comments to any Page in a Notebook, 
 ### Documents
 
 Documents are file attachments associated with notebook pages.  Currently only images and PDF files are allowed.
+
+### Follows
+
+A 'Follow' represents the desire of a user to be notified when the threads they are participating in are updated.  Users can follow or unfollow various resources as desired.

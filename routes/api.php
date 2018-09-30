@@ -106,6 +106,8 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('notebooks/{hashid}', 'NotebookController@show')->name('notebooks.show');
         Route::put('notebooks/{hashid}', 'NotebookController@update')->name('notebooks.update');
         Route::delete('notebooks/{hashid}', 'NotebookController@delete')->name('notebooks.delete');
+        Route::post('notebooks/{hashid}/follow', 'NotebookFollowerController@store')->name('notebooks.follow');
+        Route::delete('notebooks/{hashid}/unfollow', 'NotebookFollowerController@destroy')->name('notebooks.unfollow');
 
         // Page Order
         Route::put('notebooks/{hashid}/pages/sort-order', 'NotebookPageOrderController')->name('notebooks.sort-order');

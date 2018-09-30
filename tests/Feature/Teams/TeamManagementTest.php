@@ -4,6 +4,7 @@ namespace Tests\Feature\Teams;
 
 use App\Team;
 use App\User;
+use App\Notebook;
 use Tests\TestCase;
 use App\Organization;
 use App\Events\TeamDeletion;
@@ -265,7 +266,6 @@ class TeamTest extends TestCase
 
     public function test_teams_with_members_can_be_deleted()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $admin = factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id
@@ -285,6 +285,34 @@ class TeamTest extends TestCase
         $this->assertDatabaseMissing('teams', [
             'name' => 'Red Team',
             'organization_id' => $organization->id
+        ]);
+    }
+
+    public function test_teams_with_notebooks_can_be_deleted()
+    {
+        $this->withoutExceptionHandling();
+        $organization = factory(Organization::class)->create();
+        $admin = factory(User::class)->states('org-admin')->create([
+            'organization_id' => $organization->id
+        ]);
+        $this->actingAs($admin);
+        $team = factory(Team::class)->create([
+            'name' => 'Red Team',
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember(factory(User::class)->create([
+            'organization_id' => $organization->id,
+        ]));
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'team_id' => $team->id
+        ]);
+
+        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('notebooks', [
+            'team_id' => $team->id
         ]);
     }
 }

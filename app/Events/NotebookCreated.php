@@ -11,12 +11,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NotebookDeletion
+class NotebookCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The notebook being deleted
+     * The notebook that has been created
      *
      * @var Notebook
      */
