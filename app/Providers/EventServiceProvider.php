@@ -6,18 +6,20 @@ use App\Events\LogoCreated;
 use App\Events\UserCreated;
 use App\Events\LogoDeletion;
 use App\Events\TeamDeletion;
+use App\Events\CommentCreated;
 use App\Events\NotebookCreated;
 use App\Events\TeamMemberAdded;
 use App\Events\NotebookDeletion;
 use App\Events\TeamMemberRemoved;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
-use App\Listeners\RemoveTeamMemberships;
 use App\Listeners\ReassignTeamNotebooks;
 use App\Listeners\RemoveNotebookFollows;
+use App\Listeners\RemoveTeamMemberships;
 use App\Listeners\ScheduleLogoProcessing;
 use App\Listeners\AddTeamNotebookFollower;
 use App\Listeners\RecordNotebookFollowers;
+use App\Listeners\SendCommentNotifications;
 use App\Listeners\RemoveLogoFilesFromStorage;
 use App\Listeners\RemoveTeamNotebooksFollower;
 use App\Listeners\AssignDefaultUserPermissions;
@@ -49,16 +51,19 @@ class EventServiceProvider extends ServiceProvider
             ReassignTeamNotebooks::class,
         ],
         NotebookCreated::class => [
-            RecordNotebookFollowers::class
+            RecordNotebookFollowers::class,
         ],
         NotebookDeletion::class => [
-            RemoveNotebookFollows::class
+            RemoveNotebookFollows::class,
         ],
         LogoCreated::class => [
-            ScheduleLogoProcessing::class
+            ScheduleLogoProcessing::class,
         ],
         LogoDeletion::class => [
-            RemoveLogoFilesFromStorage::class
+            RemoveLogoFilesFromStorage::class,
+        ],
+        CommentCreated::class => [
+            SendCommentNotifications::class,
         ]
     ];
 

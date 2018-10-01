@@ -39,6 +39,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::get('user', 'ProfileController@show')->name('user.show');
     Route::put('user', 'ProfileController@update')->name('user.update');
     Route::get('user/permissions/{permission}', 'CheckPermission')->name('user.permission');
+    Route::get('user/notifications', 'NotificationController@index')->name('user.notifications.index');
+    Route::get('user/notifications/{uuid}', 'NotificationController@show')->name('user.notifications.show');
+    Route::put('user/notifications/{uuid}', 'NotificationController@update')->name('user.notifications.update');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {

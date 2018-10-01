@@ -17,7 +17,8 @@
             "name": "Experiment 24601",
             "category": "Experiments",
             "category_id": "wy5dn36",
-            "comments_enabled": true
+            "comments_enabled": true,
+            "current_user_is_following": true
         },
         //..
     ]
@@ -47,7 +48,8 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
-        "comments_enabled": true
+        "comments_enabled": true,
+        "current_user_is_following": true
     },
 }
 ```
@@ -83,7 +85,8 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
-        "comments_enabled": true
+        "comments_enabled": true,
+        "current_user_is_following": true
     }
 }
 ```
@@ -124,7 +127,8 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
-        "comments_enabled": false
+        "comments_enabled": false,
+        "current_user_is_following": true
     }
 }
 ```
@@ -174,7 +178,8 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
-        "comments_enabled": true
+        "comments_enabled": true,
+        "current_user_is_following": true
     }
 }
 ```
@@ -208,7 +213,8 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
-        "comments_enabled": true
+        "comments_enabled": true,
+        "current_user_is_following": false
     }
 }
 ```

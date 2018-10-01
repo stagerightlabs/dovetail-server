@@ -3,13 +3,16 @@
 namespace Tests\Feature\Notebooks;
 
 use App\Page;
+use App\Team;
 use App\User;
 use App\Comment;
 use App\Notebook;
 use Tests\TestCase;
 use App\Organization;
+use App\Notifications\CommentCreated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PageCommentTest extends TestCase
@@ -18,7 +21,6 @@ class PageCommentTest extends TestCase
 
     public function test_it_returns_all_comments_for_a_page()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -33,7 +35,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $user->id,
+            'commentator_id' => $user->id,
         ]);
 
         $response = $this->getJson(route('pages.comments.index', [$notebook->hashid, $page->hashid]));
@@ -42,12 +44,13 @@ class PageCommentTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $comment->hashid,
             'content' => $comment->content,
-            'commentor_id' => $user->hashid
+            'commentator_id' => $user->hashid
         ]);
     }
 
     public function test_it_stores_a_comment_on_a_page()
     {
+        Notification::fake();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -67,14 +70,15 @@ class PageCommentTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'content' => 'This is a comment',
-            'commentor_id' => $user->hashid,
+            'commentator_id' => $user->hashid,
         ]);
         $this->assertDatabaseHas('comments', [
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
             'content' => 'This is a comment',
-            'commentor_id' => $user->id
+            'commentator_id' => $user->id
         ]);
+        Notification::assertNothingSent();
     }
 
     public function test_it_sanitizes_comment_content()
@@ -99,7 +103,7 @@ class PageCommentTest extends TestCase
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
             'content' => 'This is a comment',
-            'commentor_id' => $user->id
+            'commentator_id' => $user->id
         ]);
     }
 
@@ -119,7 +123,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $user->id,
+            'commentator_id' => $user->id,
         ]);
 
         $response = $this->getJson(route('pages.comments.show', [$notebook->hashid, $page->hashid, $comment->hashid]));
@@ -128,8 +132,8 @@ class PageCommentTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $comment->hashid,
             'content' => $comment->content,
-            'commentor_id' => $user->hashid,
-            'commentor' => $user->name,
+            'commentator_id' => $user->hashid,
+            'commentator' => $user->name,
         ]);
     }
 
@@ -150,7 +154,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $userA->id,
+            'commentator_id' => $userA->id,
         ]);
 
         $response = $this->getJson(route('pages.comments.show', [$notebook->hashid, $page->hashid, $comment->hashid]));
@@ -202,7 +206,7 @@ class PageCommentTest extends TestCase
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
             'content' => 'This is a comment',
-            'commentor_id' => $user->id
+            'commentator_id' => $user->id
         ]);
     }
 
@@ -222,7 +226,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $user->id,
+            'commentator_id' => $user->id,
             'edited' => false
         ]);
 
@@ -260,7 +264,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $user->id,
+            'commentator_id' => $user->id,
             'edited' => false
         ]);
 
@@ -295,7 +299,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $userA->id,
+            'commentator_id' => $userA->id,
             'edited' => false
         ]);
 
@@ -326,7 +330,7 @@ class PageCommentTest extends TestCase
         $comment = factory(Comment::class)->create([
             'commentable_type' => 'page',
             'commentable_id' => $page->id,
-            'commentor_id' => $user->id,
+            'commentator_id' => $user->id,
             'edited' => false
         ]);
 
@@ -336,5 +340,111 @@ class PageCommentTest extends TestCase
         $this->assertDatabaseMissing('comments', [
             'id' => $comment->id
         ]);
+    }
+
+    public function test_notebook_followers_are_notified_when_comments_are_created()
+    {
+        Notification::fake();
+        $organization = factory(Organization::class)->create();
+        $memberA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $memberA->applyPermissions(['notebooks.create' => true]);
+        $memberA->save();
+        $memberB = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team = factory(Team::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember($memberA);
+        $team->addMember($memberB);
+        $this->actingAs($memberA);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'team_id' => $team->id,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+
+        $response = $this->postJson(route('pages.comments.store', [$notebook->hashid, $page->hashid]), [
+            'content' => "This is a comment",
+        ]);
+
+        Notification::assertSentTo($memberB, CommentCreated::class);
+        Notification::assertNotSentTo($memberA, CommentCreated::class);
+    }
+
+    public function test_users_who_unfollow_notebooks_are_not_notified_about_new_comments()
+    {
+        Notification::fake();
+        $organization = factory(Organization::class)->create();
+        $memberA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $memberA->applyPermissions(['notebooks.create' => true]);
+        $memberA->save();
+        $memberB = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team = factory(Team::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember($memberA);
+        $team->addMember($memberB);
+        $this->actingAs($memberA);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'team_id' => $team->id,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+
+        $notebook->removeFollower($memberB);
+
+        $response = $this->postJson(route('pages.comments.store', [$notebook->hashid, $page->hashid]), [
+            'content' => "This is a comment",
+        ]);
+
+        Notification::assertNotSentTo($memberB, CommentCreated::class);
+        Notification::assertNotSentTo($memberA, CommentCreated::class);
+    }
+
+    public function test_deleted_followers_are_not_notified_about_new_comments()
+    {
+        Notification::fake();
+        $organization = factory(Organization::class)->create();
+        $memberA = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $memberA->applyPermissions(['notebooks.create' => true]);
+        $memberA->save();
+        $memberB = factory(User::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team = factory(Team::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember($memberA);
+        $team->addMember($memberB);
+        $this->actingAs($memberA);
+        $notebook = factory(Notebook::class)->create([
+            'organization_id' => $organization->id,
+            'team_id' => $team->id,
+        ]);
+        $page = factory(Page::class)->create([
+            'notebook_id' => $notebook->id,
+        ]);
+
+        $memberB->delete();
+
+        $response = $this->postJson(route('pages.comments.store', [$notebook->hashid, $page->hashid]), [
+            'content' => "This is a comment",
+        ]);
+
+        Notification::assertNotSentTo($memberB, CommentCreated::class);
+        Notification::assertNotSentTo($memberA, CommentCreated::class);
     }
 }

@@ -75,7 +75,7 @@ class NotebookFollowerTest extends TestCase
         ]);
     }
 
-    public function test_org_members_follow_org_notebooks()
+    public function test_org_members_do_not_automatically_follow_org_notebooks()
     {
         $organization = factory(Organization::class)->create();
         $memberA = factory(User::class)->create([
@@ -95,14 +95,13 @@ class NotebookFollowerTest extends TestCase
 
         $notebook = Notebook::first();
 
-        $this->assertEquals(2, $notebook->getFollowers()->count());
-        $this->assertInstanceOf(User::class, $notebook->getFollowers()->first());
-        $this->assertDatabaseHas('follows', [
+        $this->assertEquals(0, $notebook->getFollowers()->count());
+        $this->assertDatabaseMissing('follows', [
             'user_id' => $memberA->id,
             'followable_id' => $notebook->id,
             'followable_type' => 'notebook'
         ]);
-        $this->assertDatabaseHas('follows', [
+        $this->assertDatabaseMissing('follows', [
             'user_id' => $memberB->id,
             'followable_id' => $notebook->id,
             'followable_type' => 'notebook'
@@ -120,9 +119,15 @@ class NotebookFollowerTest extends TestCase
         $memberB = factory(User::class)->create([
             'organization_id' => $organization->id
         ]);
+        $team = factory(Team::class)->create([
+            'organization_id' => $organization->id
+        ]);
+        $team->addMember($memberA);
+        $team->addMember($memberB);
         $this->actingAs($memberA);
         $notebook = factory(Notebook::class)->create([
-            'organization_id' => $organization->id
+            'organization_id' => $organization->id,
+            'team_id' => $team->id,
         ]);
 
         $this->assertEquals(2, $notebook->getFollowers()->count());

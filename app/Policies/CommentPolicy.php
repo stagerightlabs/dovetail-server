@@ -68,7 +68,7 @@ class CommentPolicy
     public function update(User $user, Comment $comment)
     {
         // Users can only edit their own comments
-        if (Gate::denies('ownership-verification', [$comment, 'commentor_id'])) {
+        if (Gate::denies('ownership-verification', [$comment, 'commentator_id'])) {
             return false;
         }
 
@@ -101,7 +101,7 @@ class CommentPolicy
         }
 
         // Users may only delete their own comments
-        return Gate::allows('ownership-verification', [$comment, 'commentor_id']);
+        return Gate::allows('ownership-verification', [$comment, 'commentator_id']);
     }
 
     /**
@@ -125,6 +125,6 @@ class CommentPolicy
         }
 
         // Users may only delete their own comments
-        return Gate::allows('ownership-verification', [$comment, 'commentor_id']);
+        return Gate::allows('ownership-verification', [$comment, 'commentator_id']);
     }
 }

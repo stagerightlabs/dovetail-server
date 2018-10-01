@@ -2,17 +2,19 @@
 
 ### Reminders:
 
-+ :black_square_button: Test that users following notebooks receive comment Notifications
-+ :black_square_button: Test that users who have un-followed notebooks do not receive comment notifications
-+ :black_square_button: Test that deleted followers do not receive notifications
 
 ### Features:
 
-+ :black_square_button: User Notifications
 + :black_square_button: Documents
 
 ### Completed
 
++ :heavy_check_mark: User Notifications
++ :heavy_check_mark: Test that a user can fetch their unread notifications
++ :heavy_check_mark: Test that a user can mark their notifications as read
++ :heavy_check_mark: Test that users following notebooks receive comment Notifications
++ :heavy_check_mark: Test that users who have un-followed notebooks do not receive comment notifications
++ :heavy_check_mark: Test that deleted followers do not receive notifications
 + :heavy_check_mark: Update notebook resource with flag for current user follow status & list of followers
 + :heavy_check_mark: Allow users to subscribe or unsubscribe from notebooks ex post facto
 + :heavy_check_mark: Test deleting notebooks deletes follow records

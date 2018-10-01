@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Comment::class, function (Faker $faker) {
     return [
         'content' => $faker->sentences(3, true),
-        'commentor_id' => function () {
+        'commentator_id' => function () {
             return factory(Organization::class)->create()->id;
         },
         'commentable_type' => 'page',

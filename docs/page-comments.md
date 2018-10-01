@@ -20,8 +20,8 @@
         {
             "hashid": "x737zq8",
             "content": "Quidem totam dicta eum esse quam adipisci dolorum. Et mollitia officia et. Sit aut error laborum fugit.",
-            "commentor": "Grace Hopper",
-            "commentor_id": "x737zq8",
+            "commentator": "Grace Hopper",
+            "commentator_id": "x737zq8",
             "edited": false,
             "created_at": "2018-09-26T03:47:39+00:00",
         },
@@ -53,8 +53,8 @@
     "data": {
         "hashid": "x737zq8",
         "content": "Quidem totam dicta eum esse quam adipisci dolorum. Et mollitia officia et. Sit aut error laborum fugit.",
-        "commentor": "Grace Hopper",
-        "commentor_id": "x737zq8",
+        "commentator": "Grace Hopper",
+        "commentator_id": "x737zq8",
         "edited": false,
         "created_at": "2018-09-26T03:47:39+00:00",
     }
@@ -81,8 +81,8 @@
     "data": {
         "hashid": "x737zq8",
         "content": "Quidem totam dicta eum esse quam adipisci dolorum. Et mollitia officia et. Sit aut error laborum fugit.",
-        "commentor": "Grace Hopper",
-        "commentor_id": "x737zq8",
+        "commentator": "Grace Hopper",
+        "commentator_id": "x737zq8",
         "edited": false,
         "created_at": "2018-09-26T03:47:39+00:00",
     }
@@ -123,8 +123,8 @@ Users may only edit their own comments.
     "data": {
         "hashid": "x737zq8",
         "content": "Quidem totam dicta eum esse quam adipisci dolorum. Et mollitia officia et. Sit aut error laborum fugit.",
-        "commentor": "Grace Hopper",
-        "commentor_id": "x737zq8",
+        "commentator": "Grace Hopper",
+        "commentator_id": "x737zq8",
         "edited": true,
         "created_at": "2018-09-26T03:47:39+00:00",
     }

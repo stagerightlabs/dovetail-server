@@ -11,16 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class RecordNotebookFollowers
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  NotebookCreated  $event
@@ -52,6 +42,10 @@ class RecordNotebookFollowers
         }
 
         // Otherwise we can assume that this notebook is owned by the entire org
-        return $notebook->organization->users();
+        // Currently, we don't want automatic organization wide follows.
+        // To enable that option, use this line:
+        // return $notebook->organization->users();
+
+        return collect();
     }
 }

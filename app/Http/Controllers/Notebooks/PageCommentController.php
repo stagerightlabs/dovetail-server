@@ -48,7 +48,7 @@ class PageCommentController extends Controller
 
         $comment = $page->comments()->create([
             'content' => sanitize(request('content')),
-            'commentor_id' => auth()->user()->id
+            'commentator_id' => auth()->user()->id
         ]);
 
         return new CommentResource($comment);

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model;
+use App\Events\CommentCreated;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -21,7 +22,7 @@ class Comment extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-
+        'created' => CommentCreated::class,
     ];
 
     /**
@@ -39,8 +40,8 @@ class Comment extends Model
      *
      * @return BelongsTo
      */
-    public function commentor()
+    public function commentator()
     {
-        return $this->belongsTo(User::class, 'commentor_id')->withTrashed();
+        return $this->belongsTo(User::class, 'commentator_id')->withTrashed();
     }
 }
