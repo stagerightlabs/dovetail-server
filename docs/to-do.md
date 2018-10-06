@@ -4,10 +4,10 @@
 
 ### Features:
 
-+ :black_square_button: Documents
 
 ### Completed
 
++ :heavy_check_mark: Documents
 + :heavy_check_mark: User Notifications
 + :heavy_check_mark: Test that a user can fetch their unread notifications
 + :heavy_check_mark: Test that a user can mark their notifications as read
