@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LogoResource extends JsonResource
+class DocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,6 +20,7 @@ class LogoResource extends JsonResource
             'original' => $this->original ? Storage::disk('s3')->url($this->original) : '',
             'large' => $this->large ? Storage::disk('s3')->url($this->large) : '',
             'small' => $this->small ? Storage::disk('s3')->url($this->small) : '',
+            'mimetype' => $this->mimetype,
         ];
     }
 }

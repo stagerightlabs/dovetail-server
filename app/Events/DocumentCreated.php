@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Page;
+use App\Document;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,25 +11,25 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PageDeletion
+class DocumentCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The page being deleted
+     * The document that has been created
      *
-     * @var Page
+     * @var Document
      */
-    public $page;
+    public $document;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Page $page)
+    public function __construct(Document $document)
     {
-        $this->page = $page;
+        $this->document = $document;
     }
 
     /**

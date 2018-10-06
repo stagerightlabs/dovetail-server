@@ -45,4 +45,14 @@ class Page extends Model
     {
         return $this->morphMany('App\Comment', 'commentable');
     }
+
+    /**
+     * Get all of this page's documents
+     *
+     * @return MorphMany
+     */
+    public function documents()
+    {
+        return $this->morphMany('App\Document', 'documentable');
+    }
 }

@@ -1,6 +1,6 @@
 # Page Comments
 
-### Get page comments [GET /notebooks/{notebook}/pages/{page}]
+### Get page comments [GET /notebooks/{notebook}/pages/{page}/comments]
 
 + Headers
 
@@ -30,7 +30,7 @@
 }
 ```
 
-### Store New Page Comment [POST /notebooks/{notebook}/pages/{page}]
+### Store New Page Comment [POST /notebooks/{notebook}/pages/{page}/comments]
 
 + Headers
 
@@ -131,7 +131,7 @@ Users may only edit their own comments.
 }
 ```
 
-### Delete Notebook Page [DELETE /notebooks/{notebook}/pages/{page}/comments/{comment}]
+### Delete Page Comment [DELETE /notebooks/{notebook}/pages/{page}/comments/{comment}]
 
 + Headers
 
