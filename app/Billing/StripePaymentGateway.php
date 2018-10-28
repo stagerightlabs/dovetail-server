@@ -99,7 +99,6 @@ class StripePaymentGateway implements PaymentGateway
      */
     public function charge($token)
     {
-        dd('stop');
         try {
             return $this->organization->newSubscription(
                     $this->selectedPlan['name'],
