@@ -36,6 +36,6 @@ variables:
   DB_PASSWORD: secret
 
 # Run our tests
-test:
+unit_tests:
   script:
   - vendor/bin/phpunit --configuration phpunit.xml --colors=never

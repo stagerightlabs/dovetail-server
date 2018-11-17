@@ -5,10 +5,10 @@ namespace Tests\Feature\Authentication;
 use App\User;
 use Tests\TestCase;
 use Laravel\Passport\Client;
+use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PasswordResetTest extends TestCase
@@ -91,7 +91,7 @@ class PasswordResetTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors('email');
+        $response->assertJsonStructure(['message']);
         $this->assertFalse(Hash::check('notsecret', $user->fresh()->password));
     }
 
