@@ -47,6 +47,11 @@ $factory->state(App\User::class, 'org-admin', [
     'access_level' => AccessLevel::$ORGANIZATION_ADMIN,
 ]);
 
+$factory->state(App\User::class, 'org-readonly', [
+    'access_level' => AccessLevel::$ORGANIZATION_READ_ONLY,
+]);
+
+
 $factory->state(App\User::class, 'deleted', [
-    'deleted_at' => Carbon::now()->subDays(2)
+    'deleted_at' => Carbon::now()->subDays(2),
 ]);

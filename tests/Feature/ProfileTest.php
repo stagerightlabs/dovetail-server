@@ -137,4 +137,72 @@ class ProfileTest extends TestCase
             'config' => $organization->configuration
         ]);
     }
+
+    public function test_it_retrieves_admin_status_for_administrators()
+    {
+        $user = factory(User::class)->state('org-admin')->create([
+            'email' => 'grace@example.com',
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->getJson(route('user.flags.admin'));
+
+        $response->assertStatus(200);
+        $response->assertExactJson([
+            'data' => [
+                'admin' => true
+            ]
+        ]);
+    }
+
+    public function test_it_retrieves_admin_status_for_non_administrators()
+    {
+        $user = factory(User::class)->state('org-member')->create([
+            'email' => 'grace@example.com',
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->getJson(route('user.flags.admin'));
+
+        $response->assertStatus(200);
+        $response->assertExactJson([
+            'data' => [
+                'admin' => false
+            ]
+        ]);
+    }
+
+    public function test_it_retrieves_readonly_status_for_regular_users()
+    {
+        $user = factory(User::class)->state('org-member')->create([
+            'email' => 'grace@example.com',
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->getJson(route('user.flags.readonly'));
+
+        $response->assertStatus(200);
+        $response->assertExactJson([
+            'data' => [
+                'readonly' => false
+            ]
+        ]);
+    }
+
+    public function test_it_retrieves_readonly_status_for_readonly_users()
+    {
+        $user = factory(User::class)->state('org-readonly')->create([
+            'email' => 'grace@example.com',
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->getJson(route('user.flags.readonly'));
+
+        $response->assertStatus(200);
+        $response->assertExactJson([
+            'data' => [
+                'readonly' => true
+            ]
+        ]);
+    }
 }

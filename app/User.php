@@ -131,6 +131,26 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Is this user an organization administrator?
+     *
+     * @return boolean
+     */
+    public function isOrganizationAdministrator()
+    {
+        return $this->access_level >= AccessLevel::$ORGANIZATION_ADMIN;
+    }
+
+    /**
+     * Has this user been flagged for read only access?
+     *
+     * @return boolean
+     */
+    public function isReadOnly()
+    {
+        return $this->access_level == AccessLevel::$ORGANIZATION_READ_ONLY;
+    }
+
+    /**
      * Return an appropriate label for this user's access level
      *
      * @return string

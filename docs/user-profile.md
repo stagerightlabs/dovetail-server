@@ -76,3 +76,41 @@
     }
 }
 ```
+
+### User Admin Status [GET /user/admin]
+
+Does the current user have administrator level access within their organization?
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Response 200 (application/json)
+
+```json
+{
+    "data": {
+        "admin": true
+    }
+}
+```
+
+### User Read Only Status [GET /user/readonly]
+
+Should the current user be restricted to "read only" access to their account?
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Response 200 (application/json)
+
+```json
+{
+    "data": {
+        "readonly": true
+    }
+}
+```

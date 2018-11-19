@@ -42,6 +42,8 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::get('user/notifications', 'NotificationController@index')->name('user.notifications.index');
     Route::get('user/notifications/{uuid}', 'NotificationController@show')->name('user.notifications.show');
     Route::put('user/notifications/{uuid}', 'NotificationController@update')->name('user.notifications.update');
+    Route::get('user/admin', 'CheckAdminStatus')->name('user.flags.admin');
+    Route::get('user/readonly', 'CheckReadOnlyStatus')->name('user.flags.readonly');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
