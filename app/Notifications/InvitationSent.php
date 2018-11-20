@@ -47,9 +47,9 @@ class InvitationSent extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject("An invitation to join LIMS")
-                    ->line("{$this->invitation->organization->name} has invited you to join LIMS")
-                    ->action('Create Your Account', $this->invitationUrl());
+                    ->subject("An invitation to join Dovetail")
+                    ->line("{$this->invitation->organization->name} has invited you to join their Dovetail account.")
+                    ->action('Accept Your Invitation', $this->invitationUrl());
     }
 
     /**
