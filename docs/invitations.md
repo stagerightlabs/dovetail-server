@@ -80,7 +80,7 @@ Administrators can use invitations to add users to their organization.
 }
 ```
 
-### Resend Invitation [POST /invitations/{hashid}/revoke]
+### Resend Invitation [POST /invitations/{hashid}/resend]
 
 + Headers
 
