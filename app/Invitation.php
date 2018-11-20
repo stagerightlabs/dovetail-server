@@ -21,7 +21,7 @@ class Invitation extends Model
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'completed_at'];
+    protected $dates = ['created_at', 'updated_at', 'completed_at', 'revoked_at'];
 
     /**
      * The organization that owns this invitation
