@@ -23,7 +23,7 @@ class ProcessLogoImageTest extends TestCase
             'small' => null
         ]);
 
-        ProcessLogoImage::dispatch($logo);
+        ProcessLogoImage::dispatchNow($logo);
 
         $resizedImage = Storage::disk('s3')->get($logo->fresh()->large);
         list($width, $height) = getimagesizefromstring($resizedImage);
