@@ -134,7 +134,7 @@ class ProfileTest extends TestCase
             'hashid' => $organization->hashid,
             'name' => $organization->name,
             'slug' => $organization->slug,
-            'config' => $organization->configuration
+            'settings' => $organization->settings->toArray()
         ]);
     }
 

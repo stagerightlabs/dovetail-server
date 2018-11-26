@@ -18,7 +18,11 @@ Fetch the organization associated with the current user.
         "name": "Hopper Labs",
         "slug": "hopper-labs",
         "logo_url": null,
-        "configuration": null,
+        "settings": {
+            "label.notebooks": "Experiments",
+            "label.protocols": "Protocols",
+            "label.plates": "Plates",
+        },
     }
 }
 ```

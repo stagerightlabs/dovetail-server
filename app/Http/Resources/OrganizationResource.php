@@ -20,7 +20,7 @@ class OrganizationResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'logo' => new LogoResource($this->logo),
-            'config' => $this->configuration,
+            'settings' => $this->settings,
         ];
     }
 }

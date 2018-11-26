@@ -25,6 +25,7 @@ class SummaryTest extends TestCase
         $response->assertJsonFragment([
             'name' => $organization->name,
             'slug' => $organization->slug,
+            'settings' => $organization->settings->toArray()
         ]);
     }
 }
