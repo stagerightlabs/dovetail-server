@@ -6,6 +6,7 @@ use App\User;
 use App\Invitation;
 use App\AccessLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -32,7 +33,8 @@ class Redeem extends Controller
             'email' => $invitation->email,
             'password' => Hash::make($request->get('password')),
             'access_level' => AccessLevel::$ORGANIZATION_MEMBER,
-            'organization_id' => $invitation->organization->id
+            'organization_id' => $invitation->organization->id,
+            'email_verified_at' => Carbon::now()
         ]);
 
         // Send a welcome message

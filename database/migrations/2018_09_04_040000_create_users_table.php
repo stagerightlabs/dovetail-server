@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('organization_id');
             $table->integer('access_level')->default(0);
             $table->jsonb('permission_flags')->nullable();
+            $table->string('email_verification_code')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

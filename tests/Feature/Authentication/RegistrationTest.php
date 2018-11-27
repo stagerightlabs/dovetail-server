@@ -8,7 +8,6 @@ use Laravel\Passport\Client;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegistrationTest extends TestCase
@@ -45,10 +44,6 @@ class RegistrationTest extends TestCase
         ]);
         $this->assertDatabaseHas('users', ['email' => 'grace@example.com']);
         $this->assertDatabaseHas('organizations', ['name' => 'Phylos Bioscience']);
-        Notification::assertSentTo(
-            User::where('email', 'grace@example.com')->first(),
-            VerifyEmail::class
-        );
     }
 
     public function test_email_is_required()

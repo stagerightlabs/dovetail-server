@@ -4,9 +4,8 @@ namespace Tests\Feature\Console;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SuperAdminCreatorTest extends TestCase
@@ -23,11 +22,6 @@ class SuperAdminCreatorTest extends TestCase
 
         $this->assertDatabaseHas('users', ['email' => 'grace@example.com']);
         $this->assertDatabaseHas('organizations', ['name' => 'Super Admins']);
-
-        Notification::assertSentTo(
-            User::where('email', 'grace@example.com')->first(),
-            VerifyEmail::class
-        );
     }
 
     public function test_it_validates_email_addresses()

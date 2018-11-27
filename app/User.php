@@ -6,6 +6,7 @@ use App\Team;
 use App\AccessLevel;
 use App\Organization;
 use App\Events\UserCreated;
+use App\Notifications\VerifyEmail;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -20,13 +21,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, Notifiable, SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password', 'organization_id', 'access_level'
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -280,5 +279,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->email_verification_code = str_random(24);
+        $this->save();
+
+        $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsVerified()
+    {
+        return $this->forceFill([
+            'email_verified_at' => $this->freshTimestamp(),
+            'email_verification_code' => null
+        ])->save();
     }
 }

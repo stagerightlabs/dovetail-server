@@ -27,7 +27,6 @@ class VerificationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -39,7 +38,7 @@ class VerificationController extends Controller
      */
     public function verify(Request $request)
     {
-        if ($request->route('id') == $request->user()->getKey()) {
+        if ($request->route('code') == $request->user()->email_verification_code) {
             $request->user()->markEmailAsVerified();
         }
 

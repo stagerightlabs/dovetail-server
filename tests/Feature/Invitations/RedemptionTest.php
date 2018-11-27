@@ -9,7 +9,6 @@ use App\Organization;
 use Laravel\Passport\Client;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RedemptionTest extends TestCase
@@ -105,8 +104,6 @@ class RedemptionTest extends TestCase
 
     public function test_an_invitation_can_be_redeemed()
     {
-        Notification::fake();
-        $this->withoutExceptionHandling();
         $client = factory(Client::class)->state('password')->create();
         $organization = factory(Organization::class)->create();
         $invitation = factory(Invitation::class)->create([
@@ -128,13 +125,9 @@ class RedemptionTest extends TestCase
             'refresh_token'
         ]);
         $this->assertNotNull($invitation->fresh()->completed_at);
-        $this->assertDatabaseHas('users', [
-            'email' => 'grace@example.com',
-            'organization_id' => $organization->id
-        ]);
-        Notification::assertSentTo(
-            User::where('email', 'grace@example.com')->first(),
-            VerifyEmail::class
-        );
+        $user = User::where('email', 'grace@example.com')
+            ->where('organization_id', $organization->id)
+            ->first();
+        $this->assertNotNull($user->email_verified_at);
     }
 }
