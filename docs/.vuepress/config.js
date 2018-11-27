@@ -33,13 +33,13 @@ module.exports = {
                     '/accept-invitation',
                     '/session',
                     '/passwords',
-                    '/verification',
                 ]
             },
             {
                 title: 'User Profile',
                 children: [
                     ['/user-profile', 'Manage'],
+                    '/verification',
                 ]
             },
             {

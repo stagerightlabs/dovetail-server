@@ -23,7 +23,7 @@
 }
 ```
 
-### Verify [GET /email/verify/{id}]
+### Verify [GET /email/verify/{code}]
 
 + Headers
 
@@ -31,7 +31,7 @@
 
 + Parameters
 
-    + `id`: The user's id
+    + `code`: The user's email verification code
 
 + Response 200 (application/json)
 
