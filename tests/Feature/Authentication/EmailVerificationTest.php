@@ -56,6 +56,20 @@ class EmailVerificationTest extends TestCase
         $this->assertNull($user->fresh()->email_verification_code);
     }
 
+    public function test_it_handles_invalid_verification_codes()
+    {
+        $user = factory(User::class)->states('unverified')->create([
+            'email_verification_code' => str_random(24)
+        ]);
+        $this->withHeaders($this->authorization($user));
+
+        $response = $this->getJson(route('verification.verify', 'bad-code'));
+
+        $response->assertStatus(422);
+        $this->assertNull($user->fresh()->email_verified_at);
+        $this->assertNotNull($user->fresh()->email_verification_code);
+    }
+
     public function test_it_does_not_verify_unknown_accounts()
     {
         $client = factory(Client::class)->state('password')->create();

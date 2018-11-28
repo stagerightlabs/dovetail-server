@@ -40,9 +40,11 @@ class VerificationController extends Controller
     {
         if ($request->route('code') == $request->user()->email_verification_code) {
             $request->user()->markEmailAsVerified();
+
+            return response()->json(['message' => 'Thank you for verifying your email address']);
         }
 
-        return response()->json(['message' => 'Thank you for verifying your email address']);
+        return response()->json(['message' => 'There was a problem'], 422);
     }
 
     /**
