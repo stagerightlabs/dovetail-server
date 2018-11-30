@@ -46,7 +46,8 @@ class ConfirmationTest extends TestCase
         $response->assertExactJson([
             'data' => [
                 'email' => $invitation->email,
-                'code' => $invitation->code
+                'code' => $invitation->code,
+                'invited-by' => $invitation->organization->name,
             ]
         ]);
     }
