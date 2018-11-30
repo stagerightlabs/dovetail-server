@@ -29,7 +29,7 @@
 }
 ```
 
-### Redeem Invitation
+### Redeem Invitation [POST /invitations/{code}/redeem]
 
 + Headers
 

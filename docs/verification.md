@@ -41,6 +41,14 @@
 }
 ```
 
++ Response 422 (application/json)
+
+```json
+{
+    "message": "There was a problem."
+}
+```
+
 + Response 401 (application/json)
 
 ```json
