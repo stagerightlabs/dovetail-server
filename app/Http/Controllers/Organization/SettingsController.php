@@ -43,18 +43,12 @@ class SettingsController extends Controller
         $this->authorize('writeSetting', request()->organization());
 
         $request->validate([
-            'settings' => 'required'
+            'key' => 'required',
+            'value' => 'required',
         ]);
 
-        $validKeys = array_keys(Organization::$defaultConfiguration);
-
-        $config = collect($request->get('settings', []))
-            ->filter(function ($value, $key) use ($validKeys) {
-                return in_array($key, $validKeys);
-            });
-
         $organization = $request->organization();
-        $organization->updateConfiguration($config);
+        $organization->updateConfiguration(request('key'), request('value'));
         $organization->save();
 
         return response()->json([], 204);

@@ -29,53 +29,35 @@ class OrganizationSettingsTest extends TestCase
     {
         $organization = factory(Organization::class)->create();
 
-        $this->assertNull($organization->config('foo.bar'));
+        $organization->updateConfiguration('label.plates', 'baz');
 
-        $organization->updateConfiguration('foo.bar', 'baz');
-
-        $this->assertEquals('baz', $organization->config('foo.bar'));
-    }
-
-    public function test_organization_configuration_can_be_set_in_bulk()
-    {
-        $organization = factory(Organization::class)->create();
-
-        $this->assertNull($organization->config('foo'));
-        $this->assertNull($organization->config('bar'));
-
-        $organization->updateConfiguration([
-            'foo' => 'baz',
-            'bar' => 'buzz',
-        ]);
-
-        $this->assertEquals('baz', $organization->config('foo'));
-        $this->assertEquals('buzz', $organization->config('bar'));
+        $this->assertEquals('baz', $organization->config('label.plates'));
     }
 
     public function test_permissions_are_persisted()
     {
         $organization = factory(Organization::class)->create();
 
-        $organization->updateConfiguration('foo.bar', 'baz');
+        $organization->updateConfiguration('label.plates', 'baz');
         $organization->save();
 
-        $this->assertEquals('baz', $organization->fresh()->config('foo.bar'));
+        $this->assertEquals('baz', $organization->fresh()->config('label.plates'));
     }
 
     public function test_permissions_can_be_revoked()
     {
         $organization = factory(Organization::class)->create();
 
-        $organization->updateConfiguration('foo.bar', 'baz');
+        $organization->updateConfiguration('label.plates', 'baz');
         $organization->save();
 
         $organization = $organization->fresh();
 
-        $this->assertEquals('baz', $organization->config('foo.bar'));
+        $this->assertEquals('baz', $organization->config('label.plates'));
 
-        $organization->updateConfiguration('foo.bar', 'buzz');
+        $organization->updateConfiguration('label.plates', 'buzz');
         $organization->save();
 
-        $this->assertEquals('buzz', $organization->fresh()->config('foo.bar'));
+        $this->assertEquals('buzz', $organization->fresh()->config('label.plates'));
     }
 }

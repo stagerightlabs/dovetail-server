@@ -140,9 +140,18 @@ class Organization extends Model
      * @var array
      */
     public static $defaultConfiguration = [
-        'label.notebooks' => 'Experiments',
-        'label.protocols' => 'Protocols',
-        'label.plates' => 'Plates'
+        [
+            'key' => 'label.notebooks',
+            'value' => 'Experiments',
+        ],
+        [
+            'key' => 'label.protocols',
+            'value' => 'Protocols',
+        ],
+        [
+            'key' => 'label.plates',
+            'value' => 'Plates',
+        ],
     ];
 
     /**
@@ -153,28 +162,46 @@ class Organization extends Model
      */
     public function config($setting)
     {
-        return $this->settings->get($setting);
+        return $this->settings->reduce(function ($carry, $item) use ($setting) {
+            if (is_array($item) && $item['key'] == $setting) {
+                return $item['value'];
+            }
+        }, null);
     }
 
     /**
-     * Set the permissions for a user, either one at a time or as a group
+     * Update an organization setting
      *
-     * @param Collection|array|string $setting
-     * @param boolean $value
+     * @param string $setting
+     * @param string $value
      * @return void
      */
-    public function updateConfiguration($setting, $value = false)
+    public function updateConfiguration($setting, $value)
     {
-        if ($setting instanceof Collection) {
-            $setting = $setting->toArray();
+        // Ensure that we only accept values for known settings
+        if (! collect(self::$defaultConfiguration)->pluck('key')->contains($setting)) {
+            return;
         }
 
-        if (!is_array($setting)) {
-            $setting = [$setting => $value];
+        // Format the new setting as an array
+        $setting = [
+            'key' => $setting,
+            'value' => $value,
+        ];
+
+        $existing = collect($this->configuration ?? []);
+
+        if ($existing->contains($setting)) {
+            $existing = $existing->map(function ($item) {
+                if ($item['key'] == $setting['key']) {
+                    return $setting;
+                }
+                return $item;
+            });
+        } else {
+            $existing = $existing->merge([$setting]);
         }
 
-        $existing = $this->configuration ?? [];
-
-        $this->configuration = array_merge($existing, $setting);
+        $this->configuration = $existing->toArray();
     }
 }

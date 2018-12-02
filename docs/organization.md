@@ -17,12 +17,26 @@ Fetch the organization associated with the current user.
         "hashid": "x737zq8",
         "name": "Hopper Labs",
         "slug": "hopper-labs",
-        "logo_url": null,
-        "settings": {
-            "label.notebooks": "Experiments",
-            "label.protocols": "Protocols",
-            "label.plates": "Plates",
+        "logo": {
+            "hashid": "",
+            "original": "",
+            "large": "",
+            "small": ""
         },
+        "settings": [
+            {
+                "key": "label.notebooks",
+                "value": "Experiments"
+            },
+            {
+                "key": "label.protocols",
+                "value": "Protocols"
+            },
+            {
+                "key": "label.plates",
+                "value": "Plates"
+            }
+        ]
     }
 }
 ```

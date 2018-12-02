@@ -15,19 +15,19 @@ class SettingsTest extends TestCase
     public function test_an_organization_member_can_read_settings()
     {
         $organization = factory(Organization::class)->create();
-        $organization->updateConfiguration(['foo' => 'bar']);
+        $organization->updateConfiguration('label.plates', 'something else');
         $organization->save();
         $this->actingAs(factory(User::class)->states('org-member')->create([
             'organization_id' => $organization->id
         ]));
 
-        $response = $this->getJson(route('settings.show', 'foo'));
+        $response = $this->getJson(route('settings.show', 'label.plates'));
 
         $response->assertStatus(200);
         $response->assertExactJson([
             'data' => [
-                'key' => 'foo',
-                'value' => 'bar'
+                'key' => 'label.plates',
+                'value' => 'something else'
             ]
         ]);
     }
@@ -55,14 +55,11 @@ class SettingsTest extends TestCase
         ]));
 
         $response = $this->putJson(route('settings.update'), [
-            'settings' => [
-                'label.notebooks' => 'foo',
-                'label.plates' => 'bar'
-            ]
+            'key' => 'label.plates',
+            'value' => 'bar'
         ]);
 
         $response->assertStatus(204);
-        $this->assertEquals('foo', $organization->fresh()->config('label.notebooks'));
         $this->assertEquals('bar', $organization->fresh()->config('label.plates'));
     }
 
@@ -75,9 +72,8 @@ class SettingsTest extends TestCase
         ]));
 
         $response = $this->putJson(route('settings.update'), [
-            'settings' => [
-                'arbitrary' => 'foo',
-            ]
+            'key' => 'arbitrary',
+            'value' => 'foo',
         ]);
 
         $response->assertStatus(204);

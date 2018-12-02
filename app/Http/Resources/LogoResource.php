@@ -16,7 +16,7 @@ class LogoResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'hashid' => hashid($this->id),
+            'hashid' => hashid($this->id) ?? '',
             'original' => $this->original ? Storage::disk('s3')->url($this->original) : '',
             'large' => $this->large ? Storage::disk('s3')->url($this->large) : '',
             'small' => $this->small ? Storage::disk('s3')->url($this->small) : '',
