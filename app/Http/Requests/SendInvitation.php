@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\User;
 use App\Invitation;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidEmail;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SendInvitation extends FormRequest
 {

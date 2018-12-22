@@ -17,7 +17,7 @@
     "data": {
         "email": "wisoky.assunta@example.net",
         "code": "YMKGEWXMZVQRPBZL",
-        "invited-by": "Hopper Labs"
+        "invitedBy": "Hopper Labs"
     }
 }
 ```

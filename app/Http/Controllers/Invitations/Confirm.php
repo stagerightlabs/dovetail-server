@@ -28,7 +28,7 @@ class Confirm extends Controller
         return new JsonResource([
             'email' => $invitation->email,
             'code' => $invitation->code,
-            'invited-by' => $invitation->organization->name,
+            'invitedBy' => $invitation->organization->name,
         ]);
     }
 }

@@ -6,9 +6,9 @@ use App\Invitation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\InvitationSent;
+use App\Http\Requests\SendInvitation;
 use App\Http\Resources\InvitationResource;
 use Illuminate\Support\Facades\Notification;
-use App\Http\Requests\SendInvitation;
 
 /**
  * @resource Invitations
