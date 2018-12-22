@@ -47,7 +47,7 @@ class ConfirmationTest extends TestCase
             'data' => [
                 'email' => $invitation->email,
                 'code' => $invitation->code,
-                'invited-by' => $invitation->organization->name,
+                'invitedBy' => $invitation->organization->name,
             ]
         ]);
     }
