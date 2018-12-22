@@ -2,14 +2,18 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class VerifyEmail extends Notification
+class VerifyEmail extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The callback that should be used to build the mail message.
      *
@@ -58,8 +62,6 @@ class VerifyEmail extends Notification
      */
     protected function verificationUrl($notifiable)
     {
-        dd($notifiable->toArray());
-
         return config('app.frontend_url') . "/verify-email/{$notifiable->email_verification_code}";
     }
 
