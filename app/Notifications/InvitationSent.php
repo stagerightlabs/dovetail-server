@@ -72,6 +72,6 @@ class InvitationSent extends Notification implements ShouldQueue
      */
     protected function invitationUrl()
     {
-        return config('app.frontend_url') . 'invitations/' . $this->invitation->code;
+        return config('app.frontend_url') . '/invitations/' . $this->invitation->code;
     }
 }
