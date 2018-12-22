@@ -29,6 +29,8 @@ class CategoryController extends Controller
     {
         request()->validate([
             'name' => 'required|iunique:categories,name,null,null,organization_id,' . request()->organization()->id,
+        ], [
+            'name.iunique' => 'This name is already in use'
         ]);
 
         $category = Category::create([
