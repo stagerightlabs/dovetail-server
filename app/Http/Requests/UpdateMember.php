@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateMember extends FormRequest
@@ -25,9 +26,16 @@ class UpdateMember extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'string|max:20',
-            'title' => 'string|max:255',
+            'title' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore(hashid($this->hashid))
+            ]
         ];
     }
 }
