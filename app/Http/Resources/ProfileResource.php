@@ -15,6 +15,7 @@ class ProfileResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'hashid' => $this->hashid,
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->toAtomString() : null,
