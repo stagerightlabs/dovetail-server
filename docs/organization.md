@@ -74,7 +74,8 @@ Fetch the value of a [setting flag](/settings.html) for this organization.
 
 + Form Data
 
-    + `settings[]`: Key value pairs. Such as `permissons[label.protocols] = "SOPs"`
+    + `key`: The name of the setting being adjusted
+    + `value`: The new value for the setting
 
 + Response 204 (application/json)
 

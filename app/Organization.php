@@ -192,7 +192,7 @@ class Organization extends Model
         $existing = collect($this->configuration ?? []);
 
         if ($existing->contains($setting)) {
-            $existing = $existing->map(function ($item) {
+            $existing = $existing->map(function ($item) use ($setting) {
                 if ($item['key'] == $setting['key']) {
                     return $setting;
                 }
