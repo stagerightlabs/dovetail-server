@@ -32,6 +32,8 @@ class TeamController extends Controller
 
         request()->validate([
             'name' => 'required|iunique:teams,name,null,null,organization_id,' . request()->organization()->id,
+        ], [
+            'name.iunique' => 'That name is already in use'
         ]);
 
         $team = Team::create([
