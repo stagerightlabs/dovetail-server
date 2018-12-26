@@ -74,31 +74,6 @@ class TeamMembershipTest extends TestCase
         $this->assertFalse($team->hasMember($member));
     }
 
-    public function test_users_cannot_add_themselves_to_teams()
-    {
-        $organization = factory(Organization::class)->create();
-        $user = factory(User::class)->states('org-admin')->create([
-            'organization_id' => $organization->id
-        ]);
-        $this->actingAs($user);
-        $team = factory(Team::class)->create([
-            'organization_id' => $organization->id
-        ]);
-
-        $this->assertTrue($user->hasPermission('teams.membership'));
-
-        $response = $this->postJson(route('teams.memberships.store', $team->hashid), [
-            'member' => $user->hashid
-        ]);
-
-        $response->assertStatus(403);
-        $this->assertDatabaseMissing('team_user', [
-            'team_id' => $team->id,
-            'user_id' => $user->id
-        ]);
-        $this->assertFalse($team->hasMember($user));
-    }
-
     public function test_qualified_users_can_remove_team_members()
     {
         $organization = factory(Organization::class)->create();

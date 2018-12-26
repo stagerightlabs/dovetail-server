@@ -27,11 +27,6 @@ class TeamMembershipController extends Controller
         $team = request()->organization()->teams()->findOrFail(hashid($team));
         $member = request()->organization()->users()->findOrFail(hashid(request('member')));
 
-        // Users cannot add themselves to teams
-        if (auth()->user()->is($member)) {
-            throw new AuthorizationException("You cannot add yourself to a team.");
-        }
-
         $team->addMember($member);
 
         return response()->json([], 201);
