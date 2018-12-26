@@ -39,6 +39,23 @@ class Team extends Model
     }
 
     /**
+     * Scope a query to only include popular users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scope($query)
+    {
+        $subQuery = \DB::table('interactions')
+            ->select('created_at')
+            ->whereRaw('customer_id = customers.id')
+            ->latest()
+            ->limit(1);
+
+        return $query->select('customers.*')->selectSub($subQuery, 'last_interaction_date');
+    }
+
+    /**
      * Add a member to this team
      *
      * @param  User|integer $member

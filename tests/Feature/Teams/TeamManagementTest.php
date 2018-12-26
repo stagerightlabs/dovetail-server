@@ -18,20 +18,24 @@ class TeamTest extends TestCase
 
     public function test_it_returns_all_available_teams()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->states('org-admin')->create([
+        $admin = factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $this->actingAs($admin);
         $team = factory(Team::class)->create([
             'organization_id' => $organization->id
         ]);
+        $team->addMember($admin);
 
         $response = $this->getJson(route('teams.index'));
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'hashid' => $team->hashid,
-            'name' => $team->name
+            'name' => $team->name,
+            'members_count' => 1
         ]);
     }
 

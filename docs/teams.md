@@ -14,7 +14,8 @@
     "data": [
         {
             "hashid": "wy5dn36",
-            "name": "Red Team"
+            "name": "Red Team",
+            "members_count": 2,
         },
         // ..
     ]

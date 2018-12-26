@@ -16,7 +16,9 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return TeamResource::collection(request()->organization()->teams);
+        $teams = request()->organization()->teams()->withCount('members')->get();
+
+        return TeamResource::collection($teams);
     }
 
     /**

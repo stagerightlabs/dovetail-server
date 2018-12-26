@@ -46,7 +46,7 @@ class TeamMembershipTest extends TestCase
         Event::assertDispatched(TeamMemberAdded::class);
     }
 
-    public function test_unqualified_users_cannot_add_members_to_teams()
+    public function test_non_qualified_users_cannot_add_members_to_teams()
     {
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->states('org-member')->create([
@@ -172,7 +172,7 @@ class TeamMembershipTest extends TestCase
         $response->assertStatus(403);
         $this->assertDatabaseHas('team_user', [
             'team_id' => $team->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $this->assertTrue($team->hasMember($user));
     }
