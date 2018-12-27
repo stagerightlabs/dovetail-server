@@ -35,6 +35,7 @@ class TeamTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $team->hashid,
             'name' => $team->name,
+            'slug' => str_slug($team->name),
             'members_count' => 1
         ]);
     }

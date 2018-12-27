@@ -15,6 +15,7 @@
         {
             "hashid": "wy5dn36",
             "name": "Red Team",
+            "slug": "red-team",
             "members_count": 2,
         },
         // ..
@@ -41,7 +42,8 @@ Users must have permission to perform this action.
 {
     "data": {
         "hashid": "wy5dn36",
-        "name": "Red Team"
+        "name": "Red Team",
+        "slug": "red-team",
     }
 }
 ```
@@ -83,6 +85,7 @@ Users must have permission to perform this action.
     "data": {
         "hashid": "wy5dn36",
         "name": "Red Team",
+        "slug": "red-team",
         "members": [
             {
                 "hashid": "wy5dn36",
@@ -120,7 +123,8 @@ Users must have permission to perform this action.
 {
     "data": {
         "hashid": "wy5dn36",
-        "name": "Red Team"
+        "name": "Red Team",
+        "slug": "red-team",
     }
 }
 ```
