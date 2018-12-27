@@ -40,6 +40,7 @@ module.exports = {
                 children: [
                     ['/user-profile', 'Manage'],
                     '/verification',
+                    ['/user-teams', 'Teams']
                 ]
             },
             {

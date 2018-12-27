@@ -19,7 +19,7 @@ class TeamResource extends JsonResource
             'hashid' => $this->hashid,
             'name' => $this->name,
             'slug' => str_slug($this->name),
-            'members' => MemberResource::collection($this->members),
+            'members' => MemberResource::collection($this->whenLoaded('members')),
             'members_count' => $this->when(!is_null($this->members_count), $this->members_count)
         ];
     }
