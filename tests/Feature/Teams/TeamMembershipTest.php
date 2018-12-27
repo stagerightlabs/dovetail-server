@@ -127,28 +127,4 @@ class TeamMembershipTest extends TestCase
         ]);
         $this->assertTrue($team->hasMember($member));
     }
-
-    public function test_users_cannot_remove_themselves_from_groups()
-    {
-        $organization = factory(Organization::class)->create();
-        $user = factory(User::class)->states('org-admin')->create([
-            'organization_id' => $organization->id
-        ]);
-        $this->actingAs($user);
-        $team = factory(Team::class)->create([
-            'organization_id' => $organization->id
-        ]);
-        $team->addMember($user);
-
-        $this->assertTrue($user->hasPermission('teams.membership'));
-
-        $response = $this->deleteJson(route('teams.memberships.delete', [$team->hashid, $user->hashid]));
-
-        $response->assertStatus(403);
-        $this->assertDatabaseHas('team_user', [
-            'team_id' => $team->id,
-            'user_id' => $user->id,
-        ]);
-        $this->assertTrue($team->hasMember($user));
-    }
 }
