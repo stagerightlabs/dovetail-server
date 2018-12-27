@@ -28,7 +28,7 @@ class NotebookFollowerTest extends TestCase
 
         $response = $this->postJson(route('notebooks.store'), [
             'name' => 'A Test Notebook',
-            'owner_id' => $member->hashid
+            'user_id' => $member->hashid
         ]);
 
         $notebook = Notebook::first();
@@ -152,7 +152,7 @@ class NotebookFollowerTest extends TestCase
         $this->actingAs($memberB);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
-            'owner_id' => $memberA->id,
+            'user_id' => $memberA->id,
         ]);
 
         $response = $this->postJson(route('notebooks.follow', $notebook->hashid));
@@ -178,7 +178,7 @@ class NotebookFollowerTest extends TestCase
         $this->actingAs($member);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
-            'owner_id' => $member->id,
+            'user_id' => $member->id,
         ]);
 
         $response = $this->deleteJson(route('notebooks.unfollow', $notebook->hashid));

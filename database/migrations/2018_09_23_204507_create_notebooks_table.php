@@ -20,7 +20,7 @@ class CreateNotebooksTable extends Migration
             $table->boolean('comments_enabled')->default(true);
             $table->unsignedInteger('organization_id');
             $table->unsignedInteger('team_id')->nullable();
-            $table->unsignedInteger('owner_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('created_by');
             $table->timestamps();
 
@@ -28,7 +28,7 @@ class CreateNotebooksTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('team_id')->references('id')->on('teams');
             $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('owner_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -14,13 +14,23 @@ class NotebookResource extends JsonResource
      */
     public function toArray($request)
     {
+        // Determine owner name
+        if ($this->user_id) {
+            $ownerName = $this->user->name;
+        } elseif ($this->team_id) {
+            $ownerName = $this->team->name;
+        } else {
+            $ownerName = $this->organization->name;
+        }
+
         return [
             'hashid' => hashid($this->id),
             'name' => $this->name,
             'category_id' => $this->category_id ? hashid($this->category_id) : null,
             'category' => $this->category_id ? $this->category->name : null,
+            'owner_name' => $ownerName,
             'comments_enabled' => boolval($this->comments_enabled),
-            'current_user_is_following' => $this->hasFollower(auth()->user())
+            'current_user_is_following' => $this->hasFollower(auth()->user()),
         ];
     }
 }

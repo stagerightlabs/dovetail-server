@@ -37,7 +37,7 @@ class NotebookController extends Controller
             'name' => request('name'),
             'organization_id' => request()->organization()->id,
             'team_id' => hashid(request('team_id')),
-            'owner_id' => hashid(request('owner_id')),
+            'user_id' => hashid(request('user_id')),
             'created_by' => auth()->user()->id,
             'category_id' => request()->filled('category_id') ? hashid(request('category_id')) : null,
             'comments_enabled' => true,
@@ -78,7 +78,7 @@ class NotebookController extends Controller
 
         $notebook->name = request('name');
         $notebook->team_id = hashid(request('team_id'));
-        $notebook->owner_id = hashid(request('owner_id'));
+        $notebook->user_id = hashid(request('user_id'));
         $notebook->category_id = request()->filled('category_id')
             ? hashid(request('category_id'))
             : $notebook->category_id;

@@ -116,6 +116,6 @@ class Team extends Model
      */
     public function notebooks()
     {
-        return $this->hasMany(Notebook::class)->whereNull('owner_id');
+        return $this->hasMany(Notebook::class)->whereNull('user_id');
     }
 }

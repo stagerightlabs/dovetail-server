@@ -23,7 +23,7 @@ class NotebookTest extends TestCase
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
             'created_by' => $user->id,
-            'owner_id' => $user->id
+            'user_id' => $user->id
         ]);
 
         $this->assertTrue($user->notebooks->first()->is($notebook));

@@ -17,6 +17,7 @@
             "name": "Experiment 24601",
             "category": "Experiments",
             "category_id": "wy5dn36",
+            "owner_name": "Hopper Labs",
             "comments_enabled": true,
             "current_user_is_following": true
         },
@@ -36,7 +37,7 @@
 
     + `name`: The name of the new notebook.
     + `category_id`: Optional.  The hashid of the category to be applied to this notebook.
-    + `owner_id`: Optional. The hashid of the user that owns this notebook.
+    + `user_id`: Optional. The hashid of the user that owns this notebook.
     + `team_id`: Optional. The hashid of the team that owns this notebook.
 
 + Response 200 (application/json)
@@ -48,6 +49,7 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
+        "owner_name": "Hopper Labs",
         "comments_enabled": true,
         "current_user_is_following": true
     },
@@ -85,6 +87,7 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
+        "owner_name": "Hopper Labs",
         "comments_enabled": true,
         "current_user_is_following": true
     }
@@ -114,7 +117,7 @@
 
     + `name`: The name of the new notebook.
     + `category_id`: Optional.  The hashid of the category to be applied to this notebook.
-    + `owner_id`: Optional. The hashid of the user that owns this notebook.
+    + `user_id`: Optional. The hashid of the user that owns this notebook.
     + `team_id`: Optional. The hashid of the team that owns this notebook.
     + `comments_enabled`: Should comments be allowed on this notebook? 0 for no, 1 for yes.
 
@@ -127,6 +130,7 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
+        "owner_name": "Hopper Labs",
         "comments_enabled": false,
         "current_user_is_following": true
     }
@@ -178,6 +182,7 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
+        "owner_name": "Hopper Labs",
         "comments_enabled": true,
         "current_user_is_following": true
     }
@@ -213,6 +218,7 @@
         "name": "Experiment 24601",
         "category": "Experiments",
         "category_id": "wy5dn36",
+        "owner_name": "Hopper Labs",
         "comments_enabled": true,
         "current_user_is_following": false
     }

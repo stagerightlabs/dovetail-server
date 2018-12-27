@@ -96,7 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function notebooks()
     {
-        return $this->hasMany(Notebook::class, 'owner_id')->whereNull('team_id');
+        return $this->hasMany(Notebook::class, 'user_id')->whereNull('team_id');
     }
 
     /**

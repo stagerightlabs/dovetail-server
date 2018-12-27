@@ -32,8 +32,8 @@ class RecordNotebookFollowers
     protected function determineNewFollowers(Notebook $notebook)
     {
         // Is this notebook owned by a single user?
-        if ($notebook->owner_id) {
-            return $notebook->owner;
+        if ($notebook->user_id) {
+            return $notebook->user;
         }
 
         // Is this notebook owned by a team?
