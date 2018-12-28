@@ -26,6 +26,7 @@ class NotebookResource extends JsonResource
         return [
             'hashid' => hashid($this->id),
             'name' => $this->name,
+            'slug' => str_slug($this->name),
             'category_id' => $this->category_id ? hashid($this->category_id) : null,
             'category' => $this->category_id ? $this->category->name : null,
             'owner_name' => $ownerName,
