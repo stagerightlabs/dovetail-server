@@ -60,16 +60,6 @@ class Notebook extends Model
      *
      * @return BelongsTo
      */
-    // public function owner()
-    // {
-    //     return $this->belongsTo(User::class, 'owner_id');
-    // }
-
-    /**
-     * The user that owns this notebook, if applicable
-     *
-     * @return BelongsTo
-     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

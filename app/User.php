@@ -9,6 +9,7 @@ use App\Events\UserCreated;
 use App\Notifications\VerifyEmail;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -90,13 +91,33 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * The notebooks that belong to this user
+     * The notebooks that belong to this user alone
      *
      * @return HasMany
      */
     public function notebooks()
     {
         return $this->hasMany(Notebook::class, 'user_id')->whereNull('team_id');
+    }
+
+    /**
+     * All of the notebooks that this user has access to
+     *
+     * @return Builder
+     */
+    public function availableNotebooks()
+    {
+        return Notebook::where(function ($query) {
+            return $query->where('organization_id', $this->organization_id)
+                ->whereNull('team_id')
+                ->whereNull('user_id');
+        })->orWhere(function ($query) {
+            return $query->where('user_id', $this->id)
+                ->whereNull('team_id');
+        })->orWhere(function ($query) {
+            return $query->whereIn('team_id', $this->teams()->pluck('teams.id'))
+                ->whereNull('user_id');
+        });
     }
 
     /**

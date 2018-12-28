@@ -45,6 +45,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::get('user/admin', 'CheckAdminStatus')->name('user.flags.admin');
     Route::get('user/readonly', 'CheckReadOnlyStatus')->name('user.flags.readonly');
     Route::get('user/teams', 'User\UserTeams')->name('user.teams');
+    Route::get('user/notebooks', 'User\UserNotebooks')->name('user.notebooks');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
