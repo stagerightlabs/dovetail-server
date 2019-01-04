@@ -34,9 +34,12 @@
     + Accept: application/json
     + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
 
++ Parameters
+
+    + `hashid`: The hashid of the notebook this page will be assigned to
+
 + Form Data
 
-    + `notebook_id`: The hashid of the notebook this page will be assigned to
     + `content`: The content of the page; markdown or plain text.
 
 + Response 200 (application/json)

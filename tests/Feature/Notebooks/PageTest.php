@@ -54,7 +54,6 @@ class PageTest extends TestCase
         $this->actingAs($member);
 
         $response = $this->postJson(route('pages.store', $notebook->hashid), [
-            'notebook_id' => $notebook->id,
             'content' => 'Lorem Ipsum Text'
         ]);
 
