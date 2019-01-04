@@ -32,6 +32,7 @@ class NotebookResource extends JsonResource
             'owner_name' => $ownerName,
             'comments_enabled' => boolval($this->comments_enabled),
             'current_user_is_following' => $this->hasFollower(auth()->user()),
+            'pages' => PageResource::collection($this->whenLoaded('pages')),
         ];
     }
 }

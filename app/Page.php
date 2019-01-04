@@ -5,11 +5,14 @@ namespace App;
 use App\Model;
 use App\Notebook;
 use App\Events\PageDeletion;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Page extends Model
+class Page extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     /**
      * The attributes that aren't mass assignable.
      *

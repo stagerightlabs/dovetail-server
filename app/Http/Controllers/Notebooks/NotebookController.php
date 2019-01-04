@@ -54,9 +54,13 @@ class NotebookController extends Controller
      */
     public function show($hashid)
     {
-        return new NotebookResource(
-            request()->organization()->notebooks()->findOrFail(hashid($hashid))
-        );
+        $notebook = request()
+            ->organization()
+            ->notebooks()
+            ->with('pages')
+            ->findOrFail(hashid($hashid));
+
+        return new NotebookResource($notebook);
     }
 
     /**

@@ -11,12 +11,14 @@ use App\Followable;
 use App\Organization;
 use App\Events\NotebookCreated;
 use App\Events\NotebookDeletion;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Notebook extends Model
+class Notebook extends Model implements Auditable
 {
     use Followable;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that aren't mass assignable.
