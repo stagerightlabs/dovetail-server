@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PageResource extends JsonResource
@@ -19,6 +20,7 @@ class PageResource extends JsonResource
             'notebook_id' => hashid($this->notebook_id),
             'content' => $this->content,
             'sort_order' => $this->sort_order,
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

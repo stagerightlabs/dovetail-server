@@ -57,7 +57,7 @@ class NotebookController extends Controller
         $notebook = request()
             ->organization()
             ->notebooks()
-            ->with('pages')
+            ->with(['pages', 'pages.comments'])
             ->findOrFail(hashid($hashid));
 
         return new NotebookResource($notebook);
