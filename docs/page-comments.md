@@ -24,6 +24,7 @@
             "commentator_id": "x737zq8",
             "edited": false,
             "created_at": "2018-09-26T03:47:39+00:00",
+            "since_created": "1 hour ago",
         },
         //..
     ]
@@ -57,6 +58,7 @@
         "commentator_id": "x737zq8",
         "edited": false,
         "created_at": "2018-09-26T03:47:39+00:00",
+        "since_created": "1 hour ago",
     }
 }
 ```
@@ -85,6 +87,7 @@
         "commentator_id": "x737zq8",
         "edited": false,
         "created_at": "2018-09-26T03:47:39+00:00",
+        "since_created": "1 hour ago",
     }
 }
 ```
@@ -127,6 +130,7 @@ Users may only edit their own comments.
         "commentator_id": "x737zq8",
         "edited": true,
         "created_at": "2018-09-26T03:47:39+00:00",
+        "since_created": "1 hour ago",
     }
 }
 ```

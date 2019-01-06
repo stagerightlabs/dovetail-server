@@ -21,6 +21,7 @@ class CommentResource extends JsonResource
             'commentator_id' => hashid($this->commentator_id),
             'edited' => $this->edited,
             'created_at' => $this->created_at->toAtomString(),
+            'since_created' => $this->created_at->diffForHumans(),
         ];
     }
 }
