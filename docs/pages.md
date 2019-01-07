@@ -171,3 +171,33 @@
     "message": "No query results for model [App\Page]."
 }
 ```
+
+### Get all of a Notebook Page's activity logs [GET /notebooks/{notebook}/pages/{page}/activity]
+
++ Headers
+
+    + Accept: application/json
+    + Authorization:  Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `notebook`: The notebook's hashid
+    + `page`: The page's hashid
+
++ Response 200 (application/json)
+
+```json
+{
+    "data": [
+        {
+            "hashid": "x737zq8",
+            "user_id": "x737zq8",
+            "user_name": "Grace Hopper",
+            "description": "Created",
+            "created_at": "2018-09-14T02:42:20+00:00",
+            "since_created": "1 hour ago",
+        },
+        //..
+    ]
+}
+```

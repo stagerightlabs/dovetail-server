@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\ActivityResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PageResource extends JsonResource
@@ -21,6 +22,7 @@ class PageResource extends JsonResource
             'content' => $this->content,
             'sort_order' => $this->sort_order,
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'activity' => ActivityResource::collection($this->whenLoaded('activities'))
         ];
     }
 }

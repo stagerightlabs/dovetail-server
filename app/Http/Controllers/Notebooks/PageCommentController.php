@@ -51,6 +51,9 @@ class PageCommentController extends Controller
             'commentator_id' => auth()->user()->id
         ]);
 
+        // Log the comment creation
+        activity()->on($page)->log("New comment (" . strtoupper($comment->hashid) . ")");
+
         return new CommentResource($comment);
     }
 
@@ -83,6 +86,7 @@ class PageCommentController extends Controller
      */
     public function update($notebook, $page, $comment)
     {
+        $page = Page::with('notebook')->findOrFail(hashid($page));
         $comment = Comment::with('commentable')->findOrFail(hashid($comment));
 
         $this->authorize('update', $comment);
@@ -94,6 +98,9 @@ class PageCommentController extends Controller
         $comment->content = sanitize(request('content'));
         $comment->edited = true;
         $comment->save();
+
+        // Log the comment update
+        activity()->on($page)->log("Updated comment (" . strtoupper($comment->hashid) . ")");
 
         return new CommentResource($comment);
     }

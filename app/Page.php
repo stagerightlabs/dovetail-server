@@ -5,14 +5,12 @@ namespace App;
 use App\Model;
 use App\Notebook;
 use App\Events\PageDeletion;
-use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Page extends Model implements Auditable
+class Page extends Model
 {
-    use \OwenIt\Auditing\Auditable;
-
     /**
      * The attributes that aren't mass assignable.
      *
@@ -58,5 +56,28 @@ class Page extends Model implements Auditable
     public function documents()
     {
         return $this->morphMany('App\Document', 'documentable');
+    }
+
+    /**
+     * Enable activity logging for this model
+     */
+    use LogsActivity;
+
+    /**
+     * The attributes that should be logged by the activity logger
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['*'];
+
+    /**
+     * Format the automatically logged model event description
+     *
+     * @param string $eventName
+     * @return string
+     */
+    public function getDescriptionForEvent(string $eventName) : string
+    {
+        return ucwords($eventName);
     }
 }

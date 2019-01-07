@@ -11,14 +11,21 @@ use App\Followable;
 use App\Organization;
 use App\Events\NotebookCreated;
 use App\Events\NotebookDeletion;
-use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Notebook extends Model implements Auditable
+class Notebook extends Model
 {
     use Followable;
-    use \OwenIt\Auditing\Auditable;
+    use LogsActivity;
+
+    /**
+     * The attributes that should be logged by the activity logger
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['*'];
 
     /**
      * The attributes that aren't mass assignable.

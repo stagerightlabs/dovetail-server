@@ -139,6 +139,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@show')->name('pages.documents.show');
         Route::put('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@update')->name('pages.documents.update');
         Route::delete('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@delete')->name('pages.documents.delete');
+
+        // Page Activity
+        Route::get('notebooks/{notebook}/pages/{page}/activity', 'PageActivityController@show')->name('pages.activity.show');
     });
 
     // Stripe Webhooks
