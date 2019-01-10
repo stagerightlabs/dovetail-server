@@ -91,7 +91,9 @@ class NotebookController extends Controller
             : $notebook->comments_enabled;
         $notebook->save();
 
-        return new NotebookResource($notebook);
+        return new NotebookResource(
+            $notebook->load(['pages', 'pages.comments', 'pages.activities', 'pages.activities.causer'])
+        );
     }
 
     /**
