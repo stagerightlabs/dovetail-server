@@ -83,10 +83,10 @@ class NotebookController extends Controller
         $notebook->name = request('name');
         $notebook->team_id = hashid(request('team_id'));
         $notebook->user_id = hashid(request('user_id'));
-        $notebook->category_id = request()->filled('category_id')
+        $notebook->category_id = request()->has('category_id')
             ? hashid(request('category_id'))
             : $notebook->category_id;
-        $notebook->comments_enabled = request()->filled('comments_enabled')
+        $notebook->comments_enabled = request()->has('comments_enabled')
             ? boolval(request('comments_enabled'))
             : $notebook->comments_enabled;
         $notebook->save();
