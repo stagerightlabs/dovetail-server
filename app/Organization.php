@@ -11,6 +11,7 @@ use App\Invitation;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -203,5 +204,28 @@ class Organization extends Model
         }
 
         $this->configuration = $existing->toArray();
+    }
+
+    /**
+     * Enable activity logging for this model
+     */
+    use LogsActivity;
+
+    /**
+     * The attributes that should be logged by the activity logger
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['*'];
+
+    /**
+     * Format the automatically logged model event description
+     *
+     * @param string $eventName
+     * @return string
+     */
+    public function getDescriptionForEvent(string $eventName) : string
+    {
+        return ucwords($eventName);
     }
 }
