@@ -17,16 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notebook extends Model
 {
-    use Followable;
-    use LogsActivity;
-
-    /**
-     * The attributes that should be logged by the activity logger
-     *
-     * @var array
-     */
-    protected static $logAttributes = ['*'];
-
     /**
      * The attributes that aren't mass assignable.
      *
@@ -92,5 +82,33 @@ class Notebook extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Allow users to subscribe to updates
+     */
+    use Followable;
+
+    /**
+     * Enable activity logging for this model
+     */
+    use LogsActivity;
+
+    /**
+     * The attributes that should be logged by the activity logger
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['*'];
+
+    /**
+     * Format the automatically logged model event description
+     *
+     * @param string $eventName
+     * @return string
+     */
+    public function getDescriptionForEvent(string $eventName) : string
+    {
+        return ucwords($eventName);
     }
 }
