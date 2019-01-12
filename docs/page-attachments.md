@@ -2,7 +2,7 @@
 
 Documents associated with Notebook Pages
 
-### Get page attachments [GET /notebooks/{notebook}/pages/{page}/attachments]
+### Get page attachments [GET /notebooks/{notebook}/pages/{page}/documents]
 
 + Headers
 
@@ -21,15 +21,18 @@ Documents associated with Notebook Pages
     "data": [
         {
             "hashid": "x737zq8",
-
-            "created_at": "2018-09-26T03:47:39+00:00",
+            "original": "http://link/to/original/file",
+            "large": "http:://link/to/large/thumbnail",
+            "small": "http:://link/to/small/thumbnail",
+            "mimetime": "image/jpeg",
+            "filename": "original_filename.jpg"
         },
         //..
     ]
 }
 ```
 
-### Store New Page Attachment [POST /notebooks/{notebook}/pages/{page}/attachment]
+### Store New Page Attachment [POST /notebooks/{notebook}/pages/{page}/documents]
 
 + Headers
 
@@ -51,13 +54,16 @@ Documents associated with Notebook Pages
 {
     "data": {
         "hashid": "x737zq8",
-
-        "created_at": "2018-09-26T03:47:39+00:00",
+        "original": "http://link/to/original/file",
+        "large": "http:://link/to/large/thumbnail",
+        "small": "http:://link/to/small/thumbnail",
+        "mimetime": "image/jpeg",
+        "filename": "original_filename.jpg"
     }
 }
 ```
 
-### Get single page attachment [GET /notebooks/{notebook}/pages/{page}/attachments/{attachment}]
+### Get single page attachment [GET /notebooks/{notebook}/pages/{page}/documents/{attachment}]
 
 + Headers
 
@@ -76,8 +82,11 @@ Documents associated with Notebook Pages
 {
     "data": {
         "hashid": "x737zq8",
-
-        "created_at": "2018-09-26T03:47:39+00:00",
+        "original": "http://link/to/original/file",
+        "large": "http:://link/to/large/thumbnail",
+        "small": "http:://link/to/small/thumbnail",
+        "mimetime": "image/jpeg",
+        "filename": "original_filename.jpg"
     }
 }
 ```
@@ -90,7 +99,7 @@ Documents associated with Notebook Pages
 }
 ```
 
-### Delete Attachment [DELETE /notebooks/{notebook}/pages/{page}/attachments/{attachment}]
+### Delete Attachment [DELETE /notebooks/{notebook}/pages/{page}/documents/{attachment}]
 
 + Headers
 
