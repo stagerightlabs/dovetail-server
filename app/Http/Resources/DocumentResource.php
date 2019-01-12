@@ -21,6 +21,7 @@ class DocumentResource extends JsonResource
             'large' => $this->large ? Storage::disk('s3')->url($this->large) : '',
             'small' => $this->small ? Storage::disk('s3')->url($this->small) : '',
             'mimetype' => $this->mimetype,
+            'filename' => $this->filename,
         ];
     }
 }
