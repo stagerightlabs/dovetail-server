@@ -17,11 +17,22 @@ class DocumentResource extends JsonResource
     {
         return [
             'hashid' => hashid($this->id),
-            'original' => $this->original ? Storage::disk('s3')->url($this->original) : '',
-            'large' => $this->large ? Storage::disk('s3')->url($this->large) : '',
-            'small' => $this->small ? Storage::disk('s3')->url($this->small) : '',
+            'original' => $this->original ? $this->url($this->original) : '',
+            'large' => $this->large ? $this->url($this->large) : '',
+            'small' => $this->small ? $this->url($this->small) : '',
             'mimetype' => $this->mimetype,
             'filename' => $this->filename,
         ];
+    }
+
+    /**
+     * Generate a signed url for an S3 asset
+     *
+     * @param string $path
+     * @return void
+     */
+    public function url($path)
+    {
+        return Storage::disk('s3')->temporaryUrl($path, now()->addHours(24));
     }
 }
