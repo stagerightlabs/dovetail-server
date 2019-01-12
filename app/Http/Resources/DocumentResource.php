@@ -33,6 +33,15 @@ class DocumentResource extends JsonResource
      */
     public function url($path)
     {
+        if (empty($path)) {
+            return $path;
+        }
+
+        // We are not currently able to run the tests with signed urls
+        if (app()->environment('testing')) {
+            return Storage::disk('s3')->url($path);
+        }
+
         return Storage::disk('s3')->temporaryUrl($path, now()->addHours(24));
     }
 }
