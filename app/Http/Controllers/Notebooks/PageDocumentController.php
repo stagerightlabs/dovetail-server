@@ -48,7 +48,7 @@ class PageDocumentController extends Controller
         $document = Document::create([
             'documentable_id' => $page->id,
             'documentable_type' => 'page',
-            'original' => request('attachment')->storePublicly($path, 's3'),
+            'original' => request('attachment')->store($path, 's3'),
             'filename' => request('attachment')->getClientOriginalName(),
             'mimetype' => request('attachment')->getClientMimeType(),
         ]);
