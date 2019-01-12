@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\DocumentDeletion;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
