@@ -136,9 +136,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         // Page Documents
         Route::get('notebooks/{notebook}/pages/{page}/documents', 'PageDocumentController@index')->name('pages.documents.index');
         Route::post('notebooks/{notebook}/pages/{page}/documents', 'PageDocumentController@store')->name('pages.documents.store');
-        Route::get('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@show')->name('pages.documents.show');
-        Route::put('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@update')->name('pages.documents.update');
-        Route::delete('notebooks/{notebook}/pages/{page}/documents/{hashid}', 'PageDocumentController@delete')->name('pages.documents.delete');
+        Route::get('notebooks/{notebook}/pages/{page}/documents/{document}', 'PageDocumentController@show')->name('pages.documents.show');
+        Route::put('notebooks/{notebook}/pages/{page}/documents/{document}', 'PageDocumentController@update')->name('pages.documents.update');
+        Route::delete('notebooks/{notebook}/pages/{page}/documents/{document}', 'PageDocumentController@delete')->name('pages.documents.delete');
 
         // Page Activity
         Route::get('notebooks/{notebook}/pages/{page}/activity', 'PageActivityController@show')->name('pages.activity.show');

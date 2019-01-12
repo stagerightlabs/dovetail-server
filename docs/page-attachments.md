@@ -99,7 +99,7 @@ Documents associated with Notebook Pages
 }
 ```
 
-### Delete Attachment [DELETE /notebooks/{notebook}/pages/{page}/documents/{attachment}]
+### Delete Attachment [DELETE /notebooks/{notebook}/pages/{page}/documents/{document}]
 
 + Headers
 
@@ -110,7 +110,7 @@ Documents associated with Notebook Pages
 
     + `notebook`: The notebook's hashid
     + `page`: The page's hashid
-    + `attachment`: The attachment's hashid
+    + `document`: The document's hashid
 
 + Response 204
 
