@@ -32,7 +32,9 @@ class PageDocumentController extends Controller
     public function store($notebook, $page)
     {
         request()->validate([
-            'attachment' => 'required|mimes:jpeg,png,gif,pdf'
+            'attachment' => 'required|mimes:jpeg,png,gif,pdf,csv'
+        ], [
+            'attachment.mimes' => "Only jpeg, png, gif, csv and pdf files are allowed."
         ]);
 
         // Check user permissions
@@ -53,6 +55,10 @@ class PageDocumentController extends Controller
             'mimetype' => request('attachment')->getClientMimeType(),
         ]);
 
+        // Log the document creation
+        activity()->on($page)->log("New document:  " . request('attachment')->getClientOriginalName());
+
+        // All set
         return new DocumentResource($document);
     }
 
@@ -83,11 +89,19 @@ class PageDocumentController extends Controller
      */
     public function delete($notebook, $page, $document)
     {
+        // Fetch the page
         $page = Page::with('notebook')->findOrFail(hashid($page));
+
+        // Fetch the document
         $document = $page->documents()->findOrFail(hashid($document));
 
+        // Log the document creation
+        activity()->on($page)->log("Removed document:  " . $document->filename);
+
+        // Delete the document from the database and S3
         $document->delete();
 
+        // All set
         return response()->json([], 204);
     }
 }
