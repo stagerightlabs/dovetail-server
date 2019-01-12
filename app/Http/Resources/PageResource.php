@@ -22,7 +22,8 @@ class PageResource extends JsonResource
             'content' => $this->content,
             'sort_order' => $this->sort_order,
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
-            'activity' => ActivityResource::collection($this->whenLoaded('activities'))
+            'documents' => DocumentResource::collection($this->whenLoaded('documents')),
+            'activity' => ActivityResource::collection($this->whenLoaded('activities')),
         ];
     }
 }
