@@ -25,6 +25,7 @@ class MemberResource extends JsonResource
                 'email_verified' => !is_null($this->email_verified_at),
                 'phone_verified' => !is_null($this->phone_verified_at),
             ]),
+            'blocked' => !is_null($this->blocked_at),
             'created_at' => $this->created_at->toAtomString(),
             'deleted_at' => $this->when($this->trashed(), function () {
                 return $this->deleted_at ? $this->deleted_at->toAtomString() : null;

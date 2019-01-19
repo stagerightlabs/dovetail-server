@@ -21,6 +21,7 @@
             "phone": "(705) 558-7119 x38444",
             "email_verified": true,
             "phone_verified": true,
+            "blocked": false,
             "created_at": "2018-09-14T03:45:26+00:00",
         }
         // ...
@@ -38,6 +39,7 @@
     + `phone`: The member's phone number.  Only visible to admins.
     + `email_verified`: The member's email verification status. Only visible to admins.
     + `phone_verified`: The member's phone verification status. Only visible to admins.
+    + `blocked`: Indicates whether or not the user's account access has been blocked
     + `created_at`: The date the member's account was created.
 
 ### Deleted Member Listing [GET /members/deleted]
@@ -61,6 +63,7 @@
             "phone": "(705) 558-7119 x38444",
             "email_verified": true,
             "phone_verified": true,
+            "blocked": false,
             "created_at": "2018-09-14T03:45:26+00:00",
             "deleted_at": "2018-09-21T03:45:26+00:00",
         }
@@ -79,6 +82,7 @@
     + `phone`: The member's phone number.  Only visible to admins.
     + `email_verified`: The member's email verification status. Only visible to admins.
     + `phone_verified`: The member's phone verification status. Only visible to admins.
+    + `blocked`: Indicates whether or not the user's account access has been blocked
     + `created_at`: The date the member's account was created.
     + `deleted_at`: The date the member's account was deleted.
 
@@ -112,6 +116,7 @@
         "phone": "(705) 558-7119 x38444",
         "email_verified": true,
         "phone_verified": true,
+        "blocked": false,
         "created_at": "2018-09-21T03:45:26+00:00",
     }
 }
@@ -123,6 +128,42 @@
 {
     "message": "This action is unauthorized."
 }
+```
+
+### Block Member [DELETE /members/{hashid}/block]
+
+Blocking a member removes their access without deleting their account.
+
++ Headers
+
+    + Accept: application/json
+    + Authorization: Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The member's database hashid
+
++ Response 204 (application/json)
+
+```json
+
+```
+
+### Unblock Member [DELETE /members/{hashid}/unblock]
+
++ Headers
+
+    + Accept: application/json
+    + Authorization: Bearer eyJ0eXAiOiJKV1Q...
+
++ Parameters
+
+    + `hashid`: The member's database hashid
+
++ Response 204 (application/json)
+
+```json
+
 ```
 
 ### Delete Member [DELETE /members/{hashid}]

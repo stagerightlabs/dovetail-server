@@ -64,6 +64,8 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('members', 'MembersController@index')->name('members.get');
         Route::get('members/deleted', 'DeletedMembersController@index')->name('members.deleted');
         Route::put('members/{hashid}', 'MembersController@update')->name('members.update');
+        Route::delete('members/{hashid}/block', 'BlockedMembersController@store')->name('members.block');
+        Route::delete('members/{hashid}/unblock', 'BlockedMembersController@destroy')->name('members.unblock');
         Route::delete('members/{hashid}', 'DeletedMembersController@store')->name('members.delete');
         Route::delete('members/{hashid}/restore', 'DeletedMembersController@destroy')->name('members.restore');
 

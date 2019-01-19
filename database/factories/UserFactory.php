@@ -51,7 +51,10 @@ $factory->state(App\User::class, 'org-readonly', [
     'access_level' => AccessLevel::$ORGANIZATION_READ_ONLY,
 ]);
 
-
 $factory->state(App\User::class, 'deleted', [
     'deleted_at' => Carbon::now()->subDays(2),
+]);
+
+$factory->state(App\User::class, 'blocked', [
+    'blocked_at' => Carbon::now()->subDays(2),
 ]);

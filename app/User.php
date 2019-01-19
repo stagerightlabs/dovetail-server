@@ -47,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at',
         'email_verified_at',
         'phone_verified_at',
+        'blocked_at',
         'deleted_at',
     ];
 
@@ -168,6 +169,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isReadOnly()
     {
         return $this->access_level == AccessLevel::$ORGANIZATION_READ_ONLY;
+    }
+
+    /**
+     * Has this user account been blocked?
+     *
+     * @return boolean
+     */
+    public function isBlocked()
+    {
+        return !is_null($this->blocked_at);
     }
 
     /**
