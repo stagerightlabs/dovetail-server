@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -337,5 +338,28 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => $this->freshTimestamp(),
             'email_verification_code' => null
         ])->save();
+    }
+
+    /**
+     * Enable activity logging for this model
+     */
+    use LogsActivity;
+
+    /**
+     * The attributes that should be logged by the activity logger
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['*'];
+
+    /**
+     * Format the automatically logged model event description
+     *
+     * @param string $eventName
+     * @return string
+     */
+    public function getDescriptionForEvent(string $eventName) : string
+    {
+        return ucwords($eventName);
     }
 }

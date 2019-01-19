@@ -29,6 +29,9 @@ class BlockedMembersController extends Controller
         $user->blocked_at = Carbon::now();
         $user->save();
 
+        // Log the blockage removal
+        activity()->on($user)->log("Account Unblocked");
+
         return response()->json([], 204);
     }
 
@@ -46,6 +49,9 @@ class BlockedMembersController extends Controller
 
         $user->blocked_at = null;
         $user->save();
+
+        // Log the blockage removal
+        activity()->on($user)->log("Account Unblocked");
 
         return response()->json([], 204);
     }
