@@ -60,4 +60,17 @@ class LoginTest extends TestCase
         $response->assertJsonValidationErrors('email');
         $this->assertEquals(0, Token::count());
     }
+
+    public function test_blocked_users_cannot_log_in()
+    {
+        $user = factory(User::class)->state('blocked')->create();
+        $client = factory(Client::class)->state('password')->create();
+
+        $response = $this->postJson(route('login'), [
+            'email' => $user->email,
+            'password' => 'secret'
+        ]);
+
+        $response->assertStatus(401);
+    }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
@@ -54,6 +56,11 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
+        }
+
+        // Ensure the user account has not been blocked
+        if (User::where('email', request('email'))->whereNotNull('blocked_at')->exists()) {
+            throw new AuthenticationException('Denied.');
         }
 
         // Delegate the login request to Passport
