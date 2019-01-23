@@ -20,8 +20,9 @@ Fetch the organization associated with the current user.
         "logo": {
             "hashid": "",
             "original": "",
-            "large": "",
-            "small": ""
+            "standard": "",
+            "thumbnail": "",
+            "icon": ""
         },
         "settings": [
             {

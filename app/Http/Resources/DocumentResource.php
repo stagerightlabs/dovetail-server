@@ -18,8 +18,9 @@ class DocumentResource extends JsonResource
         return [
             'hashid' => hashid($this->id),
             'original' => $this->original ? $this->url($this->original) : '',
-            'large' => $this->large ? $this->url($this->large) : '',
-            'small' => $this->small ? $this->url($this->small) : '',
+            'standard' => $this->standard ? $this->url($this->standard) : '',
+            'thumbnail' => $this->thumbnail ? $this->url($this->thumbnail) : '',
+            'icon' => $this->icon ? $this->url($this->icon) : '',
             'mimetype' => $this->mimetype,
             'filename' => $this->filename,
         ];

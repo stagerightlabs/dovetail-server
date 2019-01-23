@@ -19,18 +19,19 @@ class ProcessLogoImageTest extends TestCase
         Storage::fake('s3');
         $logo = factory(Logo::class)->create([
             'original' => File::image('logo.png', 600, 800)->store('logos', 's3'),
-            'large' => null,
-            'small' => null
+            'standard' => null,
+            'thumbnail' => null,
+            'icon' => null
         ]);
 
         ProcessLogoImage::dispatchNow($logo);
 
-        $resizedImage = Storage::disk('s3')->get($logo->fresh()->large);
+        $resizedImage = Storage::disk('s3')->get($logo->fresh()->thumbnail);
         list($width, $height) = getimagesizefromstring($resizedImage);
         $this->assertEquals(150, $width);
         $this->assertEquals(150, $height);
 
-        $resizedImage = Storage::disk('s3')->get($logo->fresh()->small);
+        $resizedImage = Storage::disk('s3')->get($logo->fresh()->icon);
         list($width, $height) = getimagesizefromstring($resizedImage);
         $this->assertEquals(50, $width);
         $this->assertEquals(50, $height);

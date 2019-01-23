@@ -10,8 +10,9 @@ $factory->define(App\Logo::class, function (Faker $faker) {
         },
         'owner_type' => 'organization',
         'original' => 'path/to/original',
-        'large' => 'path/to/large',
-        'small' => 'path/to/small',
+        'standard' => 'path/to/standard',
+        'thumbnail' => 'path/to/thumbnail',
+        'icon' => 'path/to/icon',
         'filename' => 'filename.png'
     ];
 });

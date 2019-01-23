@@ -44,9 +44,10 @@ class Document extends Model
      */
     public function removeThumbnails()
     {
-        if (Storage::disk('s3')->exists($this->large)) {
-            Storage::disk('s3')->delete($this->large);
-            Storage::disk('s3')->delete($this->small);
+        if (Storage::disk('s3')->exists($this->thumbnail)) {
+            Storage::disk('s3')->delete($this->standard);
+            Storage::disk('s3')->delete($this->thumbnail);
+            Storage::disk('s3')->delete($this->icon);
         }
     }
 

@@ -32,14 +32,19 @@ class RemoveDocumentFromStorage
             Storage::disk('s3')->delete($event->document->original);
         }
 
-        // Remove the large thumbnail from storage
-        if (Storage::disk('s3')->exists($event->document->large)) {
-            Storage::disk('s3')->delete($event->document->large);
+        // Remove the standard thumbnail from storage
+        if (Storage::disk('s3')->exists($event->document->standard)) {
+            Storage::disk('s3')->delete($event->document->standard);
         }
 
-        // Remove the small thumbnail from storage
-        if (Storage::disk('s3')->exists($event->document->small)) {
-            Storage::disk('s3')->delete($event->document->small);
+        // Remove the thumbnail thumbnail from storage
+        if (Storage::disk('s3')->exists($event->document->thumbnail)) {
+            Storage::disk('s3')->delete($event->document->thumbnail);
+        }
+
+        // Remove the icon thumbnail from storage
+        if (Storage::disk('s3')->exists($event->document->icon)) {
+            Storage::disk('s3')->delete($event->document->icon);
         }
     }
 }

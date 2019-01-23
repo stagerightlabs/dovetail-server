@@ -18,8 +18,9 @@ class LogoResource extends JsonResource
         return [
             'hashid' => hashid($this->id) ?? '',
             'original' => $this->original ? Storage::disk('s3')->url($this->original) : '',
-            'large' => $this->large ? Storage::disk('s3')->url($this->large) : '',
-            'small' => $this->small ? Storage::disk('s3')->url($this->small) : '',
+            'standard' => $this->standard ? Storage::disk('s3')->url($this->standard) : '',
+            'thumbnail' => $this->thumbnail ? Storage::disk('s3')->url($this->thumbnail) : '',
+            'icon' => $this->icon ? Storage::disk('s3')->url($this->icon) : '',
         ];
     }
 }

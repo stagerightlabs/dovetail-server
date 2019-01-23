@@ -19,8 +19,9 @@
 {
     "hashid": "wy5dn36",
     "original": "https://picsum.photos/600",
-    "large": "https://picsum.photos/160",
-    "small": "https://picsum.photos/50",
+    "standard": "https://picsum.photos/600",
+    "thumbnail": "https://picsum.photos/150",
+    "icon": "https://picsum.photos/50",
     "filename": "filename.png"
 }
 ```

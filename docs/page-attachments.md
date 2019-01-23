@@ -22,8 +22,9 @@ Documents associated with Notebook Pages
         {
             "hashid": "x737zq8",
             "original": "http://link/to/original/file",
-            "large": "http:://link/to/large/thumbnail",
-            "small": "http:://link/to/small/thumbnail",
+            "standard": "http://link/to/standard/file",
+            "thumbnail": "http:://link/to/thumbnail/thumbnail",
+            "icon": "http:://link/to/icon/thumbnail",
             "mimetime": "image/jpeg",
             "filename": "original_filename.jpg"
         },
@@ -55,8 +56,9 @@ Documents associated with Notebook Pages
     "data": {
         "hashid": "x737zq8",
         "original": "http://link/to/original/file",
-        "large": "http:://link/to/large/thumbnail",
-        "small": "http:://link/to/small/thumbnail",
+        "standard": "http://link/to/standard/file",
+        "thumbnail": "http:://link/to/thumbnail/thumbnail",
+        "icon": "http:://link/to/icon/thumbnail",
         "mimetime": "image/jpeg",
         "filename": "original_filename.jpg"
     }
@@ -83,8 +85,9 @@ Documents associated with Notebook Pages
     "data": {
         "hashid": "x737zq8",
         "original": "http://link/to/original/file",
-        "large": "http:://link/to/large/thumbnail",
-        "small": "http:://link/to/small/thumbnail",
+        "standard": "http://link/to/standard/file",
+        "thumbnail": "http:://link/to/thumbnail/thumbnail",
+        "icon": "http:://link/to/icon/thumbnail",
         "mimetime": "image/jpeg",
         "filename": "original_filename.jpg"
     }

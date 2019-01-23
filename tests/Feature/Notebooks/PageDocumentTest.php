@@ -43,8 +43,9 @@ class PageDocumentTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $document->hashid,
             'original' => Storage::disk('s3')->url($document->original),
-            'large' => Storage::disk('s3')->url($document->large),
-            'small' => Storage::disk('s3')->url($document->small)
+            'standard' => Storage::disk('s3')->url($document->standard),
+            'thumbnail' => Storage::disk('s3')->url($document->thumbnail),
+            'icon' => Storage::disk('s3')->url($document->icon)
         ]);
     }
 
@@ -75,8 +76,9 @@ class PageDocumentTest extends TestCase
             'data' => [
                 'hashid',
                 'original',
-                'large',
-                'small',
+                'standard',
+                'thumbnail',
+                'icon',
                 'mimetype'
             ]
         ]);
@@ -136,8 +138,9 @@ class PageDocumentTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $document->hashid,
             'original' => Storage::disk('s3')->url($document->original),
-            'large' => Storage::disk('s3')->url($document->large),
-            'small' => Storage::disk('s3')->url($document->small)
+            'standard' => Storage::disk('s3')->url($document->standard),
+            'thumbnail' => Storage::disk('s3')->url($document->thumbnail),
+            'icon' => Storage::disk('s3')->url($document->icon)
         ]);
     }
 

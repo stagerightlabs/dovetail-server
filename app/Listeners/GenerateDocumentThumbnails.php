@@ -12,16 +12,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class GenerateDocumentThumbnails
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.  For now we will handle image processing inline and
      * not as a queued job.
      *
@@ -39,17 +29,33 @@ class GenerateDocumentThumbnails
         $imageContents = Storage::disk('s3')->get($event->document->original);
         $pathinfo = pathinfo($event->document->original);
 
-        // Create the 'large' thumbnail
+        // Create the 'thumbnail' image
         $image = Image::make($imageContents);
         $image->resize(150, 150)->encode();
-        $event->document->large = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
-        Storage::disk('s3')->put($event->document->large, (string)$image);
+        $event->document->thumbnail = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($event->document->thumbnail, (string)$image);
 
-        // Create the 'small' thumbnail
+        // Create the 'icon' image
         $image = Image::make($imageContents);
         $image->resize(50, 50)->encode();
-        $event->document->small = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
-        Storage::disk('s3')->put($event->document->small, (string)$image);
+        $event->document->icon = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($event->document->icon, (string)$image);
+
+        // Create the 'standard' image
+        $image = Image::make($imageContents);
+        $width = null;
+        $height = null;
+        if ($image->height() > $image->width()) {
+            $height = 800;
+        } else {
+            $width = 800;
+        }
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->encode();
+        $event->document->standard = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($event->document->standard, (string)$image);
 
         // All set
         $event->document->save();

@@ -19,8 +19,9 @@ class RemoveLogoFilesFromStorage
     {
         Storage::disk('s3')->delete([
             $event->logo->original,
-            $event->logo->large,
-            $event->logo->small
+            $event->logo->standard,
+            $event->logo->thumbnail,
+            $event->logo->icon,
         ]);
     }
 }

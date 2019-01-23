@@ -43,21 +43,37 @@ class ProcessLogoImage implements ShouldQueue
         $imageContents = Storage::disk('s3')->get($this->logo->original);
         $pathinfo = pathinfo($this->logo->original);
 
-        // Create the 'large' logo
+        // Create the 'thumbnail' logo
         $image = Image::make($imageContents);
         $image->resize(150, 150, function ($constraint) {
             // $constraint->aspectRatio();
         })->encode();
-        $this->logo->large = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
-        Storage::disk('s3')->put($this->logo->large, (string)$image);
+        $this->logo->thumbnail = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($this->logo->thumbnail, (string)$image);
 
-        // Create the 'small' logo
+        // Create the 'icon' logo
         $image = Image::make($imageContents);
         $image->resize(50, 50, function ($constraint) {
             // $constraint->aspectRatio();
         })->encode();
-        $this->logo->small = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
-        Storage::disk('s3')->put($this->logo->small, (string)$image);
+        $this->logo->icon = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($this->logo->icon, (string)$image);
+
+        // Create the 'standard' image
+        $image = Image::make($imageContents);
+        $width = null;
+        $height = null;
+        if ($image->height() > $image->width()) {
+            $height = 800;
+        } else {
+            $width = 800;
+        }
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->encode();
+        $this->logo->standard = $pathinfo['dirname'] . '/' . Str::random(40) . '.' . $pathinfo['extension'];
+        Storage::disk('s3')->put($this->logo->standard, (string)$image);
 
         // All set
         $this->logo->save();

@@ -15,8 +15,9 @@ $factory->define(App\Document::class, function (Faker $faker) {
             return factory(Page::class)->create()->id;
         },
         'original' => $file,
-        'large' => 'attachments/document-large.png',
-        'small' => 'attachments/document-small.png',
+        'standard' => 'attachments/document-standard.png',
+        'thumbnail' => 'attachments/document-thumbnail.png',
+        'icon' => 'attachments/document-icon.png',
         'filename' => $filename,
         'mimetype' => 'image/png',
     ];
