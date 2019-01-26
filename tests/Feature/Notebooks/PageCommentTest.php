@@ -44,7 +44,8 @@ class PageCommentTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $comment->hashid,
             'content' => $comment->content,
-            'commentator_id' => $user->hashid
+            'commentator_id' => $user->hashid,
+            'commentator_initials' => $user->initials,
         ]);
     }
 

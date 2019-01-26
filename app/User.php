@@ -362,4 +362,31 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return ucwords($eventName);
     }
+
+    /**
+     * Use the user's name to determine their initials
+     * https://chrisblackwell.me/generate-perfect-initials-using-php
+     *
+     * @return void
+     */
+    public function getInitialsAttribute()
+    {
+        $words = explode(' ', $this->name);
+
+        // Are there two or more words?
+        if (count($words) >= 2) {
+            return strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1));
+        }
+
+        // If not, inspect the capital letters:
+        preg_match_all('#([A-Z]+)#', $this->name, $capitals);
+
+        // If there are more than two capital letters, use them
+        if ($capitals[1] >= 2) {
+            return substr(implode('', $capitals[1]), 0, 2);
+        }
+
+        // Otherwise use the first two letters in the name
+        return strtoupper(substr($this->name), 0, 2);
+    }
 }
