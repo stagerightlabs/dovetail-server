@@ -24,9 +24,10 @@ class PageDocumentTest extends TestCase
     {
         Storage::fake('s3');
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $this->actingAs($user);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
         ]);
@@ -34,7 +35,8 @@ class PageDocumentTest extends TestCase
             'notebook_id' => $notebook->id,
         ]);
         $document = factory(Document::class)->create([
-            'documentable_id' => $page->id
+            'documentable_id' => $page->id,
+            'created_by' => $user->id,
         ]);
 
         $response = $this->getJson(route('pages.documents.index', [$notebook->hashid, $page->hashid]));
@@ -45,7 +47,8 @@ class PageDocumentTest extends TestCase
             'original' => Storage::disk('s3')->url($document->original),
             'standard' => Storage::disk('s3')->url($document->standard),
             'thumbnail' => Storage::disk('s3')->url($document->thumbnail),
-            'icon' => Storage::disk('s3')->url($document->icon)
+            'icon' => Storage::disk('s3')->url($document->icon),
+            'uploaded_by' => $user->name,
         ]);
     }
 
@@ -79,7 +82,8 @@ class PageDocumentTest extends TestCase
                 'standard',
                 'thumbnail',
                 'icon',
-                'mimetype'
+                'mimetype',
+                'uploaded_by',
             ]
         ]);
         $document = Document::first();
@@ -119,9 +123,10 @@ class PageDocumentTest extends TestCase
     {
         Storage::fake('s3');
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $this->actingAs($user);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
         ]);
@@ -129,7 +134,8 @@ class PageDocumentTest extends TestCase
             'notebook_id' => $notebook->id,
         ]);
         $document = factory(Document::class)->create([
-            'documentable_id' => $page->id
+            'documentable_id' => $page->id,
+            'created_by' => $user->id,
         ]);
 
         $response = $this->getJson(route('pages.documents.show', [$notebook->hashid, $page->hashid, $document->hashid]));
@@ -140,7 +146,8 @@ class PageDocumentTest extends TestCase
             'original' => Storage::disk('s3')->url($document->original),
             'standard' => Storage::disk('s3')->url($document->standard),
             'thumbnail' => Storage::disk('s3')->url($document->thumbnail),
-            'icon' => Storage::disk('s3')->url($document->icon)
+            'icon' => Storage::disk('s3')->url($document->icon),
+            'uploaded_by' => $user->name,
         ]);
     }
 
@@ -166,9 +173,10 @@ class PageDocumentTest extends TestCase
     {
         Storage::fake('s3');
         $organization = factory(Organization::class)->create();
-        $this->actingAs(factory(User::class)->create([
+        $user = factory(User::class)->create([
             'organization_id' => $organization->id
-        ]));
+        ]);
+        $this->actingAs($user);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id,
         ]);
@@ -176,7 +184,8 @@ class PageDocumentTest extends TestCase
             'notebook_id' => $notebook->id,
         ]);
         $document = factory(Document::class)->create([
-            'documentable_id' => $page->id
+            'documentable_id' => $page->id,
+            'created_by' => $user->id,
         ]);
         Event::fake();
 

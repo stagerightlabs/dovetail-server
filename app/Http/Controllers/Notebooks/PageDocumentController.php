@@ -53,6 +53,7 @@ class PageDocumentController extends Controller
             'original' => request('attachment')->store($path, 's3'),
             'filename' => request('attachment')->getClientOriginalName(),
             'mimetype' => request('attachment')->getClientMimeType(),
+            'created_by' => auth()->user()->id,
         ]);
 
         // Log the document creation

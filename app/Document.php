@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use App\Model;
 use App\Events\DocumentCreated;
 use App\Events\DocumentDeletion;
@@ -59,5 +60,15 @@ class Document extends Model
     public function isPdf()
     {
         return $this->mimetype == 'application/pdf';
+    }
+
+    /**
+     * The user that uploaded this document
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

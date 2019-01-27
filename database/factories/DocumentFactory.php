@@ -7,7 +7,6 @@ use Illuminate\Http\UploadedFile;
 $factory->define(App\Document::class, function (Faker $faker) {
     $filename = str_random(16) . '.png';
     $file = UploadedFile::fake()->image($filename)->storePublicly("attachments", 's3');
-    // dd($file, $filename);
 
     return [
         'documentable_type' => 'page',
@@ -20,5 +19,8 @@ $factory->define(App\Document::class, function (Faker $faker) {
         'icon' => 'attachments/document-icon.png',
         'filename' => $filename,
         'mimetype' => 'image/png',
+        'created_by' => function () {
+            return factory(User::class)->create()->id;
+        },
     ];
 });

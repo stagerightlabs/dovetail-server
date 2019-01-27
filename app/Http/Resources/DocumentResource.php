@@ -23,6 +23,7 @@ class DocumentResource extends JsonResource
             'icon' => $this->icon ? $this->url($this->icon) : '',
             'mimetype' => $this->mimetype,
             'filename' => $this->filename,
+            'uploaded_by' => $this->creator->name,
         ];
     }
 

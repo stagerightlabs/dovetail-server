@@ -26,7 +26,8 @@ Documents associated with Notebook Pages
             "thumbnail": "http:://link/to/thumbnail/thumbnail",
             "icon": "http:://link/to/icon/thumbnail",
             "mimetime": "image/jpeg",
-            "filename": "original_filename.jpg"
+            "filename": "original_filename.jpg",
+            "uploaded_by": "Grace Hopper",
         },
         //..
     ]
@@ -60,7 +61,8 @@ Documents associated with Notebook Pages
         "thumbnail": "http:://link/to/thumbnail/thumbnail",
         "icon": "http:://link/to/icon/thumbnail",
         "mimetime": "image/jpeg",
-        "filename": "original_filename.jpg"
+        "filename": "original_filename.jpg",
+        "uploaded_by": "Grace Hopper",
     }
 }
 ```
@@ -89,7 +91,8 @@ Documents associated with Notebook Pages
         "thumbnail": "http:://link/to/thumbnail/thumbnail",
         "icon": "http:://link/to/icon/thumbnail",
         "mimetime": "image/jpeg",
-        "filename": "original_filename.jpg"
+        "filename": "original_filename.jpg",
+        "uploaded_by": "Grace Hopper",
     }
 }
 ```
