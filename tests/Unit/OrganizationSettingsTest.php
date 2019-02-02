@@ -31,7 +31,9 @@ class OrganizationSettingsTest extends TestCase
 
         $organization->updateConfiguration('label.plates', 'baz');
 
-        $this->assertEquals('baz', $organization->config('label.plates'));
+        $organization->save();
+
+        $this->assertEquals('baz', $organization->fresh()->config('label.plates'));
     }
 
     public function test_permissions_are_persisted()

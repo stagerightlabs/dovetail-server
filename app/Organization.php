@@ -130,9 +130,14 @@ class Organization extends Model
      */
     public function getSettingsAttribute()
     {
-        $configuration = $this->configuration ?? [];
+        $configuration = collect($this->configuration ?? []);
 
-        return collect(array_merge(self::$defaultConfiguration, $configuration));
+        return collect(self::$defaultConfiguration)
+            ->map(function ($default) use ($configuration) {
+                $configured = $configuration->where('key', $default['key'])->first();
+
+                return $configured ?? $default;
+            });
     }
 
     /**
@@ -192,7 +197,7 @@ class Organization extends Model
 
         $existing = collect($this->configuration ?? []);
 
-        if ($existing->contains($setting)) {
+        if ($existing->pluck('key')->contains($setting['key'])) {
             $existing = $existing->map(function ($item) use ($setting) {
                 if ($item['key'] == $setting['key']) {
                     return $setting;
