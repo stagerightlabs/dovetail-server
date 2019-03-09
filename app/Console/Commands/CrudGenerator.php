@@ -184,7 +184,7 @@ class CrudGenerator extends GeneratorCommand
     public function createTest()
     {
         // Derive the correct namespace
-        $name = str_after($this->qualifyClass("Tests/Feature/{$this->singular()}Test"), 'App\\');
+        $name = Str::after($this->qualifyClass("Tests/Feature/{$this->singular()}Test"), 'App\\');
 
         // Determine the file path
         $path = base_path(str_replace('\\', '/', lcfirst($name)).'.php');

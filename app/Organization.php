@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use App\Team;
 use App\User;
 use App\Model;
@@ -49,7 +50,7 @@ class Organization extends Model
 
         // Intercept creation to ensure unique slugs
         static::creating(function ($organization) {
-            $organization->slug = str_slug($organization->name);
+            $organization->slug = Str::slug($organization->name);
 
             $existing = DB::table('organizations')
                 ->where('slug', 'LIKE', "{$organization->slug}%")
