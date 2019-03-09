@@ -44,7 +44,7 @@ class Page extends Model
      */
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable')
+        return $this->morphMany(\App\Comment::class, 'commentable')
             ->orderBy('created_at');
     }
 
@@ -55,7 +55,7 @@ class Page extends Model
      */
     public function documents()
     {
-        return $this->morphMany('App\Document', 'documentable');
+        return $this->morphMany(\App\Document::class, 'documentable');
     }
 
     /**

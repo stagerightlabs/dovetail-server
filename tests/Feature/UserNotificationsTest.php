@@ -81,7 +81,7 @@ class UserNotificationsTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'uuid' => $notification->id,
-            'type' => 'App\Notifications\CommentCreated',
+            'type' => \App\Notifications\CommentCreated::class,
             'read_at' => null,
             'created_at' => $notification->created_at->toAtomString()
         ]);
@@ -116,7 +116,7 @@ class UserNotificationsTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'uuid' => $notification->id,
-            'type' => 'App\Notifications\CommentCreated',
+            'type' => \App\Notifications\CommentCreated::class,
             'created_at' => $notification->created_at->toAtomString()
         ]);
         $this->assertNotNull($notification->fresh()->read_at);

@@ -144,10 +144,10 @@ class AppServiceProvider extends ServiceProvider
     public function registerMorphMap()
     {
         Relation::morphMap([
-            'notebook' => 'App\Notebook',
-            'organization' => 'App\Organization',
-            'page' => 'App\Page',
-            'user' => 'App\User',
+            'notebook' => \App\Notebook::class,
+            'organization' => \App\Organization::class,
+            'page' => \App\Page::class,
+            'user' => \App\User::class,
         ]);
     }
 
