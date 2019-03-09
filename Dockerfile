@@ -10,7 +10,8 @@ RUN apk add --no-cache autoconf libtool make g++ \
     postgresql-dev \
     icu-dev \
     libxml2-dev \
-    bzip2-dev
+    bzip2-dev \
+    git
 
 # Install PHP Extensions
 RUN docker-php-ext-install mbstring pdo_pgsql curl json intl gd xml zip bz2 opcache bcmath
