@@ -50,7 +50,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'phone_verified_at',
         'blocked_at',
-        'deleted_at',
     ];
 
     /**
