@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotebookResource extends JsonResource
@@ -26,7 +27,7 @@ class NotebookResource extends JsonResource
         return [
             'hashid' => hashid($this->id),
             'name' => $this->name,
-            'slug' => str_slug($this->name),
+            'slug' => Str::slug($this->name),
             'category_id' => $this->category_id ? hashid($this->category_id) : null,
             'category' => $this->category_id ? $this->category->name : null,
             'owner_name' => $ownerName,

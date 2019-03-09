@@ -19,8 +19,8 @@ class RedemptionTest extends TestCase
     {
         $response = $this->postJson(route('invitations.redeem', 'FAKECODE'), [
             'name' => 'Grace',
-            'password' => 'secret',
-            'password_confirmation' => 'secret'
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(404);
@@ -35,8 +35,8 @@ class RedemptionTest extends TestCase
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
             'name' => 'Grace',
-            'password' => 'secret',
-            'password_confirmation' => 'secret'
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(404);
@@ -50,8 +50,8 @@ class RedemptionTest extends TestCase
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
             'name' => 'Grace',
-            'password' => 'secret',
-            'password_confirmation' => 'secret'
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(404);
@@ -64,8 +64,8 @@ class RedemptionTest extends TestCase
         ]);
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
-            'password' => 'secret',
-            'password_confirmation' => 'secret'
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(422);
@@ -80,7 +80,7 @@ class RedemptionTest extends TestCase
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
             'name' => 'Grace',
-            'password_confirmation' => 'secret'
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(422);
@@ -95,7 +95,7 @@ class RedemptionTest extends TestCase
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
             'name' => 'Grace',
-            'password' => 'secret',
+            'password' => 'secretive',
         ]);
 
         $response->assertStatus(422);
@@ -113,8 +113,8 @@ class RedemptionTest extends TestCase
 
         $response = $this->postJson(route('invitations.redeem', $invitation->code), [
             'name' => 'Grace',
-            'password' => 'secret',
-            'password_confirmation' => 'secret',
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive',
         ]);
 
         $response->assertStatus(200);

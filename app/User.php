@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use App\Team;
 use App\AccessLevel;
 use App\Organization;
@@ -49,7 +50,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'phone_verified_at',
         'blocked_at',
-        'deleted_at',
     ];
 
     /**
@@ -321,7 +321,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification()
     {
-        $this->email_verification_code = str_random(24);
+        $this->email_verification_code = Str::random(24);
         $this->save();
 
         $this->notify(new VerifyEmail);

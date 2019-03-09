@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Teams;
 
+use Illuminate\Support\Str;
 use App\Team;
 use App\User;
 use App\Notebook;
@@ -35,7 +36,7 @@ class TeamTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $team->hashid,
             'name' => $team->name,
-            'slug' => str_slug($team->name),
+            'slug' => Str::slug($team->name),
             'members_count' => 1
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Authentication;
 
+use Illuminate\Support\Str;
 use App\User;
 use Tests\TestCase;
 use Laravel\Passport\Client;
@@ -45,7 +46,7 @@ class EmailVerificationTest extends TestCase
     public function test_it_verifies_emails()
     {
         $user = factory(User::class)->states('unverified')->create([
-            'email_verification_code' => str_random(24)
+            'email_verification_code' => Str::random(24)
         ]);
         $this->withHeaders($this->authorization($user));
 
@@ -59,7 +60,7 @@ class EmailVerificationTest extends TestCase
     public function test_it_handles_invalid_verification_codes()
     {
         $user = factory(User::class)->states('unverified')->create([
-            'email_verification_code' => str_random(24)
+            'email_verification_code' => Str::random(24)
         ]);
         $this->withHeaders($this->authorization($user));
 

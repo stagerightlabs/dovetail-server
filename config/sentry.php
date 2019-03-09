@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'dsn' => env('SENTRY_LARAVEL_DSN'),
 
     // capture release as git sha
@@ -8,7 +8,4 @@ return array(
 
     // Capture bindings on SQL queries
     'breadcrumbs.sql_bindings' => true,
-
-    // Capture default user context
-    'user_context' => false,
-);
+];

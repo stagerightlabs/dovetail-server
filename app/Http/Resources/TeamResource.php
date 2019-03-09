@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\AccessLevel;
 
@@ -18,7 +19,7 @@ class TeamResource extends JsonResource
         return [
             'hashid' => $this->hashid,
             'name' => $this->name,
-            'slug' => str_slug($this->name),
+            'slug' => Str::slug($this->name),
             'members' => MemberResource::collection($this->whenLoaded('members')),
             'members_count' => $this->when(!is_null($this->members_count), $this->members_count)
         ];

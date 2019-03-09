@@ -62,7 +62,7 @@ class RegisterController extends Controller
             'organization' => 'required|string|unique:organizations,name',
             'email' => ['required', 'string', new ValidEmail, 'max:255', 'unique:users'],
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
         ]);
     }
 

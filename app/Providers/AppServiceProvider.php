@@ -66,7 +66,7 @@ class AppServiceProvider extends ServiceProvider
         // Transform a password token into a Json Response
         Response::macro('authorization', function (Request $request) {
             $client = Client::where('password_client', true)
-                ->where('secret', env('TOKEN_SECRET'))
+                ->where('secret', config('jwt.token_secret'))
                 ->where('revoked', false)
                 ->first();
 
@@ -144,10 +144,10 @@ class AppServiceProvider extends ServiceProvider
     public function registerMorphMap()
     {
         Relation::morphMap([
-            'notebook' => 'App\Notebook',
-            'organization' => 'App\Organization',
-            'page' => 'App\Page',
-            'user' => 'App\User',
+            'notebook' => \App\Notebook::class,
+            'organization' => \App\Organization::class,
+            'page' => \App\Page::class,
+            'user' => \App\User::class,
         ]);
     }
 

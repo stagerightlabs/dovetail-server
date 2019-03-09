@@ -14,7 +14,7 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->paymentGateway = new FakePaymentGateway;
@@ -31,8 +31,8 @@ class RegistrationTest extends TestCase
             'name' => 'Grace',
             'email' => 'grace@example.com',
             'organization' => 'Phylos Bioscience',
-            'password' => 'secret',
-            'password_confirmation' => 'secret'
+            'password' => 'secretive',
+            'password_confirmation' => 'secretive'
         ]);
 
         $response->assertStatus(200);

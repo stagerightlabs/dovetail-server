@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use App\AccessLevel;
 use App\Organization;
 use Faker\Generator as Faker;
@@ -23,7 +24,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'access_level' => AccessLevel::$ORGANIZATION_MEMBER,
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'organization_id' => function () {
             return factory(Organization::class)->create()->id;
         },

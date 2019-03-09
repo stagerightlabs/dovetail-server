@@ -101,9 +101,9 @@ class StripePaymentGateway implements PaymentGateway
     {
         try {
             return $this->organization->newSubscription(
-                    $this->selectedPlan['name'],
-                    $this->selectedPlan['identifier']
-                )->create($token, [
+                $this->selectedPlan['name'],
+                $this->selectedPlan['identifier']
+            )->create($token, [
                     'email' => $this->email,
                     'metadata' => [
                         'organization' => $this->organization->name

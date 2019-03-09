@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Str;
 use App\Team;
 use App\User;
 use App\Notebook;
@@ -52,7 +53,7 @@ class UserNotebooksTest extends TestCase
         $response->assertJsonFragment([
             'hashid' => $notebookA->hashid,
             'name' => $notebookA->name,
-            // 'slug' => str_slug($teams[0]->name),
+            // 'slug' => Str::slug($teams[0]->name),
         ]);
         $this->assertCount(3, $response->decodeResponseJson('data'));
         $hashids = collect($response->decodeResponseJson('data'))->pluck('hashid');

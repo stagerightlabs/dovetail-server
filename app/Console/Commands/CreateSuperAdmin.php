@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Str;
 use App\User;
 use App\AccessLevel;
 use App\Organization;
@@ -55,7 +56,7 @@ class CreateSuperAdmin extends Command
         $organization = Organization::firstOrCreate(['name' => 'Super Admins']);
 
         // Generate a password
-        $password = str_random(16);
+        $password = Str::random(16);
 
         // Create the user
         $user = User::create([

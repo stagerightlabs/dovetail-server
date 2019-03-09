@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Str;
 use App\Page;
 use Faker\Generator as Faker;
 use Illuminate\Http\UploadedFile;
 
 $factory->define(App\Document::class, function (Faker $faker) {
-    $filename = str_random(16) . '.png';
+    $filename = Str::random(16) . '.png';
     $file = UploadedFile::fake()->image($filename)->storePublicly("attachments", 's3');
 
     return [
