@@ -66,7 +66,7 @@ class AppServiceProvider extends ServiceProvider
         // Transform a password token into a Json Response
         Response::macro('authorization', function (Request $request) {
             $client = Client::where('password_client', true)
-                ->where('secret', env('TOKEN_SECRET'))
+                ->where('secret', config('jwt.token_secret'))
                 ->where('revoked', false)
                 ->first();
 
