@@ -15,8 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CrudGenerator::class,
-        CreateSuperAdmin::class,
+        
     ];
 
     /**
