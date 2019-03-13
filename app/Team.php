@@ -46,7 +46,7 @@ class Team extends Model
      */
     public function scope($query)
     {
-        $subQuery = \DB::table('interactions')
+        $subQuery = DB::table('interactions')
             ->select('created_at')
             ->whereRaw('customer_id = customers.id')
             ->latest()
