@@ -12,9 +12,10 @@ class TeamController extends Controller
     /**
      * Retrieve a listing of the teams.
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $teams = $request->organization()->teams()->withCount('members')->get();
 
@@ -24,9 +25,10 @@ class TeamController extends Controller
     /**
      * Store a newly created team in storage.
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(Request $request)
     {
         $this->requirePermission('teams.create');
 
@@ -48,27 +50,29 @@ class TeamController extends Controller
     /**
      * Retrieve the specified team.
      *
+     * @param  Request $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function show(\Illuminate\Http\Request $request, $hashid)
+    public function show(Request $request, $hashid)
     {
         return new TeamResource(
-            $request->organization->teams()->with('members')->findOrFail(hashid($hashid))
+            $request->organization()->teams()->with('members')->findOrFail(hashid($hashid))
         );
     }
 
     /**
      * Update the specified team in storage.
      *
+     * @param  Request $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request, $hashid)
+    public function update(Request $request, $hashid)
     {
         $this->requirePermission('teams.update');
 
-        $team = $request->organization->teams()->with('members')->findOrFail(hashid($hashid));
+        $team = $request->organization()->teams()->with('members')->findOrFail(hashid($hashid));
 
         $request->validate([
             'name' => "required|iunique:teams,name,{$team->id},id,organization_id," . $request->organization()->id,
@@ -83,14 +87,15 @@ class TeamController extends Controller
     /**
      * Remove the specified team from storage.
      *
+     * @param  Request $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function delete(\Illuminate\Http\Request $request, $hashid)
+    public function delete(Request $request, $hashid)
     {
         $this->requirePermission('teams.delete');
 
-        $team = $request->organization->teams()->findOrFail(hashid($hashid));
+        $team = $request->organization()->teams()->findOrFail(hashid($hashid));
 
         $team->delete();
 
