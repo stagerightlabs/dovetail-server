@@ -10,14 +10,14 @@ cache:
 before_script:
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
-- php composer.phar install --prefer-source --no-interaction --no-suggest
+- php composer.phar install --prefer-dist --no-interaction --no-suggest
 # Set the default application environment variables
 - cp .env.example .env
 - php artisan key:generate
 # Run the migrations
 - php artisan migrate
 # Configure the OAuth service
-- php artisan passport:install
+- php artisan passport:keys
 
 services:
   - postgres:latest
