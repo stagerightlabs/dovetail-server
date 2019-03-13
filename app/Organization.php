@@ -2,22 +2,25 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
 use App\Team;
 use App\User;
-use App\Model;
 use App\Category;
 use App\Notebook;
 use App\Invitation;
+use App\UsesHashids;
+use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Organization extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

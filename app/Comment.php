@@ -2,13 +2,16 @@
 
 namespace App;
 
-use App\Model;
+use App\UsesHashids;
 use App\Events\CommentCreated;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comment extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

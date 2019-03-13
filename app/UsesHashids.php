@@ -2,9 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model as EloquentModel;
-
-class Model extends EloquentModel
+/**
+ * A hashid helper for model classes
+ */
+trait UsesHashids
 {
     /**
      * Return the model's hashid as a string
