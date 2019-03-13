@@ -18,7 +18,6 @@ class PageTest extends TestCase
 
     public function test_it_returns_all_pages()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id

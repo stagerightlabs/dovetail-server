@@ -19,7 +19,6 @@ class TeamTest extends TestCase
 
     public function test_it_returns_all_available_teams()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $admin = factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id
@@ -296,7 +295,6 @@ class TeamTest extends TestCase
 
     public function test_teams_with_notebooks_can_be_deleted()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $admin = factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id

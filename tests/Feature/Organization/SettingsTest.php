@@ -65,7 +65,6 @@ class SettingsTest extends TestCase
 
     public function test_it_does_not_accept_arbitrary_values()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $this->actingAs(factory(User::class)->states('org-admin')->create([
             'organization_id' => $organization->id

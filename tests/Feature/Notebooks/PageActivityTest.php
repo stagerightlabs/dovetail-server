@@ -17,7 +17,6 @@ class PageActivityTest extends TestCase
 
     public function test_notebook_page_activity_can_be_retrieved()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id

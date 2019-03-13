@@ -66,7 +66,6 @@ class PermissionsTest extends TestCase
 
     public function test_a_member_can_check_their_own_permissions()
     {
-        $this->withoutExceptionHandling();
         $member = factory(User::class)->states('org-member')->create();
         $this->actingAs($member);
 

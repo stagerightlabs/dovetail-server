@@ -137,7 +137,6 @@ class LogoTest extends TestCase
 
     public function test_it_removes_logos()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $file = File::image('logo.png', 600, 800);
         $this->actingAs(factory(User::class)->create([
