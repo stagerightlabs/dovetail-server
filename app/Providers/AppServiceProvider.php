@@ -87,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Retrieve the current organization from the request
         Request::macro('organization', function () {
-            return $this->organization ?? null;
+            return $this->user()->organization ?? null;
         });
     }
 
