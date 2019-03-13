@@ -19,6 +19,6 @@ class UserTeams extends Controller
      */
     public function __invoke(Request $request)
     {
-        return TeamResource::collection(auth()->user()->teams);
+        return TeamResource::collection($request->user()->teams);
     }
 }

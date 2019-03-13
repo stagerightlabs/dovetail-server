@@ -21,13 +21,13 @@ class SettingsController extends Controller
      * @param string $key
      * @return JsonResponse
      */
-    public function show($key)
+    public function show(\Illuminate\Http\Request $request, $key)
     {
-        $this->authorize('readSetting', request()->organization());
+        $this->authorize('readSetting', $request->organization());
 
         return new JsonResource([
             'key' => $key,
-            'value' => request()->organization()->config($key)
+            'value' => $request->organization()->config($key)
         ]);
     }
 
@@ -40,7 +40,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request)
     {
-        $this->authorize('writeSetting', request()->organization());
+        $this->authorize('writeSetting', $request->organization());
 
         $request->validate([
             'key' => 'required',

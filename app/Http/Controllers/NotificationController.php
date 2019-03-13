@@ -13,9 +13,9 @@ class NotificationController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        return NotificationResource::collection(auth()->user()->unreadNotifications);
+        return NotificationResource::collection($request->user()->unreadNotifications);
     }
 
     /**
@@ -24,10 +24,10 @@ class NotificationController extends Controller
      * @param  string $uuid
      * @return JsonResponse
      */
-    public function show($uuid)
+    public function show(\Illuminate\Http\Request $request, $uuid)
     {
         return new NotificationResource(
-            auth()->user()->notifications()->findOrFail($uuid)
+            $request->user()->notifications()->findOrFail($uuid)
         );
     }
 
@@ -37,9 +37,9 @@ class NotificationController extends Controller
      * @param  string $uuid
      * @return JsonResponse
      */
-    public function update($uuid)
+    public function update(\Illuminate\Http\Request $request, $uuid)
     {
-        $notification = auth()->user()->notifications()->findOrFail($uuid);
+        $notification = $request->user()->notifications()->findOrFail($uuid);
 
         $notification->markAsRead();
 

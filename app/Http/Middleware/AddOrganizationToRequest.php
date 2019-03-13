@@ -15,7 +15,7 @@ class AddOrganizationToRequest
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->organization = auth()->user()->organization) {
+        if (!$request->organization = $request->user()->organization) {
             return response()->json(['message' => 'There is a problem with your account'], 403);
         }
 

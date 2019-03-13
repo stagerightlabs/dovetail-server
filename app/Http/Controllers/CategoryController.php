@@ -15,9 +15,9 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        return CategoryResource::collection(request()->organization()->categories);
+        return CategoryResource::collection($request->organization()->categories);
     }
 
     /**
@@ -25,18 +25,18 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function store()
+    public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate([
-            'name' => 'required|iunique:categories,name,null,null,organization_id,' . request()->organization()->id,
+        $request->validate([
+            'name' => 'required|iunique:categories,name,null,null,organization_id,' . $request->organization()->id,
         ], [
             'name.iunique' => 'This name is already in use'
         ]);
 
         $category = Category::create([
             'name' => request('name'),
-            'organization_id' => request()->organization()->id,
-            'created_by' => auth()->user()->id
+            'organization_id' => $request->organization()->id,
+            'created_by' => $request->user()->id
         ]);
 
         return new CategoryResource($category);
@@ -61,12 +61,12 @@ class CategoryController extends Controller
      * @param string $hashid
      * @return JsonResponse
      */
-    public function update($hashid)
+    public function update(\Illuminate\Http\Request $request, $hashid)
     {
         $category = Category::findOrFail(hashid($hashid));
 
-        request()->validate([
-            'name' => "required|iunique:categories,name,{$category->id},id,organization_id," . request()->organization()->id,
+        $request->validate([
+            'name' => "required|iunique:categories,name,{$category->id},id,organization_id," . $request->organization()->id,
         ]);
 
         $category->name = request('name');

@@ -13,8 +13,8 @@ class OrganizationController extends Controller
      *
      * @return JsonResponse
      */
-    public function show()
+    public function show(\Illuminate\Http\Request $request)
     {
-        return new OrganizationResource(request()->organization());
+        return new OrganizationResource($request->organization());
     }
 }

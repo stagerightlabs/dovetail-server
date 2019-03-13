@@ -20,9 +20,9 @@ class BlockedMembersController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function store($hashid)
+    public function store(\Illuminate\Http\Request $request, $hashid)
     {
-        $this->authorize('edit', request()->organization());
+        $this->authorize('edit', $request->organization());
 
         $user = User::inOrganization()->findOrFail(hashid($hashid));
 
@@ -41,9 +41,9 @@ class BlockedMembersController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function destroy($hashid)
+    public function destroy(\Illuminate\Http\Request $request, $hashid)
     {
-        $this->authorize('edit', request()->organization());
+        $this->authorize('edit', $request->organization());
 
         $user = User::inOrganization()->findOrFail(hashid($hashid));
 

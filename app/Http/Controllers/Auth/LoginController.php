@@ -149,7 +149,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $accessToken = auth()->user()->token();
+        $accessToken = $request->user()->token();
 
         $refreshToken = DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $accessToken->id)

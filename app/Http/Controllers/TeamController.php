@@ -14,9 +14,9 @@ class TeamController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        $teams = request()->organization()->teams()->withCount('members')->get();
+        $teams = $request->organization()->teams()->withCount('members')->get();
 
         return TeamResource::collection($teams);
     }
@@ -26,20 +26,20 @@ class TeamController extends Controller
      *
      * @return JsonResponse
      */
-    public function store()
+    public function store(\Illuminate\Http\Request $request)
     {
         $this->requirePermission('teams.create');
 
-        request()->validate([
-            'name' => 'required|iunique:teams,name,null,null,organization_id,' . request()->organization()->id,
+        $request->validate([
+            'name' => 'required|iunique:teams,name,null,null,organization_id,' . $request->organization()->id,
         ], [
             'name.iunique' => 'That name is already in use'
         ]);
 
         $team = Team::create([
-            'name' => request()->name,
-            'organization_id' => request()->organization()->id,
-            'created_by' => auth()->user()->id,
+            'name' => $request->name,
+            'organization_id' => $request->organization()->id,
+            'created_by' => $request->user()->id,
         ]);
 
         return new TeamResource($team);
@@ -51,10 +51,10 @@ class TeamController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function show($hashid)
+    public function show(\Illuminate\Http\Request $request, $hashid)
     {
         return new TeamResource(
-            request()->organization->teams()->with('members')->findOrFail(hashid($hashid))
+            $request->organization->teams()->with('members')->findOrFail(hashid($hashid))
         );
     }
 
@@ -64,14 +64,14 @@ class TeamController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function update($hashid)
+    public function update(\Illuminate\Http\Request $request, $hashid)
     {
         $this->requirePermission('teams.update');
 
-        $team = request()->organization->teams()->with('members')->findOrFail(hashid($hashid));
+        $team = $request->organization->teams()->with('members')->findOrFail(hashid($hashid));
 
-        request()->validate([
-            'name' => "required|iunique:teams,name,{$team->id},id,organization_id," . request()->organization()->id,
+        $request->validate([
+            'name' => "required|iunique:teams,name,{$team->id},id,organization_id," . $request->organization()->id,
         ]);
 
         $team->name = request('name');
@@ -86,11 +86,11 @@ class TeamController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function delete(\Illuminate\Http\Request $request, $hashid)
     {
         $this->requirePermission('teams.delete');
 
-        $team = request()->organization->teams()->findOrFail(hashid($hashid));
+        $team = $request->organization->teams()->findOrFail(hashid($hashid));
 
         $team->delete();
 

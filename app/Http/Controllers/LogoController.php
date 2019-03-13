@@ -17,9 +17,9 @@ class LogoController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        return LogoResource::collection(request()->organization()->logos);
+        return LogoResource::collection($request->organization()->logos);
     }
 
     /**
@@ -27,16 +27,16 @@ class LogoController extends Controller
      *
      * @return JsonResponse
      */
-    public function store()
+    public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate([
+        $request->validate([
             'owner_type' => 'required|in:organization,user',
             'owner_hashid' => 'required',
             'logo' => 'required|image'
         ]);
 
         // Storage Path
-        $path = request()->organization()->slug . '/logos';
+        $path = $request->organization()->slug . '/logos';
 
         // Create Logo
         $logo = Logo::create([

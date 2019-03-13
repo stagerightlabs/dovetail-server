@@ -29,9 +29,9 @@ class PageDocumentController extends Controller
      *
      * @return JsonResponse
      */
-    public function store($notebook, $page)
+    public function store(\Illuminate\Http\Request $request, $notebook, $page)
     {
-        request()->validate([
+        $request->validate([
             'attachment' => 'required|mimes:jpeg,png,gif,pdf,csv'
         ], [
             'attachment.mimes' => "Only jpeg, png, gif, csv and pdf files are allowed."
@@ -44,7 +44,7 @@ class PageDocumentController extends Controller
         $page = Page::with('notebook')->findOrFail(hashid($page));
 
         // Storage Path
-        $path = request()->organization()->slug . '/documents';
+        $path = $request->organization()->slug . '/documents';
 
         // Create Document
         $document = Document::create([
@@ -53,7 +53,7 @@ class PageDocumentController extends Controller
             'original' => request('attachment')->store($path, 's3'),
             'filename' => request('attachment')->getClientOriginalName(),
             'mimetype' => request('attachment')->getClientMimeType(),
-            'created_by' => auth()->user()->id,
+            'created_by' => $request->user()->id,
         ]);
 
         // Log the document creation

@@ -17,7 +17,7 @@ class UserNotebooks extends Controller
     public function __invoke(Request $request)
     {
         return NotebookResource::collection(
-            auth()->user()->availableNotebooks()->get()
+            $request->user()->availableNotebooks()->get()
         );
     }
 }

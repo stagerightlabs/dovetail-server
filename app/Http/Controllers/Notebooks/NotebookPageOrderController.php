@@ -14,11 +14,11 @@ class NotebookPageOrderController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function __invoke($hashid)
+    public function __invoke(\Illuminate\Http\Request $request, $hashid)
     {
         $this->requirePermission('notebooks.pages');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
         $newPageOrder = collect(request('pages'));
 

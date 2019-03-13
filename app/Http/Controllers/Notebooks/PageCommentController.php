@@ -36,9 +36,9 @@ class PageCommentController extends Controller
      * @param string $page
      * @return JsonResponse
      */
-    public function store($notebook, $page)
+    public function store(\Illuminate\Http\Request $request, $notebook, $page)
     {
-        request()->validate([
+        $request->validate([
             'content' => 'required'
         ]);
 
@@ -48,7 +48,7 @@ class PageCommentController extends Controller
 
         $comment = $page->comments()->create([
             'content' => sanitize(request('content')),
-            'commentator_id' => auth()->user()->id
+            'commentator_id' => $request->user()->id
         ]);
 
         // Log the comment creation
@@ -84,14 +84,14 @@ class PageCommentController extends Controller
      * @param string $comment
      * @return JsonResponse
      */
-    public function update($notebook, $page, $comment)
+    public function update(\Illuminate\Http\Request $request, $notebook, $page, $comment)
     {
         $page = Page::with('notebook')->findOrFail(hashid($page));
         $comment = Comment::with('commentable')->findOrFail(hashid($comment));
 
         $this->authorize('update', $comment);
 
-        request()->validate([
+        $request->validate([
             'content' => 'required'
         ]);
 

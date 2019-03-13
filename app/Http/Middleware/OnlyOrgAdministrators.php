@@ -17,7 +17,7 @@ class OnlyOrgAdministrators
      */
     public function handle($request, Closure $next)
     {
-        if (request()->user()->access_level >= AccessLevel::$ORGANIZATION_ADMIN) {
+        if ($request->user()->access_level >= AccessLevel::$ORGANIZATION_ADMIN) {
             return $next($request);
         }
 

@@ -16,7 +16,7 @@ class CheckReadOnlyStatus extends Controller
     public function __invoke(Request $request)
     {
         return new JsonResource([
-            'readonly' => auth()->user()->isReadOnly()
+            'readonly' => $request->user()->isReadOnly()
         ]);
     }
 }

@@ -15,17 +15,17 @@ class TeamMembershipController extends Controller
      * @param  string $member
      * @return JsonResponse
      */
-    public function store($team)
+    public function store(\Illuminate\Http\Request $request, $team)
     {
         $this->requirePermission('teams.membership');
 
-        request()->validate([
+        $request->validate([
             'member' => 'required|string'
         ]);
 
         // Fetch the team and the user
-        $team = request()->organization()->teams()->findOrFail(hashid($team));
-        $member = request()->organization()->users()->findOrFail(hashid(request('member')));
+        $team = $request->organization()->teams()->findOrFail(hashid($team));
+        $member = $request->organization()->users()->findOrFail(hashid(request('member')));
 
         $team->addMember($member);
 
@@ -39,13 +39,13 @@ class TeamMembershipController extends Controller
      * @param  string $member
      * @return JsonResponse
      */
-    public function delete($team, $member)
+    public function delete(\Illuminate\Http\Request $request, $team, $member)
     {
         $this->requirePermission('teams.membership');
 
         // Fetch the team and the member
-        $team = request()->organization()->teams()->findOrFail(hashid($team));
-        $member = request()->organization()->users()->findOrFail(hashid($member));
+        $team = $request->organization()->teams()->findOrFail(hashid($team));
+        $member = $request->organization()->users()->findOrFail(hashid($member));
 
         $team->removeMember($member);
 

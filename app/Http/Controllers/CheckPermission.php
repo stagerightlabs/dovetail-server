@@ -19,7 +19,7 @@ class CheckPermission extends Controller
     {
         return new JsonResource([
             'key' => $permission,
-            'allowed' => auth()->user()->hasPermission($permission)
+            'allowed' => $request->user()->hasPermission($permission)
         ]);
     }
 }

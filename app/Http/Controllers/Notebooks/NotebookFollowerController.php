@@ -15,11 +15,11 @@ class NotebookFollowerController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function store($hashid)
+    public function store(\Illuminate\Http\Request $request, $hashid)
     {
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
-        $notebook->addFollower(auth()->user());
+        $notebook->addFollower($request->user());
 
         return new NotebookResource($notebook);
     }
@@ -30,11 +30,11 @@ class NotebookFollowerController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function destroy($hashid)
+    public function destroy(\Illuminate\Http\Request $request, $hashid)
     {
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
-        $notebook->removeFollower(auth()->user());
+        $notebook->removeFollower($request->user());
 
         return new NotebookResource($notebook);
     }
