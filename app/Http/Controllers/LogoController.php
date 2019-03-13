@@ -7,17 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\LogoResource;
 use App\Http\Controllers\Controller;
-use App\NullFile;
-use App\Events\LogoAdded;
 
 class LogoController extends Controller
 {
     /**
      * Fetch a list of available logos
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         return LogoResource::collection($request->organization()->logos);
     }
@@ -27,7 +26,7 @@ class LogoController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'owner_type' => 'required|in:organization,user',
@@ -55,7 +54,7 @@ class LogoController extends Controller
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $logo = Logo::findOrFail(hashid($hashid));
 

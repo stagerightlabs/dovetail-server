@@ -14,10 +14,11 @@ class PageController extends Controller
     /**
      * Fetch a list of available pages
      *
-     * @param string $notebook - Notebook hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
      * @return JsonResponse
      */
-    public function index(\Illuminate\Http\Request $request, $notebook)
+    public function index(Request $request, $notebook)
     {
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
 
@@ -27,10 +28,11 @@ class PageController extends Controller
     /**
      * Store a new page
      *
-     * @param string $notebook - Notebook hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request, $notebook)
+    public function store(Request $request, $notebook)
     {
         $this->requirePermission('notebooks.pages');
 
@@ -51,11 +53,12 @@ class PageController extends Controller
     /**
      * Return a single page
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function show(\Illuminate\Http\Request $request, $notebook, $page)
+    public function show(Request $request, $notebook, $page)
     {
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
 
@@ -67,11 +70,12 @@ class PageController extends Controller
     /**
      * Update a page
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request, $notebook, $page)
+    public function update(Request $request, $notebook, $page)
     {
         $this->requirePermission('notebooks.pages');
 
@@ -87,11 +91,12 @@ class PageController extends Controller
     /**
      * Remove a page from storage.
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function delete(\Illuminate\Http\Request $request, $notebook, $page)
+    public function destroy(Request $request, $notebook, $page)
     {
         $this->requirePermission('notebooks.pages');
 

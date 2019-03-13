@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\CategoryResource;
 
@@ -13,9 +12,10 @@ class CategoryController extends Controller
     /**
      * Fetch a list of available categories
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         return CategoryResource::collection($request->organization()->categories);
     }
@@ -23,9 +23,10 @@ class CategoryController extends Controller
     /**
      * Store a new category
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|iunique:categories,name,null,null,organization_id,' . $request->organization()->id,
@@ -58,10 +59,11 @@ class CategoryController extends Controller
     /**
      * Update a category
      *
+     * @param  Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request, $hashid)
+    public function update(Request $request, $hashid)
     {
         $category = Category::findOrFail(hashid($hashid));
 
@@ -81,7 +83,7 @@ class CategoryController extends Controller
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $category = Category::findOrFail(hashid($hashid));
 

@@ -189,7 +189,7 @@ class PageDocumentTest extends TestCase
         ]);
         Event::fake();
 
-        $response = $this->deleteJson(route('pages.documents.delete', [$notebook->hashid, $page->hashid, $document->hashid]));
+        $response = $this->deleteJson(route('pages.documents.destroy', [$notebook->hashid, $page->hashid, $document->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('documents', [

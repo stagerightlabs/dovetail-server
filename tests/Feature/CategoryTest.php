@@ -195,7 +195,7 @@ class CategoryTest extends TestCase
             'organization_id' => $organization->id
         ]);
 
-        $response = $this->deleteJson(route('categories.delete', $category->hashid));
+        $response = $this->deleteJson(route('categories.destroy', $category->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('categories', [

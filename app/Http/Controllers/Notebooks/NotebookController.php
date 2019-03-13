@@ -13,9 +13,10 @@ class NotebookController extends Controller
     /**
      * Fetch a list of available notebooks
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         return NotebookResource::collection($request->organization()->notebooks);
     }
@@ -23,9 +24,10 @@ class NotebookController extends Controller
     /**
      * Store a new notebook
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(Request $request)
     {
         $this->requirePermission('notebooks.create');
 
@@ -71,10 +73,11 @@ class NotebookController extends Controller
     /**
      * Update a notebook
      *
+     * @param  Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request, $hashid)
+    public function update(Request $request, $hashid)
     {
         $this->requirePermission('notebooks.update');
 
@@ -104,12 +107,13 @@ class NotebookController extends Controller
     /**
      * Remove a notebook from storage.
      *
+     * @param  Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete(\Illuminate\Http\Request $request, $hashid)
+    public function destroy(Request $request, $hashid)
     {
-        $this->requirePermission('notebooks.delete');
+        $this->requirePermission('notebooks.destroy');
 
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 

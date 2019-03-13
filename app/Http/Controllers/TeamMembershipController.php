@@ -11,11 +11,12 @@ class TeamMembershipController extends Controller
     /**
      * Add a member to this team
      *
+     * @param  Request $request
      * @param  string $team
      * @param  string $member
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request, $team)
+    public function store(Request $request, $team)
     {
         $this->requirePermission('teams.membership');
 
@@ -35,11 +36,12 @@ class TeamMembershipController extends Controller
     /**
      * Add a member to this team
      *
+     * @param  Request $request
      * @param  string $team
      * @param  string $member
      * @return JsonResponse
      */
-    public function delete(\Illuminate\Http\Request $request, $team, $member)
+    public function destroy(Request $request, $team, $member)
     {
         $this->requirePermission('teams.membership');
 

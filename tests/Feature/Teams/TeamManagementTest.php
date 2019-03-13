@@ -228,14 +228,14 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $this->actingAs($admin);
-        $this->assertTrue($admin->hasPermission('teams.delete'));
+        $this->assertTrue($admin->hasPermission('teams.destroy'));
         $team = factory(Team::class)->create([
             'name' => 'Red Team',
             'organization_id' => $organization->id
         ]);
         Event::fake();
 
-        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+        $response = $this->deleteJson(route('teams.destroy', $team->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('teams', [
@@ -252,14 +252,14 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id
         ]);
         $this->actingAs($admin);
-        $this->assertFalse($admin->hasPermission('teams.delete'));
+        $this->assertFalse($admin->hasPermission('teams.destroy'));
         $team = factory(Team::class)->create([
             'name' => 'Red Team',
             'organization_id' => $organization->id
         ]);
         Event::fake();
 
-        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+        $response = $this->deleteJson(route('teams.destroy', $team->hashid));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('teams', [
@@ -284,7 +284,7 @@ class TeamTest extends TestCase
             'organization_id' => $organization->id,
         ]));
 
-        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+        $response = $this->deleteJson(route('teams.destroy', $team->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('teams', [
@@ -312,7 +312,7 @@ class TeamTest extends TestCase
             'team_id' => $team->id
         ]);
 
-        $response = $this->deleteJson(route('teams.delete', $team->hashid));
+        $response = $this->deleteJson(route('teams.destroy', $team->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('notebooks', [

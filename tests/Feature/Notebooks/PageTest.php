@@ -204,7 +204,7 @@ class PageTest extends TestCase
             'notebook_id' => $notebook->id
         ]);
 
-        $response = $this->deleteJson(route('pages.delete', [$notebook->hashid, $page->hashid]));
+        $response = $this->deleteJson(route('pages.destroy', [$notebook->hashid, $page->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('pages', [
@@ -230,7 +230,7 @@ class PageTest extends TestCase
             'notebook_id' => $notebook->id
         ]);
 
-        $response = $this->deleteJson(route('pages.delete', [$notebook->hashid, $page->hashid]));
+        $response = $this->deleteJson(route('pages.destroy', [$notebook->hashid, $page->hashid]));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('pages', [

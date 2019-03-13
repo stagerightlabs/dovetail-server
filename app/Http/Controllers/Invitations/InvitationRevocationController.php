@@ -13,10 +13,11 @@ class InvitationRevocationController extends Controller
     /**
      * Revoke an invitation
      *
-     * @param string $hashid
+     * @param  Request $request
+     * @param  string $hashid
      * @return \Illuminate\Http\Response
      */
-    public function update(\Illuminate\Http\Request $request, $hashid)
+    public function update(Request $request, $hashid)
     {
         $invitation = Invitation::findOrFail(hashid($hashid));
 
@@ -34,7 +35,7 @@ class InvitationRevocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $invitation = Invitation::findOrFail(hashid($hashid));
 

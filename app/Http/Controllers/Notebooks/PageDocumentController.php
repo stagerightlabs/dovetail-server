@@ -88,7 +88,7 @@ class PageDocumentController extends Controller
      * @param string $document
      * @return JsonResponse
      */
-    public function delete($notebook, $page, $document)
+    public function destroy($notebook, $page, $document)
     {
         // Fetch the page
         $page = Page::with('notebook')->findOrFail(hashid($page));

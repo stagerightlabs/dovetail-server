@@ -149,7 +149,7 @@ class LogoTest extends TestCase
             'original' => $file->store('logos', 's3')
         ]);
 
-        $response = $this->deleteJson(route('logos.delete', $logo->hashid));
+        $response = $this->deleteJson(route('logos.destroy', $logo->hashid));
 
         $response->assertStatus(204);
         Storage::disk('s3')->assertMissing($logo->original);

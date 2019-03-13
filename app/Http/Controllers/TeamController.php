@@ -91,9 +91,9 @@ class TeamController extends Controller
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function delete(Request $request, $hashid)
+    public function destroy(Request $request, $hashid)
     {
-        $this->requirePermission('teams.delete');
+        $this->requirePermission('teams.destroy');
 
         $team = $request->organization()->teams()->findOrFail(hashid($hashid));
 

@@ -9,13 +9,11 @@ use App\Rules\ValidEmail;
 use Illuminate\Http\Request;
 use App\Billing\PaymentGateway;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends Controller
+class RegistrationController extends Controller
 {
     /**
      * @var PaymentGateway
@@ -40,11 +38,11 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function store(Request $request)
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user = $this->createUser($request->all())));
 
         return response()->authorization($request);
     }
@@ -72,7 +70,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function createUser(array $data)
     {
         $organization = Organization::create(['name' => $data['organization']]);
 

@@ -16,8 +16,8 @@ class PageCommentController extends Controller
     /**
      * Fetch a list of available comments
      *
-     * @param string $notebook
-     * @param string $page
+     * @param  string $notebook
+     * @param  string $page
      * @return JsonResponse
      */
     public function index($notebook, $page)
@@ -32,11 +32,12 @@ class PageCommentController extends Controller
     /**
      * Store a new comment
      *
-     * @param string $notebook
-     * @param string $page
+     * @param  Request $request
+     * @param  string $notebook
+     * @param  string $page
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request, $notebook, $page)
+    public function store(Request $request, $notebook, $page)
     {
         $request->validate([
             'content' => 'required'
@@ -60,9 +61,9 @@ class PageCommentController extends Controller
     /**
      * Return a single comment
      *
-     * @param string $notebook
-     * @param string $page
-     * @param string $comment
+     * @param  string $notebook
+     * @param  string $page
+     * @param  string $comment
      * @return JsonResponse
      */
     public function show($notebook, $page, $comment)
@@ -79,12 +80,13 @@ class PageCommentController extends Controller
     /**
      * Update a comment
      *
-     * @param string $notebook
-     * @param string $page
-     * @param string $comment
+     * @param  Request $request
+     * @param  string $notebook
+     * @param  string $page
+     * @param  string $comment
      * @return JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request, $notebook, $page, $comment)
+    public function update(Request $request, $notebook, $page, $comment)
     {
         $page = Page::with('notebook')->findOrFail(hashid($page));
         $comment = Comment::with('commentable')->findOrFail(hashid($comment));
@@ -113,7 +115,7 @@ class PageCommentController extends Controller
      * @param string $comment
      * @return JsonResponse
      */
-    public function delete($notebook, $page, $comment)
+    public function destroy($notebook, $page, $comment)
     {
         $comment = Comment::findOrFail(hashid($comment));
 
