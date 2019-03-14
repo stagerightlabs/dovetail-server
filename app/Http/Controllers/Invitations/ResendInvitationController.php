@@ -9,7 +9,7 @@ use App\Notifications\InvitationSent;
 use App\Http\Resources\InvitationResource;
 use Illuminate\Support\Facades\Notification;
 
-class ResendInvitation extends Controller
+class ResendInvitationController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -17,7 +17,7 @@ class ResendInvitation extends Controller
      * @param  string $hashid
      * @return \Illuminate\Http\Response
      */
-    public function __invoke($hashid)
+    public function store($hashid)
     {
         $this->authorize('resend', Invitation::class);
 

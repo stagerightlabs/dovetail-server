@@ -21,8 +21,8 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('register', 'Auth\RegistrationController@store')->name('register');
 
 // Invitation Redemption
-Route::get('invitations/{code}/confirm', 'Invitations\Confirm')->name('invitations.confirm');
-Route::post('invitations/{code}/redeem', 'Invitations\Redeem')->name('invitations.redeem');
+Route::get('invitations/{code}/confirm', 'Invitations\InvitationConfirmationController@create')->name('invitations.confirm');
+Route::post('invitations/{code}/redeem', 'Invitations\InvitationRedemptionController@store')->name('invitations.redeem');
 
 // Password Reset Routes...
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
@@ -38,20 +38,20 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     // Current User's Profile
     Route::get('user', 'ProfileController@show')->name('user.show');
     Route::put('user', 'ProfileController@update')->name('user.update');
-    Route::get('user/permissions/{permission}', 'CheckPermission')->name('user.permission');
+    Route::get('user/permissions/{permission}', 'User\PermissionCheckController@show')->name('user.permission');
     Route::get('user/notifications', 'NotificationController@index')->name('user.notifications.index');
     Route::get('user/notifications/{uuid}', 'NotificationController@show')->name('user.notifications.show');
     Route::put('user/notifications/{uuid}', 'NotificationController@update')->name('user.notifications.update');
-    Route::get('user/admin', 'CheckAdminStatus')->name('user.flags.admin');
-    Route::get('user/readonly', 'CheckReadOnlyStatus')->name('user.flags.readonly');
-    Route::get('user/teams', 'User\UserTeams')->name('user.teams');
-    Route::get('user/notebooks', 'User\UserNotebooks')->name('user.notebooks');
+    Route::get('user/admin', 'User\AdminStatusController@show')->name('user.flags.admin');
+    Route::get('user/readonly', 'User\ReadOnlyStatusController@show')->name('user.flags.readonly');
+    Route::get('user/teams', 'User\UserTeamController@show')->name('user.teams');
+    Route::get('user/notebooks', 'User\UserNotebookController@show')->name('user.notebooks');
 
     // Invitations
     Route::group(['namespace' => 'Invitations'], function () {
         Route::get('invitations', 'InvitationController@index')->name('invitations.index');
         Route::post('invitations', 'InvitationController@store')->name('invitations.store');
-        Route::post('invitations/{hashid}/resend', 'ResendInvitation')->name('invitations.resend');
+        Route::post('invitations/{hashid}/resend', 'ResendInvitationController@store')->name('invitations.resend');
         Route::post('invitations/{hashid}/revoke', 'InvitationRevocationController@update')->name('invitations.revoke');
         Route::delete('invitations/{hashid}/revoke', 'InvitationRevocationController@destroy')->name('invitations.restore');
         Route::delete('invitations/{hashid}', 'InvitationController@destroy')->name('invitations.destroy');
@@ -119,7 +119,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::delete('notebooks/{hashid}/unfollow', 'NotebookFollowerController@destroy')->name('notebooks.unfollow');
 
         // Page Order
-        Route::put('notebooks/{hashid}/pages/sort-order', 'NotebookPageOrderController')->name('notebooks.sort-order');
+        Route::put('notebooks/{hashid}/pages/sort-order', 'NotebookPageOrderController@update')->name('notebooks.sort-order');
 
         // Notebook Pages
         Route::get('notebooks/{hashid}/pages', 'PageController@index')->name('pages.index');

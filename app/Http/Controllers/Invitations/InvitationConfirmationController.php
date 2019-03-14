@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @resource Invitations
  */
-class Confirm extends Controller
+class InvitationConfirmationController extends Controller
 {
     /**
      * Confirm that an invitation is redeemable
@@ -19,7 +19,7 @@ class Confirm extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return JsonResource
      */
-    public function __invoke(Request $request, $code)
+    public function create(Request $request, $code)
     {
         $invitation = Invitation::whereNull('revoked_at')
             ->whereNull('completed_at')

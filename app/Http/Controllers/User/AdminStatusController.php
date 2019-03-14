@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CheckAdminStatus extends Controller
+class AdminStatusController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return JsonResponse
      */
-    public function __invoke(Request $request)
+    public function show(Request $request)
     {
         return new JsonResource([
             'admin' => $request->user()->isOrganizationAdministrator()

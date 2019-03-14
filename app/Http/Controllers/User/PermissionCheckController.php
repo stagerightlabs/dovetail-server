@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CheckPermission extends Controller
+class PermissionCheckController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param string $permission
      *
      * @return JsonResponse
      */
-    public function __invoke(Request $request, $permission)
+    public function show(Request $request, $permission)
     {
         return new JsonResource([
             'key' => $permission,

@@ -12,15 +12,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\InvitationRedemption;
 
-class Redeem extends Controller
+class InvitationRedemptionController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  InvitationRedemption $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(InvitationRedemption $request, $code)
+    public function store(InvitationRedemption $request, $code)
     {
         // Fetch the invitation
         $invitation = Invitation::whereNull('revoked_at')

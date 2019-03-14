@@ -11,10 +11,11 @@ class NotebookPageOrderController extends Controller
     /**
      * Handle the incoming request.
      *
+     * @param  Request $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function __invoke(\Illuminate\Http\Request $request, $hashid)
+    public function update(Request $request, $hashid)
     {
         $this->requirePermission('notebooks.pages');
 
