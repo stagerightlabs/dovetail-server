@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 */
 
 // Authentication Routes...
-Route::post('login', 'Auth\LoginController@login')->name('login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('login', 'Auth\LoginController@store')->name('login');
+Route::post('logout', 'Auth\LogoutController@store')->name('logout');
 
 // Registration Routes...
 Route::post('register', 'Auth\RegistrationController@store')->name('register');
@@ -25,12 +25,12 @@ Route::get('invitations/{code}/confirm', 'Invitations\InvitationConfirmationCont
 Route::post('invitations/{code}/redeem', 'Invitations\InvitationRedemptionController@store')->name('invitations.redeem');
 
 // Password Reset Routes...
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+Route::post('password/email', 'Auth\ForgotPasswordController@store')->name('password.email');
+Route::post('password/reset', 'Auth\ResetPasswordController@store')->name('password.update');
 
 // Email Verification Routes...
-Route::get('email/verify/{code}', 'Auth\VerificationController@verify')->name('verification.verify');
-Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+Route::get('email/verify/{code}', 'Auth\EmailVerificationController@create')->name('verification.verify');
+Route::get('email/resend', 'Auth\ResendEmailVerificationController@create')->name('verification.resend');
 
 // Authenticated routes
 Route::middleware(['auth:api', 'api'])->group(function () {
