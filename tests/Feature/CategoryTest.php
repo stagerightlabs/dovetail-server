@@ -137,6 +137,7 @@ class CategoryTest extends TestCase
 
     public function test_it_updates_categories()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $this->actingAs(factory(User::class)->create([
             'organization_id' => $organization->id
