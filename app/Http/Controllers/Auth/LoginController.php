@@ -58,7 +58,7 @@ class LoginController extends Controller
         }
 
         // Ensure the user account has not been blocked
-        if (User::where('email', request('email'))->whereNotNull('blocked_at')->exists()) {
+        if (User::where('email', $request->get('email'))->whereNotNull('blocked_at')->exists()) {
             throw new AuthenticationException('Denied.');
         }
 

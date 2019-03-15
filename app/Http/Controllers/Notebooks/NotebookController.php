@@ -32,12 +32,12 @@ class NotebookController extends Controller
     public function store(NotebookCreation $request)
     {
         $notebook = Notebook::create([
-            'name' => request('name'),
+            'name' => $request->get('name'),
             'organization_id' => $request->organization()->id,
-            'team_id' => hashid(request('team_id')),
-            'user_id' => hashid(request('user_id')),
+            'team_id' => hashid($request->get('team_id')),
+            'user_id' => hashid($request->get('user_id')),
             'created_by' => $request->user()->id,
-            'category_id' => $request->filled('category_id') ? hashid(request('category_id')) : null,
+            'category_id' => $request->filled('category_id') ? hashid($request->get('category_id')) : null,
             'comments_enabled' => true,
         ]);
 
@@ -47,13 +47,13 @@ class NotebookController extends Controller
     /**
      * Return a single notebook
      *
+     * @param Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function show($hashid)
+    public function show(Request $request, $hashid)
     {
-        $notebook = request()
-            ->organization()
+        $notebook = $request->organization()
             ->notebooks()
             ->with([
                 'pages',
@@ -76,7 +76,7 @@ class NotebookController extends Controller
     public function update(NotebookUpdate $request, $hashid)
     {
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
-        $notebook->name = request('name');
+        $notebook->name = $request->get('name');
         $notebook->team_id = hashid($request->get('team_id'));
         $notebook->user_id = hashid($request->get('user_id'));
         $notebook->category_id = $request->has('category_id')

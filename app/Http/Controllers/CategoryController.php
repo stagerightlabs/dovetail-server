@@ -35,7 +35,7 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::create([
-            'name' => request('name'),
+            'name' => $request->get('name'),
             'organization_id' => $request->organization()->id,
             'created_by' => $request->user()->id
         ]);
@@ -71,7 +71,7 @@ class CategoryController extends Controller
             'name' => "required|iunique:categories,name,{$category->id},id,organization_id," . $request->organization()->id,
         ]);
 
-        $category->name = request('name');
+        $category->name = $request->get('name');
         $category->save();
 
         return new CategoryResource($category);

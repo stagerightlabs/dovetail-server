@@ -26,7 +26,7 @@ class TeamMembershipController extends Controller
 
         // Fetch the team and the user
         $team = $request->organization()->teams()->findOrFail(hashid($team));
-        $member = $request->organization()->users()->findOrFail(hashid(request('member')));
+        $member = $request->organization()->users()->findOrFail(hashid($request->get('member')));
 
         $team->addMember($member);
 

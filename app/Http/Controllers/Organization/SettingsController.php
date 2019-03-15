@@ -43,7 +43,7 @@ class SettingsController extends Controller
     public function update(SettingUpdate $request)
     {
         $organization = $request->organization();
-        $organization->updateConfiguration(request('key'), request('value'));
+        $organization->updateConfiguration($request->get('key'), $request->get('value'));
         $organization->save();
 
         return response()->json([], 204);

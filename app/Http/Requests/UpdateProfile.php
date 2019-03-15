@@ -31,7 +31,7 @@ class UpdateProfile extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore(request()->user()->id)
+                Rule::unique('users')->ignore($this->user()->id)
             ],
             'phone' => 'string|max:20'
         ];
