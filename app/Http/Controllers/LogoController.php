@@ -36,8 +36,8 @@ class LogoController extends Controller
         $logo = Logo::create([
             'owner_id' => hashid($request->get('owner_hashid')),
             'owner_type' => $request->get('owner_type'),
-            'original' => $request->get('logo')->storePublicly($path, 's3'),
-            'filename' => $request->get('logo')->getClientOriginalName()
+            'original' => $request->file('logo')->storePublicly($path, 's3'),
+            'filename' => $request->file('logo')->getClientOriginalName()
         ]);
 
         return new LogoResource($logo);
