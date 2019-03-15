@@ -37,8 +37,10 @@ class OrganizationCreationTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => 'grace@example.com']);
         $this->assertDatabaseHas('organizations', ['name' => 'Hopper Labs']);
 
+        $user = User::where('email', 'grace@example.com')->first();
+
         Notification::assertSentTo(
-            User::first(),
+            $user,
             \App\Notifications\VerifyEmail::class
         );
     }
