@@ -387,6 +387,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         // Otherwise use the first two letters in the name
-        return strtoupper(substr($this->name), 0, 2);
+        return strtoupper(substr($this->name, 0, 2));
     }
 }
