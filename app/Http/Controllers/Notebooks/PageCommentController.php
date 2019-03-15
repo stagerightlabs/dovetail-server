@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\CommentResource;
+use App\Http\Requests\PageCommentUpdate;
+use App\Http\Requests\PageCommentCreation;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class PageCommentController extends Controller
@@ -32,23 +34,19 @@ class PageCommentController extends Controller
     /**
      * Store a new comment
      *
-     * @param  Request $request
+     * @param  PageCommentCreation $request
      * @param  string $notebook
      * @param  string $page
      * @return JsonResponse
      */
-    public function store(Request $request, $notebook, $page)
+    public function store(PageCommentCreation $request, $notebook, $page)
     {
-        $request->validate([
-            'content' => 'required'
-        ]);
-
         $page = Page::with('notebook')->findOrFail(hashid($page));
 
         $this->authorize('create', [Comment::class, $page]);
 
         $comment = $page->comments()->create([
-            'content' => sanitize(request('content')),
+            'content' => sanitize($request->get('content')),
             'commentator_id' => $request->user()->id
         ]);
 
@@ -80,24 +78,20 @@ class PageCommentController extends Controller
     /**
      * Update a comment
      *
-     * @param  Request $request
+     * @param  PageCommentUpdate $request
      * @param  string $notebook
      * @param  string $page
      * @param  string $comment
      * @return JsonResponse
      */
-    public function update(Request $request, $notebook, $page, $comment)
+    public function update(PageCommentUpdate $request, $notebook, $page, $comment)
     {
         $page = Page::with('notebook')->findOrFail(hashid($page));
         $comment = Comment::with('commentable')->findOrFail(hashid($comment));
 
         $this->authorize('update', $comment);
 
-        $request->validate([
-            'content' => 'required'
-        ]);
-
-        $comment->content = sanitize(request('content'));
+        $comment->content = sanitize($request->get('content'));
         $comment->edited = true;
         $comment->save();
 

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Logo;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\LogoResource;
+use App\Http\Requests\LogoCreation;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LogoResource;
 
 class LogoController extends Controller
 {
@@ -26,14 +27,8 @@ class LogoController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(LogoCreation $request)
     {
-        $request->validate([
-            'owner_type' => 'required|in:organization,user',
-            'owner_hashid' => 'required',
-            'logo' => 'required|image'
-        ]);
-
         // Storage Path
         $path = $request->organization()->slug . '/logos';
 

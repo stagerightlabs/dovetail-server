@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DocumentResource;
+use App\Http\Requests\PageDocumentCreation;
 
 class PageDocumentController extends Controller
 {
@@ -27,37 +28,36 @@ class PageDocumentController extends Controller
     /**
      * Store a new document
      *
+     * @param  PageDocumentCreation $request
+     * @param  string $notebook
+     * @param  string $page
      * @return JsonResponse
      */
-    public function store(\Illuminate\Http\Request $request, $notebook, $page)
+    public function store(PageDocumentCreation $request, $notebook, $page)
     {
-        $request->validate([
-            'attachment' => 'required|mimes:jpeg,png,gif,pdf,csv'
-        ], [
-            'attachment.mimes' => "Only jpeg, png, gif, csv and pdf files are allowed."
-        ]);
-
-        // Check user permissions
-        $this->requirePermission('notebooks.pages');
-
         // Fetch the page
         $page = Page::with('notebook')->findOrFail(hashid($page));
 
         // Storage Path
         $path = $request->organization()->slug . '/documents';
 
+        // Retrieve the file from the request
+        $attachment = $request->file('attachment');
+
         // Create Document
         $document = Document::create([
             'documentable_id' => $page->id,
             'documentable_type' => 'page',
-            'original' => request('attachment')->store($path, 's3'),
-            'filename' => request('attachment')->getClientOriginalName(),
-            'mimetype' => request('attachment')->getClientMimeType(),
+            'original' => $attachment->store($path, 's3'),
+            'filename' => $attachment->getClientOriginalName(),
+            'mimetype' => $attachment->getClientMimeType(),
             'created_by' => $request->user()->id,
         ]);
 
         // Log the document creation
-        activity()->on($page)->log("New document:  " . request('attachment')->getClientOriginalName());
+        activity()
+            ->on($page)
+            ->log("New document:  " . $attachment->getClientOriginalName());
 
         // All set
         return new DocumentResource($document);
