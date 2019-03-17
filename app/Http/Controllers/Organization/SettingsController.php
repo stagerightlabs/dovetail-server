@@ -6,6 +6,7 @@ use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SettingUpdate;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SettingsController extends Controller
@@ -18,10 +19,11 @@ class SettingsController extends Controller
     /**
      * Retrieve a single config value for this organization
      *
-     * @param string $key
+     * @param  Request $request
+     * @param  string $key
      * @return JsonResponse
      */
-    public function show(\Illuminate\Http\Request $request, $key)
+    public function show(Request $request, $key)
     {
         $this->authorize('readSetting', $request->organization());
 
@@ -32,23 +34,16 @@ class SettingsController extends Controller
     }
 
     /**
-     * Retrieve a single config value for this organization
+     * Update an organization setting
      *
-     * @param Request $request
-     * @param string $key
+     * @param  SettingUpdate $request
+     * @param  string $key
      * @return JsonResponse
      */
-    public function update(Request $request)
+    public function update(SettingUpdate $request)
     {
-        $this->authorize('writeSetting', $request->organization());
-
-        $request->validate([
-            'key' => 'required',
-            'value' => 'required',
-        ]);
-
         $organization = $request->organization();
-        $organization->updateConfiguration(request('key'), request('value'));
+        $organization->updateConfiguration($request->get('key'), $request->get('value'));
         $organization->save();
 
         return response()->json([], 204);

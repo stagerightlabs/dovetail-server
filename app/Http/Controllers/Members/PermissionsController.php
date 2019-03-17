@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionUpdate;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PermissionsController extends Controller
@@ -31,16 +32,12 @@ class PermissionsController extends Controller
     /**
      * Update an organization member's permissions
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PermissionUpdate  $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function update(Request $request, $hashid)
+    public function update(PermissionUpdate $request, $hashid)
     {
-        $request->validate([
-            'permissions' => 'required'
-        ]);
-
         $user = User::inOrganization()->findOrFail(hashid($hashid));
 
         $validPermissions = array_keys(User::$defaultPermissions);

@@ -21,7 +21,7 @@ class NotebookPageOrderController extends Controller
 
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
-        $newPageOrder = collect(request('pages'));
+        $newPageOrder = collect($request->get('pages'));
 
         if ($newPageOrder->isEmpty()) {
             return response()->json(["error" => "No pages were indicated."], 422);

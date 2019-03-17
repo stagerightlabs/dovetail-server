@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function store(CategoryCreation $request)
     {
         $category = Category::create([
-            'name' => request('name'),
+            'name' => $request->get('name'),
             'organization_id' => $request->organization()->id,
             'created_by' => $request->user()->id
         ]);

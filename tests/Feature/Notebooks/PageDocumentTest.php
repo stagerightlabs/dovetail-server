@@ -54,6 +54,7 @@ class PageDocumentTest extends TestCase
 
     public function test_it_attaches_a_document_to_a_page()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id

@@ -6,6 +6,8 @@ use App\Notebook;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NotebookUpdate;
+use App\Http\Requests\NotebookCreation;
 use App\Http\Resources\NotebookResource;
 
 class NotebookController extends Controller
@@ -24,24 +26,18 @@ class NotebookController extends Controller
     /**
      * Store a new notebook
      *
-     * @param  Request $request
+     * @param  NotebookCreation $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(NotebookCreation $request)
     {
-        $this->requirePermission('notebooks.create');
-
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         $notebook = Notebook::create([
-            'name' => request('name'),
+            'name' => $request->get('name'),
             'organization_id' => $request->organization()->id,
-            'team_id' => hashid(request('team_id')),
-            'user_id' => hashid(request('user_id')),
+            'team_id' => hashid($request->get('team_id')),
+            'user_id' => hashid($request->get('user_id')),
             'created_by' => $request->user()->id,
-            'category_id' => $request->filled('category_id') ? hashid(request('category_id')) : null,
+            'category_id' => $request->filled('category_id') ? hashid($request->get('category_id')) : null,
             'comments_enabled' => true,
         ]);
 
@@ -51,13 +47,13 @@ class NotebookController extends Controller
     /**
      * Return a single notebook
      *
+     * @param Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function show($hashid)
+    public function show(Request $request, $hashid)
     {
-        $notebook = request()
-            ->organization()
+        $notebook = $request->organization()
             ->notebooks()
             ->with([
                 'pages',
@@ -73,29 +69,21 @@ class NotebookController extends Controller
     /**
      * Update a notebook
      *
-     * @param  Request $request
-     * @param string $hashid
+     * @param  NotebookUpdate $request
+     * @param  string $hashid
      * @return JsonResponse
      */
-    public function update(Request $request, $hashid)
+    public function update(NotebookUpdate $request, $hashid)
     {
-        $this->requirePermission('notebooks.update');
-
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
-
-        $request->validate([
-            'name' => 'required',
-            'comments_enabled' => 'nullable|boolean'
-        ]);
-
-        $notebook->name = request('name');
-        $notebook->team_id = hashid(request('team_id'));
-        $notebook->user_id = hashid(request('user_id'));
+        $notebook->name = $request->get('name');
+        $notebook->team_id = hashid($request->get('team_id'));
+        $notebook->user_id = hashid($request->get('user_id'));
         $notebook->category_id = $request->has('category_id')
-            ? hashid(request('category_id'))
+            ? hashid($request->get('category_id'))
             : $notebook->category_id;
         $notebook->comments_enabled = $request->has('comments_enabled')
-            ? boolval(request('comments_enabled'))
+            ? boolval($request->get('comments_enabled'))
             : $notebook->comments_enabled;
         $notebook->save();
 

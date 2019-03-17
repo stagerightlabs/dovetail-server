@@ -43,7 +43,7 @@ class PageController extends Controller
         $page = Page::create([
             'notebook_id' => $notebook->id,
             'created_by' => $request->user()->id,
-            'content' => app(HTMLPurifier::class)->purify(request('content', '')),
+            'content' => app(HTMLPurifier::class)->purify($request->get('content', '')),
             'sort_order' => $currentPageCount
         ]);
 
@@ -82,7 +82,7 @@ class PageController extends Controller
         $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
         $page = $notebook->pages()->findOrFail(hashid($page));
 
-        $page->content = app(HTMLPurifier::class)->purify(request('content', ''));
+        $page->content = app(HTMLPurifier::class)->purify($request->get('content', ''));
         $page->save();
 
         return new PageResource($page);

@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProfile extends FormRequest
+class SettingUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdateProfile extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('writeSetting', $this->organization());
     }
 
     /**
@@ -25,15 +24,8 @@ class UpdateProfile extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($this->user()->id)
-            ],
-            'phone' => 'string|max:20'
+            'key' => 'required',
+            'value' => 'required',
         ];
     }
 }
