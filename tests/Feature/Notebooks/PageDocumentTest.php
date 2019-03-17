@@ -54,6 +54,7 @@ class PageDocumentTest extends TestCase
 
     public function test_it_attaches_a_document_to_a_page()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -189,7 +190,7 @@ class PageDocumentTest extends TestCase
         ]);
         Event::fake();
 
-        $response = $this->deleteJson(route('pages.documents.delete', [$notebook->hashid, $page->hashid, $document->hashid]));
+        $response = $this->deleteJson(route('pages.documents.destroy', [$notebook->hashid, $page->hashid, $document->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('documents', [

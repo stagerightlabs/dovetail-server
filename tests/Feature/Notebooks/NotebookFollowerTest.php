@@ -114,7 +114,7 @@ class NotebookFollowerTest extends TestCase
         $memberA = factory(User::class)->create([
             'organization_id' => $organization->id
         ]);
-        $memberA->applyPermissions(['notebooks.delete' => true]);
+        $memberA->applyPermissions(['notebooks.destroy' => true]);
         $memberA->save();
         $memberB = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -132,7 +132,7 @@ class NotebookFollowerTest extends TestCase
 
         $this->assertEquals(2, $notebook->getFollowers()->count());
 
-        $response = $this->deleteJson(route('notebooks.delete', $notebook->hashid));
+        $response = $this->deleteJson(route('notebooks.destroy', $notebook->hashid));
 
         $this->assertDatabaseMissing('follows', [
             'followable_type' => 'notebook',

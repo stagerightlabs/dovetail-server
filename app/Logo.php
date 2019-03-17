@@ -2,12 +2,15 @@
 
 namespace App;
 
-use App\Model;
+use App\UsesHashids;
 use App\Events\LogoCreated;
 use App\Events\LogoDeletion;
+use Illuminate\Database\Eloquent\Model;
 
 class Logo extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

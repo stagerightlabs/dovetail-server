@@ -11,16 +11,17 @@ class NotebookPageOrderController extends Controller
     /**
      * Handle the incoming request.
      *
+     * @param  Request $request
      * @param  string $hashid
      * @return JsonResponse
      */
-    public function __invoke($hashid)
+    public function update(Request $request, $hashid)
     {
         $this->requirePermission('notebooks.pages');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
-        $newPageOrder = collect(request('pages'));
+        $newPageOrder = collect($request->get('pages'));
 
         if ($newPageOrder->isEmpty()) {
             return response()->json(["error" => "No pages were indicated."], 422);

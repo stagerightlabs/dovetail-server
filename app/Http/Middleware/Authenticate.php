@@ -24,7 +24,7 @@ class Authenticate extends Middleware
         $this->authenticate($request, $guards);
 
         // Blocked users will not be allowed access
-        if (auth()->user()->blocked_at) {
+        if ($request->user()->blocked_at) {
             throw new AuthenticationException('Unauthenticated.');
         }
 

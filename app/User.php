@@ -233,10 +233,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'teams.create' => false,
         'teams.update' => false,
         'teams.membership' => false,
-        'teams.delete' => false,
+        'teams.destroy' => false,
         'notebooks.create' => false,
         'notebooks.update' => false,
-        'notebooks.delete' => false,
+        'notebooks.destroy' => false,
         'notebooks.pages' => false,
     ];
 
@@ -249,10 +249,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'teams.create' => true,
         'teams.update' => true,
         'teams.membership' => true,
-        'teams.delete' => true,
+        'teams.destroy' => true,
         'notebooks.create' => true,
         'notebooks.update' => true,
-        'notebooks.delete' => true,
+        'notebooks.destroy' => true,
         'notebooks.pages' => true,
     ];
 

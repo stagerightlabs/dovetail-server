@@ -13,9 +13,9 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(\Illuminate\Http\Request $request)
     {
-        return new ProfileResource(request()->user());
+        return new ProfileResource($request->user());
     }
 
     /**

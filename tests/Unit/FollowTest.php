@@ -16,7 +16,6 @@ class FollowTest extends TestCase
 
     public function test_removing_team_members_updates_notebook_followers()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $memberA = factory(User::class)->create([
             'organization_id' => $organization->id
@@ -42,7 +41,6 @@ class FollowTest extends TestCase
 
     public function test_adding_team_members_updates_notebook_followers()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $memberA = factory(User::class)->create([
             'organization_id' => $organization->id

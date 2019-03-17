@@ -3,13 +3,15 @@
 namespace App;
 
 use App\User;
-use App\Model;
+use App\UsesHashids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphPivot;
 
 class Follow extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

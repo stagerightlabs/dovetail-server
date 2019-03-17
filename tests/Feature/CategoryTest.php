@@ -137,6 +137,7 @@ class CategoryTest extends TestCase
 
     public function test_it_updates_categories()
     {
+        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $this->actingAs(factory(User::class)->create([
             'organization_id' => $organization->id
@@ -195,7 +196,7 @@ class CategoryTest extends TestCase
             'organization_id' => $organization->id
         ]);
 
-        $response = $this->deleteJson(route('categories.delete', $category->hashid));
+        $response = $this->deleteJson(route('categories.destroy', $category->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('categories', [

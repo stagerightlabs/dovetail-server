@@ -21,9 +21,9 @@ class MembersController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        return MemberResource::collection(request()->organization()->users);
+        return MemberResource::collection($request->organization()->users);
     }
 
     /**

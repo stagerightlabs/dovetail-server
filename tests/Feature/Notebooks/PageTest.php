@@ -18,7 +18,6 @@ class PageTest extends TestCase
 
     public function test_it_returns_all_pages()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id
@@ -205,7 +204,7 @@ class PageTest extends TestCase
             'notebook_id' => $notebook->id
         ]);
 
-        $response = $this->deleteJson(route('pages.delete', [$notebook->hashid, $page->hashid]));
+        $response = $this->deleteJson(route('pages.destroy', [$notebook->hashid, $page->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('pages', [
@@ -231,7 +230,7 @@ class PageTest extends TestCase
             'notebook_id' => $notebook->id
         ]);
 
-        $response = $this->deleteJson(route('pages.delete', [$notebook->hashid, $page->hashid]));
+        $response = $this->deleteJson(route('pages.destroy', [$notebook->hashid, $page->hashid]));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('pages', [

@@ -11,14 +11,14 @@ class PageActivityController extends Controller
     /**
      * Retrieve the activity log for a notebook page
      *
+     * @param Request $request
      * @param string $notebook
      * @param string $page
      * @return JsonResponse
      */
-    public function show($notebook, $page)
+    public function show(Request $request, $notebook, $page)
     {
-        $notebook = request()
-                    ->organization()
+        $notebook = $request->organization()
                     ->notebooks()
                     ->findOrFail(hashid($notebook));
 

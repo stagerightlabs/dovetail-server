@@ -2,15 +2,18 @@
 
 namespace App;
 
-use App\Model;
 use App\Notebook;
+use App\UsesHashids;
 use App\Events\PageDeletion;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Page extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

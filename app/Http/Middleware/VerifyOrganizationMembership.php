@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AddOrganizationToRequest
+class VerifyOrganizationMembership
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,11 @@ class AddOrganizationToRequest
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->organization = auth()->user()->organization) {
+        // Load the user's organization relationship
+        $request->user()->load('organization');
+
+        // Verify the organization exists
+        if (!$request->user()->organization) {
             return response()->json(['message' => 'There is a problem with your account'], 403);
         }
 

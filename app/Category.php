@@ -3,13 +3,16 @@
 namespace App;
 
 use App\User;
-use App\Model;
+use App\UsesHashids;
 use App\Organization;
 use App\Events\CategoryDeletion;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Category extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

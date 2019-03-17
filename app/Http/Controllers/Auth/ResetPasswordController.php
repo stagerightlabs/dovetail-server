@@ -40,7 +40,7 @@ class ResetPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function reset(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
@@ -151,7 +151,7 @@ class ResetPasswordController extends Controller
      *
      * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
-    public function broker()
+    protected function broker()
     {
         return Password::broker();
     }

@@ -33,8 +33,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth:api')->only('logout');
+        $this->middleware('guest');
     }
 
     /**
@@ -45,7 +44,7 @@ class LoginController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function store(Request $request)
     {
         $this->validateLogin($request);
 
@@ -59,7 +58,7 @@ class LoginController extends Controller
         }
 
         // Ensure the user account has not been blocked
-        if (User::where('email', request('email'))->whereNotNull('blocked_at')->exists()) {
+        if (User::where('email', $request->get('email'))->whereNotNull('blocked_at')->exists()) {
             throw new AuthenticationException('Denied.');
         }
 
@@ -136,30 +135,9 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function username()
+    protected function username()
     {
         return 'email';
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $accessToken = auth()->user()->token();
-
-        $refreshToken = DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $accessToken->id)
-            ->update([
-                'revoked' => true
-            ]);
-
-        $accessToken->revoke();
-
-        return response()->json(['token revoked' => 200]);
     }
 
     /**

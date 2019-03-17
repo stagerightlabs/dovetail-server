@@ -335,7 +335,7 @@ class PageCommentTest extends TestCase
             'edited' => false
         ]);
 
-        $response = $this->deleteJson(route('pages.comments.delete', [$notebook->hashid, $page->hashid, $comment->hashid]));
+        $response = $this->deleteJson(route('pages.comments.destroy', [$notebook->hashid, $page->hashid, $comment->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('comments', [

@@ -36,7 +36,7 @@ class ForgotPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function sendResetLinkEmail(Request $request)
+    public function store(Request $request)
     {
         $this->validateEmail($request);
 
@@ -94,7 +94,7 @@ class ForgotPasswordController extends Controller
      *
      * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
-    public function broker()
+    protected function broker()
     {
         return Password::broker();
     }

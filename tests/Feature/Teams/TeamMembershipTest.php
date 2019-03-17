@@ -91,7 +91,7 @@ class TeamMembershipTest extends TestCase
         $this->assertTrue($user->hasPermission('teams.membership'));
         Event::fake();
 
-        $response = $this->deleteJson(route('teams.memberships.delete', [$team->hashid, $member->hashid]));
+        $response = $this->deleteJson(route('teams.memberships.destroy', [$team->hashid, $member->hashid]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('team_user', [
@@ -118,7 +118,7 @@ class TeamMembershipTest extends TestCase
 
         $this->assertFalse($user->hasPermission('teams.membership'));
 
-        $response = $this->deleteJson(route('teams.memberships.delete', [$team->hashid, $member->hashid]));
+        $response = $this->deleteJson(route('teams.memberships.destroy', [$team->hashid, $member->hashid]));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('team_user', [

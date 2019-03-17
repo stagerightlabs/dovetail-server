@@ -6,6 +6,8 @@ use App\Notebook;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NotebookUpdate;
+use App\Http\Requests\NotebookCreation;
 use App\Http\Resources\NotebookResource;
 
 class NotebookController extends Controller
@@ -13,33 +15,29 @@ class NotebookController extends Controller
     /**
      * Fetch a list of available notebooks
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return NotebookResource::collection(request()->organization()->notebooks);
+        return NotebookResource::collection($request->organization()->notebooks);
     }
 
     /**
      * Store a new notebook
      *
+     * @param  NotebookCreation $request
      * @return JsonResponse
      */
-    public function store()
+    public function store(NotebookCreation $request)
     {
-        $this->requirePermission('notebooks.create');
-
-        request()->validate([
-            'name' => 'required'
-        ]);
-
         $notebook = Notebook::create([
-            'name' => request('name'),
-            'organization_id' => request()->organization()->id,
-            'team_id' => hashid(request('team_id')),
-            'user_id' => hashid(request('user_id')),
-            'created_by' => auth()->user()->id,
-            'category_id' => request()->filled('category_id') ? hashid(request('category_id')) : null,
+            'name' => $request->get('name'),
+            'organization_id' => $request->organization()->id,
+            'team_id' => hashid($request->get('team_id')),
+            'user_id' => hashid($request->get('user_id')),
+            'created_by' => $request->user()->id,
+            'category_id' => $request->filled('category_id') ? hashid($request->get('category_id')) : null,
             'comments_enabled' => true,
         ]);
 
@@ -49,13 +47,13 @@ class NotebookController extends Controller
     /**
      * Return a single notebook
      *
+     * @param Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function show($hashid)
+    public function show(Request $request, $hashid)
     {
-        $notebook = request()
-            ->organization()
+        $notebook = $request->organization()
             ->notebooks()
             ->with([
                 'pages',
@@ -71,28 +69,21 @@ class NotebookController extends Controller
     /**
      * Update a notebook
      *
-     * @param string $hashid
+     * @param  NotebookUpdate $request
+     * @param  string $hashid
      * @return JsonResponse
      */
-    public function update($hashid)
+    public function update(NotebookUpdate $request, $hashid)
     {
-        $this->requirePermission('notebooks.update');
-
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
-
-        request()->validate([
-            'name' => 'required',
-            'comments_enabled' => 'nullable|boolean'
-        ]);
-
-        $notebook->name = request('name');
-        $notebook->team_id = hashid(request('team_id'));
-        $notebook->user_id = hashid(request('user_id'));
-        $notebook->category_id = request()->has('category_id')
-            ? hashid(request('category_id'))
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook->name = $request->get('name');
+        $notebook->team_id = hashid($request->get('team_id'));
+        $notebook->user_id = hashid($request->get('user_id'));
+        $notebook->category_id = $request->has('category_id')
+            ? hashid($request->get('category_id'))
             : $notebook->category_id;
-        $notebook->comments_enabled = request()->has('comments_enabled')
-            ? boolval(request('comments_enabled'))
+        $notebook->comments_enabled = $request->has('comments_enabled')
+            ? boolval($request->get('comments_enabled'))
             : $notebook->comments_enabled;
         $notebook->save();
 
@@ -104,14 +95,15 @@ class NotebookController extends Controller
     /**
      * Remove a notebook from storage.
      *
+     * @param  Request $request
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function destroy(Request $request, $hashid)
     {
-        $this->requirePermission('notebooks.delete');
+        $this->requirePermission('notebooks.destroy');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($hashid));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($hashid));
 
         $notebook->delete();
 

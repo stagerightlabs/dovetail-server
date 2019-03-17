@@ -198,14 +198,14 @@ class NotebookTest extends TestCase
         $member = factory(User::class)->create([
             'organization_id' => $organization->id
         ]);
-        $member->applyPermissions(['notebooks.delete' => true]);
+        $member->applyPermissions(['notebooks.destroy' => true]);
         $member->save();
         $this->actingAs($member);
         $notebook = factory(Notebook::class)->create([
             'organization_id' => $organization->id
         ]);
 
-        $response = $this->deleteJson(route('notebooks.delete', $notebook->hashid));
+        $response = $this->deleteJson(route('notebooks.destroy', $notebook->hashid));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('notebooks', [
@@ -225,7 +225,7 @@ class NotebookTest extends TestCase
             'organization_id' => $organization->id
         ]);
 
-        $response = $this->deleteJson(route('notebooks.delete', $notebook->hashid));
+        $response = $this->deleteJson(route('notebooks.destroy', $notebook->hashid));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('notebooks', [

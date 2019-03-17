@@ -220,7 +220,7 @@ View a members's [permission flags](/permissions.html). If none are set the defa
     "data": {
         "notebooks.create": false,
         "notebooks.update": false,
-        "notebooks.delete": false,
+        "notebooks.destroy": false,
   }
 }
 ```
@@ -255,7 +255,7 @@ Update a user's [permission flags](/permissions.html).  You only need to submit 
     "data": {
         "notebooks.create": true,
         "notebooks.update": false,
-        "notebooks.delete": false,
+        "notebooks.destroy": false,
   }
 }
 ```

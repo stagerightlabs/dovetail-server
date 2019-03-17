@@ -137,7 +137,6 @@ class LogoTest extends TestCase
 
     public function test_it_removes_logos()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $file = File::image('logo.png', 600, 800);
         $this->actingAs(factory(User::class)->create([
@@ -150,7 +149,7 @@ class LogoTest extends TestCase
             'original' => $file->store('logos', 's3')
         ]);
 
-        $response = $this->deleteJson(route('logos.delete', $logo->hashid));
+        $response = $this->deleteJson(route('logos.destroy', $logo->hashid));
 
         $response->assertStatus(204);
         Storage::disk('s3')->assertMissing($logo->original);

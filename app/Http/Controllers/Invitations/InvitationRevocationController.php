@@ -13,17 +13,18 @@ class InvitationRevocationController extends Controller
     /**
      * Revoke an invitation
      *
-     * @param string $hashid
+     * @param  Request $request
+     * @param  string $hashid
      * @return \Illuminate\Http\Response
      */
-    public function update($hashid)
+    public function update(Request $request, $hashid)
     {
         $invitation = Invitation::findOrFail(hashid($hashid));
 
         $this->authorize('revoke', $invitation);
 
         $invitation->revoked_at = Carbon::now();
-        $invitation->revoked_by = auth()->user()->id;
+        $invitation->revoked_by = $request->user()->id;
         $invitation->save();
 
         return new InvitationResource($invitation);
@@ -34,7 +35,7 @@ class InvitationRevocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $invitation = Invitation::findOrFail(hashid($hashid));
 

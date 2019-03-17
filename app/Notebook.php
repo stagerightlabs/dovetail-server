@@ -5,18 +5,21 @@ namespace App;
 use App\Page;
 use App\Team;
 use App\User;
-use App\Model;
 use App\Category;
 use App\Followable;
+use App\UsesHashids;
 use App\Organization;
 use App\Events\NotebookCreated;
 use App\Events\NotebookDeletion;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notebook extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

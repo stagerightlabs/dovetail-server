@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\CategoryUpdate;
+use App\Http\Requests\CategoryCreation;
 use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
@@ -13,30 +14,26 @@ class CategoryController extends Controller
     /**
      * Fetch a list of available categories
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return CategoryResource::collection(request()->organization()->categories);
+        return CategoryResource::collection($request->organization()->categories);
     }
 
     /**
      * Store a new category
      *
+     * @param  CategoryCreation $request
      * @return JsonResponse
      */
-    public function store()
+    public function store(CategoryCreation $request)
     {
-        request()->validate([
-            'name' => 'required|iunique:categories,name,null,null,organization_id,' . request()->organization()->id,
-        ], [
-            'name.iunique' => 'This name is already in use'
-        ]);
-
         $category = Category::create([
-            'name' => request('name'),
-            'organization_id' => request()->organization()->id,
-            'created_by' => auth()->user()->id
+            'name' => $request->get('name'),
+            'organization_id' => $request->organization()->id,
+            'created_by' => $request->user()->id
         ]);
 
         return new CategoryResource($category);
@@ -58,18 +55,14 @@ class CategoryController extends Controller
     /**
      * Update a category
      *
-     * @param string $hashid
+     * @param  CategoryUpdate $request
+     * @param  string $hashid
      * @return JsonResponse
      */
-    public function update($hashid)
+    public function update(CategoryUpdate $request, $hashid)
     {
-        $category = Category::findOrFail(hashid($hashid));
-
-        request()->validate([
-            'name' => "required|iunique:categories,name,{$category->id},id,organization_id," . request()->organization()->id,
-        ]);
-
-        $category->name = request('name');
+        $category = $request->input('category');
+        $category->name = $request->input('name');
         $category->save();
 
         return new CategoryResource($category);
@@ -81,7 +74,7 @@ class CategoryController extends Controller
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $category = Category::findOrFail(hashid($hashid));
 

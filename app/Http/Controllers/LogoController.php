@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Logo;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\LogoResource;
+use App\Http\Requests\LogoCreation;
 use App\Http\Controllers\Controller;
-use App\NullFile;
-use App\Events\LogoAdded;
+use App\Http\Resources\LogoResource;
 
 class LogoController extends Controller
 {
     /**
      * Fetch a list of available logos
      *
+     * @param  Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return LogoResource::collection(request()->organization()->logos);
+        return LogoResource::collection($request->organization()->logos);
     }
 
     /**
@@ -27,23 +27,17 @@ class LogoController extends Controller
      *
      * @return JsonResponse
      */
-    public function store()
+    public function store(LogoCreation $request)
     {
-        request()->validate([
-            'owner_type' => 'required|in:organization,user',
-            'owner_hashid' => 'required',
-            'logo' => 'required|image'
-        ]);
-
         // Storage Path
-        $path = request()->organization()->slug . '/logos';
+        $path = $request->organization()->slug . '/logos';
 
         // Create Logo
         $logo = Logo::create([
-            'owner_id' => hashid(request('owner_hashid')),
-            'owner_type' => request('owner_type'),
-            'original' => request('logo')->storePublicly($path, 's3'),
-            'filename' => request('logo')->getClientOriginalName()
+            'owner_id' => hashid($request->get('owner_hashid')),
+            'owner_type' => $request->get('owner_type'),
+            'original' => $request->file('logo')->storePublicly($path, 's3'),
+            'filename' => $request->file('logo')->getClientOriginalName()
         ]);
 
         return new LogoResource($logo);
@@ -55,7 +49,7 @@ class LogoController extends Controller
      * @param string $hashid
      * @return JsonResponse
      */
-    public function delete($hashid)
+    public function destroy($hashid)
     {
         $logo = Logo::findOrFail(hashid($hashid));
 

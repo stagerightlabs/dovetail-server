@@ -19,7 +19,6 @@ class UserNotebooksTest extends TestCase
 
     public function test_it_fetches_a_users_notebooks()
     {
-        $this->withoutExceptionHandling();
         $organization = factory(Organization::class)->create();
         $user = factory(User::class)->create([
             'organization_id' => $organization->id,

@@ -14,12 +14,13 @@ class PageController extends Controller
     /**
      * Fetch a list of available pages
      *
-     * @param string $notebook - Notebook hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
      * @return JsonResponse
      */
-    public function index($notebook)
+    public function index(Request $request, $notebook)
     {
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
 
         return PageResource::collection($notebook->pages);
     }
@@ -27,21 +28,22 @@ class PageController extends Controller
     /**
      * Store a new page
      *
-     * @param string $notebook - Notebook hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
      * @return JsonResponse
      */
-    public function store($notebook)
+    public function store(Request $request, $notebook)
     {
         $this->requirePermission('notebooks.pages');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
 
         $currentPageCount = $notebook->pages()->count();
 
         $page = Page::create([
             'notebook_id' => $notebook->id,
-            'created_by' => auth()->user()->id,
-            'content' => app(HTMLPurifier::class)->purify(request('content', '')),
+            'created_by' => $request->user()->id,
+            'content' => app(HTMLPurifier::class)->purify($request->get('content', '')),
             'sort_order' => $currentPageCount
         ]);
 
@@ -51,13 +53,14 @@ class PageController extends Controller
     /**
      * Return a single page
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function show($notebook, $page)
+    public function show(Request $request, $notebook, $page)
     {
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
 
         return new PageResource(
             $notebook->pages()->findOrFail(hashid($page))
@@ -67,18 +70,19 @@ class PageController extends Controller
     /**
      * Update a page
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function update($notebook, $page)
+    public function update(Request $request, $notebook, $page)
     {
         $this->requirePermission('notebooks.pages');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
         $page = $notebook->pages()->findOrFail(hashid($page));
 
-        $page->content = app(HTMLPurifier::class)->purify(request('content', ''));
+        $page->content = app(HTMLPurifier::class)->purify($request->get('content', ''));
         $page->save();
 
         return new PageResource($page);
@@ -87,15 +91,16 @@ class PageController extends Controller
     /**
      * Remove a page from storage.
      *
-     * @param string $notebook - Notebook hashid
-     * @param string $page - Page hashid
+     * @param  Request $request
+     * @param  string $notebook - Notebook hashid
+     * @param  string $page - Page hashid
      * @return JsonResponse
      */
-    public function delete($notebook, $page)
+    public function destroy(Request $request, $notebook, $page)
     {
         $this->requirePermission('notebooks.pages');
 
-        $notebook = request()->organization()->notebooks()->findOrFail(hashid($notebook));
+        $notebook = $request->organization()->notebooks()->findOrFail(hashid($notebook));
         $page = $notebook->pages()->findOrFail(hashid($page));
 
         $page->delete();

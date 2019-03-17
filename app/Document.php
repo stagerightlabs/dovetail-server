@@ -3,14 +3,17 @@
 namespace App;
 
 use App\User;
-use App\Model;
+use App\UsesHashids;
 use App\Events\DocumentCreated;
 use App\Events\DocumentDeletion;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Document extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *

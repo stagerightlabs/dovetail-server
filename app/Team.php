@@ -3,15 +3,17 @@
 namespace App;
 
 use App\User;
-use App\Model;
 use App\Events\TeamDeletion;
 use App\Events\TeamMemberAdded;
 use App\Events\TeamMemberRemoved;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
 {
+    use UsesHashids;
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -46,7 +48,7 @@ class Team extends Model
      */
     public function scope($query)
     {
-        $subQuery = \DB::table('interactions')
+        $subQuery = DB::table('interactions')
             ->select('created_at')
             ->whereRaw('customer_id = customers.id')
             ->latest()

@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AddOrganizationToRequest;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Http\Middleware\VerifyOrganizationMembership;
 
 class Kernel extends HttpKernel
 {
@@ -42,7 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
-            AddOrganizationToRequest::class
+            VerifyOrganizationMembership::class
         ],
     ];
 

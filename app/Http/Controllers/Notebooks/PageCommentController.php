@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\CommentResource;
+use App\Http\Requests\PageCommentUpdate;
+use App\Http\Requests\PageCommentCreation;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class PageCommentController extends Controller
@@ -16,8 +18,8 @@ class PageCommentController extends Controller
     /**
      * Fetch a list of available comments
      *
-     * @param string $notebook
-     * @param string $page
+     * @param  string $notebook
+     * @param  string $page
      * @return JsonResponse
      */
     public function index($notebook, $page)
@@ -32,23 +34,20 @@ class PageCommentController extends Controller
     /**
      * Store a new comment
      *
-     * @param string $notebook
-     * @param string $page
+     * @param  PageCommentCreation $request
+     * @param  string $notebook
+     * @param  string $page
      * @return JsonResponse
      */
-    public function store($notebook, $page)
+    public function store(PageCommentCreation $request, $notebook, $page)
     {
-        request()->validate([
-            'content' => 'required'
-        ]);
-
         $page = Page::with('notebook')->findOrFail(hashid($page));
 
         $this->authorize('create', [Comment::class, $page]);
 
         $comment = $page->comments()->create([
-            'content' => sanitize(request('content')),
-            'commentator_id' => auth()->user()->id
+            'content' => sanitize($request->get('content')),
+            'commentator_id' => $request->user()->id
         ]);
 
         // Log the comment creation
@@ -60,9 +59,9 @@ class PageCommentController extends Controller
     /**
      * Return a single comment
      *
-     * @param string $notebook
-     * @param string $page
-     * @param string $comment
+     * @param  string $notebook
+     * @param  string $page
+     * @param  string $comment
      * @return JsonResponse
      */
     public function show($notebook, $page, $comment)
@@ -79,23 +78,20 @@ class PageCommentController extends Controller
     /**
      * Update a comment
      *
-     * @param string $notebook
-     * @param string $page
-     * @param string $comment
+     * @param  PageCommentUpdate $request
+     * @param  string $notebook
+     * @param  string $page
+     * @param  string $comment
      * @return JsonResponse
      */
-    public function update($notebook, $page, $comment)
+    public function update(PageCommentUpdate $request, $notebook, $page, $comment)
     {
         $page = Page::with('notebook')->findOrFail(hashid($page));
         $comment = Comment::with('commentable')->findOrFail(hashid($comment));
 
         $this->authorize('update', $comment);
 
-        request()->validate([
-            'content' => 'required'
-        ]);
-
-        $comment->content = sanitize(request('content'));
+        $comment->content = sanitize($request->get('content'));
         $comment->edited = true;
         $comment->save();
 
@@ -113,7 +109,7 @@ class PageCommentController extends Controller
      * @param string $comment
      * @return JsonResponse
      */
-    public function delete($notebook, $page, $comment)
+    public function destroy($notebook, $page, $comment)
     {
         $comment = Comment::findOrFail(hashid($comment));
 

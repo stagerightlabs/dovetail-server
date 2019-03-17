@@ -4,28 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Http\Requests\TeamMembershipCreation;
 
 class TeamMembershipController extends Controller
 {
     /**
      * Add a member to this team
      *
+     * @param  TeamMembershipCreation $request
      * @param  string $team
      * @param  string $member
      * @return JsonResponse
      */
-    public function store($team)
+    public function store(TeamMembershipCreation $request, $team)
     {
-        $this->requirePermission('teams.membership');
-
-        request()->validate([
-            'member' => 'required|string'
-        ]);
-
         // Fetch the team and the user
-        $team = request()->organization()->teams()->findOrFail(hashid($team));
-        $member = request()->organization()->users()->findOrFail(hashid(request('member')));
+        $team = $request->organization()->teams()->findOrFail(hashid($team));
+        $member = $request->organization()->users()->findOrFail(hashid($request->get('member')));
 
         $team->addMember($member);
 
@@ -35,17 +30,18 @@ class TeamMembershipController extends Controller
     /**
      * Add a member to this team
      *
+     * @param  Request $request
      * @param  string $team
      * @param  string $member
      * @return JsonResponse
      */
-    public function delete($team, $member)
+    public function destroy(Request $request, $team, $member)
     {
         $this->requirePermission('teams.membership');
 
         // Fetch the team and the member
-        $team = request()->organization()->teams()->findOrFail(hashid($team));
-        $member = request()->organization()->users()->findOrFail(hashid($member));
+        $team = $request->organization()->teams()->findOrFail(hashid($team));
+        $member = $request->organization()->users()->findOrFail(hashid($member));
 
         $team->removeMember($member);
 
